@@ -3,11 +3,11 @@
     <h1>Pet Vet'</h1>
     <p>Your easiest & fastest way to book your vet’ appointment!</p>
     <div id="search-form" class="">
-      <%= simple_form_for [@vet] do |f| %>
-      <%= f.input :specialiy %>
-      <%= f.input :city %>
-      <%= f.submit "Search a Vet", class: "btn btn-flat" %>
-      <%= end %>
+      <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
+        <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
+        <%= f.input :city, label: "City", input_html: { name: "city", placeholder: "e.g. Paris" } %>
+        <%= f.button :submit, "Find Vets", class: "btn btn-primary" %>
+      <% end %>
     </div>
   </div>
 </div>
