@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # Users custom for vets
   resources :vets, only: [:index, :show], controller: "users"
   # Pets
-  resources :pets, only: [:new, :create, :index, :show]
+  resources :pets, only: [:new, :create, :index, :show, :destroy]
   # Appointments
   resources :appointments, only: [:index, :show]
   # Availabilities
