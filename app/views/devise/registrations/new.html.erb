@@ -4,17 +4,46 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <!-- Role selector as horizontal radio buttons -->
+    <div class="role-radio-group">
+      <%= f.input :role,
+                  collection: User.roles.keys.map { |r| [r.titleize, r] },
+                  as: :radio_buttons,
+                  item_wrapper_class: 'role-option',
+                  input_html: { id: "role_selector" } %>
+    </div>
+    <!-- Basic fields -->
+    <%= f.input :first_name,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "first name" }%>
+
+    <%= f.input :last_name,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "last name" }%>
+
     <%= f.input :email,
                 required: true,
                 autofocus: true,
-                input_html: { autocomplete: "email" }%>
+                input_html: { autocomplete: "email" } %>
+
     <%= f.input :password,
                 required: true,
                 hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
                 input_html: { autocomplete: "new-password" } %>
+
     <%= f.input :password_confirmation,
                 required: true,
                 input_html: { autocomplete: "new-password" } %>
+
+    <!-- Vet-specific fields (hidden by default) -->
+    <div id="vet_fields" style="display: none;">
+      <%= f.input :specialty %>
+      <%= f.input :clinic_name %>
+      <%= f.input :city %>
+      <%= f.input :phone %>
+    </div>
   </div>
 
   <div class="form-actions">
@@ -23,3 +52,21 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<!-- JavaScript to toggle vet fields -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const roleSelect = document.getElementById("role_selector");
+    const vetFields = document.getElementById("vet_fields");
+
+    if (roleSelect) {
+      roleSelect.addEventListener("change", function() {
+        if (this.value === "vet") {
+          vetFields.style.display = "block";
+        } else {
+          vetFields.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
