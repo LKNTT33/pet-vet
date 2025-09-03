@@ -1,18 +1,9 @@
 class UsersController < ApplicationController
-  def index
-    @users = User.where(role: :vet)
-
-    if params[:specialty].present?
-      @users = @users.search_by_specialty(params[:specialty])
-    end
-
-    if params[:city].present?
-      @users = @users.search_by_city(params[:city])
-    end
-  end
+  before_action :authenticate_user!
 
   def show
-    @user = User.find(params[:id])
-    redirect_to root_path, alert: "Not a vet" unless @user.role == "vet"
+    @user = current_user
+    @pets = @user.pets
+    @appointments = @user.pets.includes(:appointments).map(&:appointments).flatten
   end
 end

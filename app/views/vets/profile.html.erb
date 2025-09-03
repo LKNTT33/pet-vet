@@ -1,0 +1,31 @@
+<h2>My Vet Profile</h2>
+
+<p><strong>Name:</strong> <%= @vet.email %></p>
+<p><strong>Specialty:</strong> <%= @vet.specialty %></p>
+<p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
+<p><strong>City:</strong> <%= @vet.city %></p>
+<p><strong>Phone:</strong> <%= @vet.phone %></p>
+
+<h3>Availabilities</h3>
+<% if @availabilities.any? %>
+  <ul>
+    <% @availabilities.each do |availability| %>
+      <li><%= availability.day_of_week %>: <%= availability.start_time.strftime("%H:%M") %> - <%= availability.end_time.strftime("%H:%M") %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No availabilities set yet.</p>
+<% end %>
+
+<h3>Appointments</h3>
+<% if @pets_appointments.any? %>
+  <ul>
+    <% @pets_appointments.each do |availability| %>
+      <% availability.appointments.each do |appt| %>
+        <li><%= appt.pet.name %> - <%= appt.status %> on <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %></li>
+      <% end %>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No appointments yet.</p>
+<% end %>
