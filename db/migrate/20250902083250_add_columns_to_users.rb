@@ -7,5 +7,6 @@ class AddColumnsToUsers < ActiveRecord::Migration[7.1]
     add_column :users, :specialty, :string
     add_column :users, :city, :string
     add_column :users, :clinic_name, :string
+    add_column :users, :role, :integer
   end
 end

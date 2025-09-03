@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+  registrations: "users/registrations",
+  sessions: "users/sessions"
+}
+
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -8,10 +12,15 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
+
+  get "vet/profile", to: "vets#profile", as: :vet_profile
+
   # root "posts#index"
 
-  # Users custom for vets
-  resources :vets, only: [:index, :show], controller: "users"
+  # Profile (logged-in user)
+  resource :user, only: [:show]
+  # vets
+  resources :vets, only: [:index, :show]
   # Pets
   resources :pets, only: [:new, :create, :index, :show]
   # Appointments
