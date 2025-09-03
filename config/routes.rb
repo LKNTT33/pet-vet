@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
+
+  get "vet/profile", to: "vets#profile", as: :vet_profile
+
   # root "posts#index"
 
   # Profile (logged-in user)

@@ -1,2 +1,10 @@
-<h1>Vets#index</h1>
-<p>Find me in app/views/vets/index.html.erb</p>
+<h2>Vets</h2>
+
+<% @vets.each do |vet| %>
+  <p>
+    <%= link_to vet.email, vet_path(vet) %> |
+    Specialty: <%= vet.specialty %> |
+    Clinic: <%= vet.clinic_name %> |
+    City: <%= vet.city %>
+  </p>
+<% end %>

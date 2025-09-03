@@ -69,7 +69,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-    # Optional: same logic for account update
+    # Same logic for account update
   def after_update_path_for(resource)
     if resource.vet?
       vets_path

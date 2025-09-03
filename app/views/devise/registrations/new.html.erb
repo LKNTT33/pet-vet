@@ -4,6 +4,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <!-- Role selector as horizontal radio buttons -->
+    <div class="role-radio-group">
+      <%= f.input :role,
+                  collection: User.roles.keys.map { |r| [r.titleize, r] },
+                  as: :radio_buttons,
+                  item_wrapper_class: 'role-option',
+                  input_html: { id: "role_selector" } %>
+    </div>
     <!-- Basic fields -->
     <%= f.input :first_name,
                 required: true,
@@ -14,7 +22,7 @@
                 required: true,
                 autofocus: true,
                 input_html: { autocomplete: "last name" }%>
-                
+
     <%= f.input :email,
                 required: true,
                 autofocus: true,
@@ -28,11 +36,6 @@
     <%= f.input :password_confirmation,
                 required: true,
                 input_html: { autocomplete: "new-password" } %>
-
-    <!-- Role selector -->
-    <%= f.input :role, collection: User.roles.keys.map { |r| [r.titleize, r] },
-                        prompt: "Select Account Type",
-                        input_html: { id: "role_selector" } %>
 
     <!-- Vet-specific fields (hidden by default) -->
     <div id="vet_fields" style="display: none;">
