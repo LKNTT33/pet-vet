@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'vets/index'
-  get 'vets/show'
-  get 'users/show'
-  
   devise_for :users, controllers: {
   registrations: "users/registrations",
   sessions: "users/sessions"
@@ -18,8 +14,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  # Users custom for vets
-  resources :vets, only: [:index, :show], controller: "users"
+  # Profile (logged-in user)
+  resource :user, only: [:show]
+  # vets
+  resources :vets, only: [:index, :show]
   # Pets
   resources :pets, only: [:new, :create, :index, :show]
   # Appointments

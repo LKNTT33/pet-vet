@@ -59,13 +59,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-  
+
   # Redirect after sign up
   def after_sign_up_path_for(resource)
     if resource.vet?
       vets_path   # send vets to the vet list
     else
       user_path   # send pet owners to their profile
+    end
+  end
+
+    # Optional: same logic for account update
+  def after_update_path_for(resource)
+    if resource.vet?
+      vets_path
+    else
+      user_path
     end
   end
 end
