@@ -1,5 +1,5 @@
 class VetsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :ensure_vet!, only: [:index, :edit, :update]
 
   def index
@@ -40,6 +40,6 @@ class VetsController < ApplicationController
   end
 
   def ensure_vet!
-    redirect_to root_path, alert: "Access denied" unless current_user.vet?
+    redirect_to root_path, alert: "Access denied" unless current_user&.vet?
   end
 end

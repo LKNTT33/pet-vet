@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # vets
   resources :vets, only: [:index, :show, :edit, :update]
   # Pets
-  resources :pets, only: [:new, :create, :index, :show, :destroy]
+  resources :pets, only: [:new, :create, :index, :show, :edit, :update, :destroy]
   # Appointments
   resources :appointments, only: [:index, :show]
   # Availabilities

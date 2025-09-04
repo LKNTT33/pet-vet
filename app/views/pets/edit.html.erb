@@ -1,0 +1,19 @@
+<h1>Edit Pet Profile</h1>
+
+<%= simple_form_for(@pet) do |f| %>
+  <div class="form-inputs">
+    <%= f.input :name, required: true %>
+    <%= f.input :species, collection: ["Dog", "Cat", "Other"], prompt: "Select species" %>
+    <% if @pet.species == "Other" %>
+      <%= f.input :other_species, label: "Specify Species" %>
+    <% end %>
+    <%= f.input :age %>
+    <%= f.input :birthdate, as: :date %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Update Pet" %>
+  </div>
+<% end %>
+
+<%= link_to "Back to Pet Profile", pet_path(@pet) %>
