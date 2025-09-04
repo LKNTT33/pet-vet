@@ -1,0 +1,41 @@
+<h1>Create Your Pet Profile</h1>
+
+<%= form_with model: @pet, local: true do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :species, "Species" %>
+    <%= form.select :species, ['Dog', 'Cat', 'Bird', 'Fish', 'Other'], {}, { id: "species_select" } %>
+  </div>
+
+  <div id="other_species_field" style="display: none;">
+    <%= form.label :other_species, "Specify the species" %>
+    <%= form.text_field :other_species %>
+  </div>
+
+  <div>
+    <%= form.label :birthdate, "Date of Birth" %>
+    <%= form.date_field :birthdate %>
+  </div>
+
+  <%= form.submit "Create Pet" %>
+<% end %>
+
+<script>
+    const select = document.getElementById("species_select");
+    const otherField = document.getElementById("other_species_field");
+
+    function toggleField() {
+      if (select.value === "Other") {
+        otherField.style.display = "block";
+      } else {
+        otherField.style.display = "none";
+      }
+    }
+
+    toggleField();
+    select.addEventListener("change", toggleField);
+</script>
