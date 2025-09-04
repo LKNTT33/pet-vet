@@ -1,0 +1,11 @@
+<h2>Edit My Profile</h2>
+
+<%= simple_form_for(@user, url: user_path(@user), method: :patch) do |f| %>
+  <%= f.input :email %>
+  <%= f.input :city %>
+  <%= f.input :phone %>
+
+  <%= f.button :submit, "Save Changes", class: "btn btn-success" %>
+<% end %>
+
+<%= link_to "Back to Profile", user_path(@user), class: "btn btn-secondary" %>

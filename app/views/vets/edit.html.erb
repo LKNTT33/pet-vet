@@ -1,0 +1,13 @@
+<h2>Edit My Vet Profile</h2>
+
+<%= simple_form_for(@vet, url: vet_path(@vet), method: :patch) do |f| %>
+  <%= f.input :email %>
+  <%= f.input :specialty %>
+  <%= f.input :clinic_name %>
+  <%= f.input :city %>
+  <%= f.input :phone %>
+
+  <%= f.button :submit, "Save Changes", class: "btn btn-success" %>
+<% end %>
+
+<%= link_to "Back to Profile", vets_path, class: "btn btn-secondary" %>
