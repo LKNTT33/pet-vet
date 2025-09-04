@@ -56,24 +56,23 @@
 <!-- JavaScript to toggle vet fields -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const roleRadios = document.querySelectorAll('input[name="user[role]"]');
-    const vetFields = document.getElementById("vet_fields");
+  const roleRadios = document.querySelectorAll('input[name="user[role]"]');
+  const vetFields = document.getElementById("vet_fields");
 
-    function toggleVetFields() {
-      const selected = document.querySelector('input[name="user[role]"]:checked');
-      if (selected && selected.value === "vet") {
-        vetFields.style.display = "block";
-      } else {
-        vetFields.style.display = "none";
-      }
+  function toggleVetFields() {
+    const selected = Array.from(roleRadios).find(r => r.checked);
+    if (selected && selected.value === "vet") {
+      vetFields.style.display = "block";
+    } else {
+      vetFields.style.display = "none";
     }
+  }
 
-    // Run once on page load (in case vet is preselected)
-    toggleVetFields();
+  toggleVetFields(); // initial check
 
-    // Event listeners to each radio
-    roleRadios.forEach(radio => {
-      radio.addEventListener("change", toggleVetFields);
-    });
+  roleRadios.forEach(radio => {
+    radio.addEventListener("change", toggleVetFields);
   });
+});
+
 </script>
