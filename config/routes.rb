@@ -14,17 +14,20 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
 
   get "vet/profile", to: "vets#profile", as: :vet_profile
+  # get "vet/appointments", to: "vets#appointments", as: :vet_appointments
 
   # root "posts#index"
 
   # Profile (logged-in user)
   resource :user, only: [:show, :edit, :update]
   # vets
-  resources :vets, only: [:index, :show, :edit, :update]
+  resources :vets, only: [:index, :show] do
+    resources :availabilities, only: [:index]
+  end
   # Pets
   resources :pets, only: [:new, :create, :index, :show, :destroy]
   # Appointments
-  resources :appointments, only: [:index, :show]
+  resources :appointments, only: [:index, :new, :create, :show]
   # Availabilities
-  resources :availabilities, only: [:new, :create, :index]
+  resources :availabilities, only: [:new, :create, :destroy]
 end

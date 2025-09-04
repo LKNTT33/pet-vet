@@ -1,0 +1,36 @@
+<h1>Manage my availabilities</h1>
+<p>Add your available working hours</p>
+
+<%= simple_form_for @availability do |f| %>
+  <%= f.input :day_of_week,
+              collection: Date::DAYNAMES[1..6],
+              prompt: "Select a day" %>
+
+  <%= f.input :start_time,
+              as: :string,
+              label: "Start time",
+              input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
+
+  <%= f.input :end_time,
+              as: :string,
+              label: "End time",
+              input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
+
+  <%= f.submit "Save availability", class: "btn btn-flat-main" %>
+<% end %>
+
+<h3>Your availabilities</h3>
+<% if @availabilities.any? %>
+  <ul>
+    <% @availabilities.each do |availability| %>
+      <li>
+        <strong><%= availability.day_of_week %></strong>:
+        <%= availability.start_time.strftime("%H:%M") %> -
+        <%= availability.end_time.strftime("%H:%M") %>
+        <%= link_to "Delete", availability_path(availability), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No availabilities yet. Add one above 👆</p>
+<% end %>
