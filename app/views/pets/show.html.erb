@@ -1,0 +1,18 @@
+<h1>Pet Profile</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @pet.name %>
+</p>
+
+<p>
+  <strong>Species:</strong>
+  <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @pet.age.present? ? "#{@pet.age} years old" : "Age not available" %>
+</p>
+
+<%= link_to "Back to Pet List", pets_path %>
