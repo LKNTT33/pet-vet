@@ -18,9 +18,9 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # Profile (logged-in user)
-  resource :user, only: [:show]
+  resource :user, only: [:show, :edit, :update]
   # vets
-  resources :vets, only: [:index, :show]
+  resources :vets, only: [:index, :show, :edit, :update]
   # Pets
   resources :pets, only: [:new, :create, :index, :show, :destroy]
   # Appointments

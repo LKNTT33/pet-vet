@@ -1,16 +1,20 @@
 <h2>My Vet Profile</h2>
 
-<p><strong>Name:</strong> <%= @vet.email %></p>
+<p><strong>Email:</strong> <%= @vet.email %></p>
 <p><strong>Specialty:</strong> <%= @vet.specialty %></p>
 <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
 <p><strong>City:</strong> <%= @vet.city %></p>
 <p><strong>Phone:</strong> <%= @vet.phone %></p>
 
+<%= link_to "Edit Profile", edit_vet_path(@vet), class: "btn btn-primary" %>
+
 <h3>Availabilities</h3>
 <% if @availabilities.any? %>
   <ul>
     <% @availabilities.each do |availability| %>
-      <li><%= availability.day_of_week %>: <%= availability.start_time.strftime("%H:%M") %> - <%= availability.end_time.strftime("%H:%M") %></li>
+      <li><%= availability.day_of_week %>:
+          <%= availability.start_time.strftime("%H:%M") %> -
+          <%= availability.end_time.strftime("%H:%M") %></li>
     <% end %>
   </ul>
 <% else %>
@@ -22,7 +26,8 @@
   <ul>
     <% @pets_appointments.each do |availability| %>
       <% availability.appointments.each do |appt| %>
-        <li><%= appt.pet.name %> - <%= appt.status %> on <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %></li>
+        <li><%= appt.pet.name %> - <%= appt.status %>
+            on <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %></li>
       <% end %>
     <% end %>
   </ul>

@@ -1,40 +1,43 @@
 class VetsController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_vet!, only: [:index, :edit, :update]
 
-  # GET /vets
   def index
     if current_user.vet?
-      # Show logged-in vet's own profile
       @vet = current_user
       @availabilities = @vet.availabilities
       @pets_appointments = @vet.availabilities.includes(:appointments)
-      render :profile  # Render the profile view instead of index
+      render :profile
     else
-      # Pet owners: show all vets with optional filters
       @vets = User.where(role: :vet)
-
-      if params[:specialty].present?
-        @vets = @vets.search_by_specialty(params[:specialty])
-      end
-
-      if params[:city].present?
-        @vets = @vets.search_by_city(params[:city])
-      end
-      # Will render index.html.erb by default
+      @vets = @vets.search_by_specialty(params[:specialty]) if params[:specialty].present?
+      @vets = @vets.search_by_city(params[:city]) if params[:city].present?
     end
   end
 
-  # GET /vets/:id
   def show
     @vet = User.find(params[:id])
-    unless @vet.vet?
-      redirect_to vets_path, alert: "This user is not a vet."
+    redirect_to vets_path, alert: "This user is not a vet." unless @vet.vet?
+  end
+
+  def edit
+    @vet = current_user
+  end
+
+  def update
+    @vet = current_user
+    if @vet.update(vet_params)
+      redirect_to vets_path, notice: "Vet profile updated successfully."
     else
-      @availabilities = @vet.availabilities
+      render :edit, status: :unprocessable_entity
     end
   end
 
   private
+
+  def vet_params
+    params.require(:user).permit(:email, :specialty, :clinic_name, :city, :phone)
+  end
 
   def ensure_vet!
     redirect_to root_path, alert: "Access denied" unless current_user.vet?
