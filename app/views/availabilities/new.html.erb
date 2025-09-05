@@ -1,9 +1,9 @@
-<h1>Manage my availabilities</h1>
+<h1>Manage My Availabilities</h1>
 <p>Add your available working hours</p>
 
-<%= simple_form_for [@vet, @availability] do |f| %>
+<%= simple_form_for @availability, url: vet_availabilities_path(@vet) do |f| %>
   <%= f.input :day_of_week,
-              collection: Date::DAYNAMES[1..6], # excludes Sunday
+              collection: %w[Monday Tuesday Wednesday Thursday Friday Saturday],
               prompt: "Select a day" %>
 
   <%= f.input :start_time,
@@ -16,23 +16,30 @@
               label: "End time",
               input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
 
-  <%= f.submit "Save availability", class: "btn btn-flat-main" %>
+  <%= f.submit "Save Availability", class: "btn btn-flat-main" %>
 <% end %>
 
-<h3>Your availabilities</h3>
+<hr>
+
+<h3>Your Availabilities</h3>
+
 <% if @availabilities.any? %>
   <ul>
     <% @availabilities.each do |availability| %>
-      <li>
-        <strong><%= availability.day_of_week %></strong>:
-        <%= availability.start_time.strftime("%H:%M") %> -
-        <%= availability.end_time.strftime("%H:%M") %>
-        <%= link_to "Delete",
-                    vet_availability_path(@vet, availability),
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      </li>
+      <% if availability.start_time.present? && availability.end_time.present? %>
+        <li>
+          <strong><%= availability.day_of_week %></strong>:
+          <%= availability.start_time.strftime("%H:%M") %> -
+          <%= availability.end_time.strftime("%H:%M") %>
+          <%= link_to "Delete",
+                      vet_availability_path(@vet, availability),
+                      method: :delete,
+                      data: { confirm: "Are you sure?" },
+                      class: "btn btn-danger btn-sm" %>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 <% else %>
-  <p>No availabilities yet. Add one above 👆</p>
+  <p>No availabilities yet</p>
 <% end %>

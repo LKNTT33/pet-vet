@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   # Profile (logged-in user)
   resource :user, only: [:show, :edit, :update]
   # vets
-  resources :vets, only: [:index, :show] do
+  resources :vets, only: [:index, :show, :edit, :update] do
     resources :availabilities, only: [:index, :new, :create, :destroy]
   end
   # Pets
