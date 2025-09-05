@@ -1,14 +1,16 @@
-<h1>My Pets</h1>
+<h1 class="text-center mb-4">My Pets</h1>
 
-<%= link_to "Add a New Pet", new_pet_path %>
+<div class="container">
+  <div class="text-center mb-4">
+    <%= link_to "Add a New Pet", new_pet_path, class: "btn btn-primary" %>
+  </div>
 
-<ul>
   <% @pets.each do |pet| %>
-    <li>
-      <%= link_to pet.name, pet_path(pet) %> –
-      <%= pet.species == "Other" ? pet.other_species.presence : pet.species %> –
-      <%= pet.age %> years old
-      <%= button_to "Delete", pet_path(pet), method: :delete %>
-    </li>
+    <div class="pet-card">
+      <p><strong>Name:</strong> <%= link_to pet.name, pet_path(pet) %></p>
+      <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
+      <p><strong>Age:</strong> <%= pet.age %> years old</p>
+      <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete}, class: "btn btn-secondary" %>
+    </div>
   <% end %>
-</ul>
+</div>
