@@ -118,19 +118,88 @@ pet2 = Pet.create!(
 )
 
 # Availabilities
+# Availabilities for vet1 (João)
 vet1_monday = Availability.create!(
   user: vet1,
   day_of_week: "Monday",
-  start_time: Time.zone.parse("2025-09-18 10:00"), # include a full datetime
-  end_time: Time.zone.parse("2025-09-18 13:00"),
+  start_time: Time.zone.parse("2025-09-15 09:00"),
+  end_time: Time.zone.parse("2025-09-15 12:00"),
   is_available: true
 )
 
+vet1_wednesday = Availability.create!(
+  user: vet1,
+  day_of_week: "Wednesday",
+  start_time: Time.zone.parse("2025-09-17 14:00"),
+  end_time: Time.zone.parse("2025-09-17 18:00"),
+  is_available: true
+)
+
+# Availabilities for vet2 (Maria)
 vet2_tuesday = Availability.create!(
   user: vet2,
   day_of_week: "Tuesday",
-  start_time: Time.zone.parse("2025-09-13 10:00"),
-  end_time: Time.zone.parse("2025-09-13 15:00"),
+  start_time: Time.zone.parse("2025-09-16 10:00"),
+  end_time: Time.zone.parse("2025-09-16 15:00"),
+  is_available: true
+)
+
+vet2_friday = Availability.create!(
+  user: vet2,
+  day_of_week: "Friday",
+  start_time: Time.zone.parse("2025-09-19 09:00"),
+  end_time: Time.zone.parse("2025-09-19 13:00"),
+  is_available: true
+)
+
+# Availabilities for vet3 (Pedro)
+vet3_monday = Availability.create!(
+  user: vet3,
+  day_of_week: "Monday",
+  start_time: Time.zone.parse("2025-09-15 13:00"),
+  end_time: Time.zone.parse("2025-09-15 17:00"),
+  is_available: true
+)
+
+vet3_thursday = Availability.create!(
+  user: vet3,
+  day_of_week: "Thursday",
+  start_time: Time.zone.parse("2025-09-18 10:00"),
+  end_time: Time.zone.parse("2025-09-18 14:00"),
+  is_available: true
+)
+
+# Availabilities for vet4 (Ana)
+vet4_wednesday = Availability.create!(
+  user: vet4,
+  day_of_week: "Wednesday",
+  start_time: Time.zone.parse("2025-09-17 09:00"),
+  end_time: Time.zone.parse("2025-09-17 12:00"),
+  is_available: true
+)
+
+vet4_thursday = Availability.create!(
+  user: vet4,
+  day_of_week: "Thursday",
+  start_time: Time.zone.parse("2025-09-18 15:00"),
+  end_time: Time.zone.parse("2025-09-18 19:00"),
+  is_available: true
+)
+
+# Availabilities for vet5 (Carlos)
+vet5_tuesday = Availability.create!(
+  user: vet5,
+  day_of_week: "Tuesday",
+  start_time: Time.zone.parse("2025-09-16 09:00"),
+  end_time: Time.zone.parse("2025-09-16 12:00"),
+  is_available: true
+)
+
+vet5_friday = Availability.create!(
+  user: vet5,
+  day_of_week: "Friday",
+  start_time: Time.zone.parse("2025-09-19 14:00"),
+  end_time: Time.zone.parse("2025-09-19 18:00"),
   is_available: true
 )
 

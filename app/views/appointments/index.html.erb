@@ -9,6 +9,7 @@
         <strong>Date:</strong> <%= appointment.slot_start.strftime("%A, %d %B %Y") %><br>
         <strong>Time:</strong> <%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %><br>
         <strong>Status:</strong> <%= appointment.status %>
+        <%= link_to "Delete", appointment_path(appointment), data: { turbo_method: :delete}, class: "btn btn-ghost-main" %>
       </li>
     <% end %>
   </ul>
