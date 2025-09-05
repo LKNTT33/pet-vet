@@ -4,7 +4,7 @@
   <%= select_tag :day_of_week,
         options_for_select(@vet.availabilities.pluck(:day_of_week).uniq, params[:day_of_week]),
         prompt: "Select a day" %>
-  <%= submit_tag "Filter", class: "btn btn-flat-second" %>
+  <%= submit_tag "Filter", class: "btn btn-flat-main" %>
 <% end %>
 
 <hr>
@@ -21,7 +21,7 @@
                                            slot_start: start_time,
                                            slot_end: slot_end),
                       method: :get,
-                      class: "slot-button" %>
+                      class: "btn btn-ghost-main" %>
         <% start_time = slot_end %>
       <% end %>
     </div>
