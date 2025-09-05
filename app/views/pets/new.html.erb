@@ -1,4 +1,4 @@
-<h1 class="text-center mb-4">Create Your Pet Profile</h1>
+<h1>Create Your Pet Profile</h1>
 
 <%= form_with model: @pet, local: true do |form| %>
   <div>
@@ -22,7 +22,7 @@
   </div>
 
   <div class="text-center">
-  <%= form.submit "Create Pet" %>
+  <%= form.submit "Create Pet", class: "btn btn-flat-main" %>
   </div>
 <% end %>
 

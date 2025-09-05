@@ -1,0 +1,28 @@
+.link-to-list {
+  color: #48bdbb;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 0px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.link-to-list:hover {
+  color: #78D3D1;
+}
+
+.pet-profile-card {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f6fc;
+  border-radius: 13px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pet-info {
+  margin-bottom: 6px;
+  color: #360568;
+  font-size: 18px;
+}
