@@ -1,7 +1,7 @@
 <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://res.cloudinary.com/dvanqdtdy/image/upload/v1756473922/jamie-street-JtP_Dqtz6D8-unsplash_z2gg4d.jpg);">
   <div class="container">
-    <h1>Pet Vet'</h1>
-    <p>Your easiest & fastest way to book your vet’ appointment!</p>
+    <h1 class="mt-0">Pet Vet'</h1>
+    <h3 class="text-center">Your easiest & fastest way to book your vet’ appointment!</h3>
     <div id="search-form" class="">
       <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
         <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
