@@ -1,0 +1,7 @@
+<h1>Manage my Appointments</h1>
+
+<ul class="list-group">
+  <% @appointments.each do |appointment| %>
+    <li class="list-group-item"><%= appointment.status %></li>
+  <% end %>
+</ul>

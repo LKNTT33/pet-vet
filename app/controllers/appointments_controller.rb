@@ -7,6 +7,8 @@ class AppointmentsController < ApplicationController
 
   def new
     @availability = Availability.find(params[:availability_id])
+    @vet = User.find(@availability.user_id)
+    @pets = current_user.pets
     @appointment = Appointment.new(
       availability: @availability,
       slot_start: params[:slot_start],
