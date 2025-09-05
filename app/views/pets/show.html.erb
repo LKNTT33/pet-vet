@@ -15,4 +15,6 @@
   <%= @pet.age %> years old
 </p>
 
-<%= link_to "Back to Pet List", pets_path %>
+<%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-primary" %>
+<%= link_to "Back to Pet List", pets_path, class: "btn btn-secondary" %>
+

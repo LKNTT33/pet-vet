@@ -10,32 +10,15 @@
                   collection: User.roles.keys.map { |r| [r.titleize, r] },
                   as: :radio_buttons,
                   item_wrapper_class: 'role-option',
-                  input_html: { id: "role_selector" } %>
+                  label: "Account Type" %>
     </div>
+
     <!-- Basic fields -->
-    <%= f.input :first_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "first name" }%>
-
-    <%= f.input :last_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "last name" }%>
-
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+    <%= f.input :first_name, required: true, autofocus: true %>
+    <%= f.input :last_name, required: true %>
+    <%= f.input :email, required: true %>
+    <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+    <%= f.input :password_confirmation, required: true %>
 
     <!-- Vet-specific fields (hidden by default) -->
     <div id="vet_fields" style="display: none;">
@@ -53,26 +36,27 @@
 
 <%= render "devise/shared/links" %>
 
-<!-- JavaScript to toggle vet fields -->
+<!-- JavaScript to toggle vet fields dynamically -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-  const roleRadios = document.querySelectorAll('input[name="user[role]"]');
-  const vetFields = document.getElementById("vet_fields");
+    const roleRadios = document.querySelectorAll('.role-radio-group input[type="radio"]');
+    const vetFields = document.getElementById("vet_fields");
 
-  function toggleVetFields() {
-    const selected = Array.from(roleRadios).find(r => r.checked);
-    if (selected && selected.value === "vet") {
-      vetFields.style.display = "block";
-    } else {
-      vetFields.style.display = "none";
+    function toggleVetFields() {
+      const selected = Array.from(roleRadios).find(r => r.checked);
+      if (selected && selected.value === "vet") {
+        vetFields.style.display = "block";
+      } else {
+        vetFields.style.display = "none";
+      }
     }
-  }
 
-  toggleVetFields(); // initial check
+    // Run once on page load
+    toggleVetFields();
 
-  roleRadios.forEach(radio => {
-    radio.addEventListener("change", toggleVetFields);
+    // Add change event listener to all radio buttons
+    roleRadios.forEach(radio => {
+      radio.addEventListener("change", toggleVetFields);
+    });
   });
-});
-
 </script>

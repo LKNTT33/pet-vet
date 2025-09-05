@@ -1,0 +1,54 @@
+.vet-profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.card {
+  background-color: #9AC6C5;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(91, 42, 134, 0.3);
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.card h2,
+.card h3 {
+  color: #360568;
+  margin-bottom: 1rem;
+}
+
+.card p,
+.card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: #360568;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card .btn {
+  display: inline-block;
+  width: 150px;
+  margin: 1rem auto 0;
+  text-align: center;
+  background-color: #A5E6BA;
+  color: #360568;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #FDC5F5;
+  }
+}
