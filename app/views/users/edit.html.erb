@@ -5,7 +5,13 @@
   <%= f.input :city %>
   <%= f.input :phone %>
 
-  <%= f.button :submit, "Save Changes", class: "btn btn-success" %>
+  <!-- Centered button -->
+  <div class="d-flex justify-content-center mt-3">
+    <%= f.button :submit, "Save Changes", class: "btn btn-success" %>
+  </div>
 <% end %>
 
-<%= link_to "Back to Profile", user_path(@user), class: "btn btn-secondary" %>
+<!-- Centered back link -->
+<div class="d-flex justify-content-center mt-2">
+  <%= link_to "Back to Profile", user_path(@user), class: "btn btn-secondary" %>
+</div>

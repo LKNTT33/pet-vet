@@ -1,32 +1,40 @@
-<h2>My Profile</h2>
+<h2 class="text-center mb-4">My Profile</h2>
 
-<p><strong>Email:</strong> <%= @user.email %></p>
-<p><strong>City:</strong> <%= @user.city %></p>
-<p><strong>Phone:</strong> <%= @user.phone %></p>
+<div class="profile-section">
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>City:</strong> <%= @user.city %></p>
+  <p><strong>Phone:</strong> <%= @user.phone %></p>
 
-<%= link_to "Edit Profile", edit_user_path(@user), class: "btn btn-primary" %>
+  <div class="d-flex justify-content-center mt-3">
+    <%= link_to "Edit Profile", edit_user_path(@user), class: "btn btn-primary" %>
+  </div>
+</div>
 
-<h3>My Pets</h3>
-<% if @pets.any? %>
-  <ul>
-    <% @pets.each do |pet| %>
-      <li><%= pet.name %> - <%= pet.species %> (Age: <%= pet.age %>)</li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No pets yet.</p>
-<% end %>
+<div class="profile-section">
+  <h3 class="text-center">My Pets</h3>
+  <% if @pets.any? %>
+    <ul class="list-unstyled text-center">
+      <% @pets.each do |pet| %>
+        <li><%= pet.name %> - <%= pet.species %> (Age: <%= pet.age %>)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-center">No pets yet.</p>
+  <% end %>
+</div>
 
-<h3>My Appointments</h3>
-<% if @appointments.any? %>
-  <ul>
-    <% @appointments.each do |appt| %>
-      <li>
-        <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %> -
-        <%= appt.pet.name %> with Vet <%= appt.availability.user.email %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No appointments yet.</p>
-<% end %>
+<div class="profile-section">
+  <h3 class="text-center">My Appointments</h3>
+  <% if @appointments.any? %>
+    <ul class="list-unstyled text-center">
+      <% @appointments.each do |appt| %>
+        <li>
+          <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %> –
+          <%= appt.pet.name %> with Vet <%= appt.availability.user.email %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-center">No appointments yet.</p>
+  <% end %>
+</div>
