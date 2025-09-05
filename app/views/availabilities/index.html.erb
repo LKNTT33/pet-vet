@@ -16,7 +16,7 @@
       <% start_time = availability.start_time %>
       <% while start_time < availability.end_time %>
         <% slot_end = start_time + 30.minutes %>
-        <%= button_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
+        <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
                       new_appointment_path(availability_id: availability.id,
                                            slot_start: start_time,
                                            slot_end: slot_end),
