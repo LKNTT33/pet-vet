@@ -1,20 +1,24 @@
 <h1>Pet Profile</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @pet.name %>
-</p>
 
-<p>
-  <strong>Species:</strong>
-  <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %>
-</p>
+<div class="pet-profile-card">
+  <p>
+    <strong class="pet-info">Name:</strong>
+    <%= @pet.name %>
+  </p>
 
-<p>
-  <strong>Age:</strong>
-  <%= @pet.age %> years old
-</p>
+  <p>
+    <strong class="pet-info">Species:</strong>
+    <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %>
+  </p>
 
-<%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-primary" %>
-<%= link_to "Back to Pet List", pets_path, class: "btn btn-secondary" %>
+  <p>
+    <strong class="pet-info">Age:</strong>
+    <%= @pet.age %> years old
+  </p>
 
+  <div class="button-group">
+    <%= link_to "← Back to Pet List", pets_path, class: "link-to-list btn-back" %>
+    <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-flat-main" %>
+  </div>
+</div>
