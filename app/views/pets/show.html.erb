@@ -12,7 +12,7 @@
 
 <p>
   <strong>Age:</strong>
-  <%= @pet.age.present? ? "#{@pet.age} years old" : "Age not available" %>
+  <%= @pet.age %> years old
 </p>
 
 <%= link_to "Back to Pet List", pets_path %>
