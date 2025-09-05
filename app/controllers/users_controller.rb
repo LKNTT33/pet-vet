@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_user!
+  # before_action :ensure_user!
 
   def show
     @user = current_user
@@ -28,7 +28,7 @@ end
     params.require(:user).permit(:email, :phone, :city)
   end
 
-  def ensure_user!
-    redirect_to root_path, alert: "Access denied" if current_user.vet?
-  end
+  # def ensure_user!
+  #   redirect_to root_path, alert: "Access denied" if current_user.vet?
+  # end
 end

@@ -1,0 +1,22 @@
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.slot-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  transition: background 0.2s;
+}
+
+.slot-button:hover {
+  background: #e0e0e0;
+}

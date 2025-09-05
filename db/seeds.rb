@@ -100,27 +100,56 @@ owner2 = User.create!(
   role: :owner
 )
 
-pet1 = Pet.create!(name: "Carminho", species: "Dog", age: 3, user: owner2)
-pet2 = Pet.create!(name: "Paulie", species: "Cat", age: 4, user: owner1)
+# Pets
+pet1 = Pet.create!(
+  name: "Carminho",
+  species: "Dog",
+  age: 3,
+  birthdate: Date.new(2022, 7, 8),
+  user: owner2
+)
 
+pet2 = Pet.create!(
+  name: "Paulie",
+  species: "Cat",
+  age: 4,
+  birthdate: Date.new(2021, 4, 21),
+  user: owner1
+)
+
+# Availabilities
 vet1_monday = Availability.create!(
   user: vet1,
   day_of_week: "Monday",
-  start_time: Time.zone.parse("10:00"),
-  end_time: Time.zone.parse("13:00"),
+  start_time: Time.zone.parse("2025-09-18 10:00"), # include a full datetime
+  end_time: Time.zone.parse("2025-09-18 13:00"),
   is_available: true
 )
 
 vet2_tuesday = Availability.create!(
   user: vet2,
   day_of_week: "Tuesday",
-  start_time: Time.zone.parse("10:00"),
-  end_time: Time.zone.parse("15:00"),
+  start_time: Time.zone.parse("2025-09-13 10:00"),
+  end_time: Time.zone.parse("2025-09-13 15:00"),
   is_available: true
 )
 
-appt1 = Appointment.create!(pet: pet1, availability: vet1_monday, status: "pending")
-appt2 = Appointment.create!(pet: pet2, availability: vet2_tuesday, status: "confirmed")
+# Appointments inside slots (30 min slot examples)
+appt1 = Appointment.create!(
+  pet: pet1,
+  availability: vet1_monday,
+  slot_start: Time.zone.parse("2025-09-18 10:00"),
+  slot_end:   Time.zone.parse("2025-09-18 10:30"),
+  status: "pending"
+)
+
+appt2 = Appointment.create!(
+  pet: pet2,
+  availability: vet2_tuesday,
+  slot_start: Time.zone.parse("2025-09-13 11:30"),
+  slot_end:   Time.zone.parse("2025-09-13 12:00"),
+  status: "confirmed"
+)
 
 med1 = Medicine.create!(
   name: "Paracetamol",

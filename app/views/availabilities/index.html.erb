@@ -1,0 +1,31 @@
+<h2>Availabilities for <%= @vet.first_name %> <%= @vet.last_name %></h2>
+
+<%= form_with url: vet_availabilities_path(@vet), method: :get, local: true do %>
+  <%= select_tag :day_of_week,
+        options_for_select(@vet.availabilities.pluck(:day_of_week).uniq, params[:day_of_week]),
+        prompt: "Select a day" %>
+  <%= submit_tag "Filter", class: "btn btn-flat-second" %>
+<% end %>
+
+<hr>
+
+<% if @availabilities.any? %>
+  <% @availabilities.each do |availability| %>
+    <h3><%= availability.day_of_week %></h3>
+    <div class="slots-grid">
+      <% start_time = availability.start_time %>
+      <% while start_time < availability.end_time %>
+        <% slot_end = start_time + 30.minutes %>
+        <%= button_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
+                      new_appointment_path(availability_id: availability.id,
+                                           slot_start: start_time,
+                                           slot_end: slot_end),
+                      method: :get,
+                      class: "slot-button" %>
+        <% start_time = slot_end %>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>No availabilities found for this day.</p>
+<% end %>

@@ -6,7 +6,7 @@
       <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
         <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
         <%= f.input :city, label: "City", input_html: { name: "city", placeholder: "e.g. Paris" } %>
-        <%= f.button :submit, "Find Vets", class: "btn btn-primary" %>
+        <%= f.button :submit, "Find Vets", class: "btn btn-flat-main" %>
       <% end %>
     </div>
   </div>
@@ -24,8 +24,8 @@
       <p class="h2-header">Be visible on Pet Vet'!</p>
       <p>Make your appointment easy with our appointment app. Just create your vet page and share your schedule to let your patient book their appointments. </p>
      <div class="">
-      <%= link_to "Log in", new_user_session_path, class: "btn btn-flat" %>
-      <%= link_to "Sign up", new_user_registration_path, class: "btn btn-ghost" %>
+      <%= link_to "Log in", new_user_session_path, class: "btn btn-flat-second" %>
+      <%= link_to "Sign up", new_user_registration_path, class: "btn btn-ghost-main" %>
       </div>
     </div>
   </div>

@@ -1,0 +1,17 @@
+<h2>Book an appointment with <%= @vet.first_name %> (<%= @vet.specialty %>)</h2>
+
+<p>
+  Slot: <%= @appointment.slot_start.strftime("%A %d %B, %H:%M") %>
+  - <%= @appointment.slot_end.strftime("%H:%M") %>
+</p>
+
+<%= simple_form_for @appointment, url: appointments_path(availability_id: @availability.id) do |f| %>
+  <%= f.hidden_field :slot_start %>
+  <%= f.hidden_field :slot_end %>
+
+  <%= f.input :pet_id, collection: @pets, label: "Select your pet" %>
+
+  <%= link_to "Add a new pet", new_pet_path, class: "btn btn-secondary" %><br><br>
+
+  <%= f.button :submit, "Confirm Appointment", class: "btn btn-primary" %>
+<% end %>

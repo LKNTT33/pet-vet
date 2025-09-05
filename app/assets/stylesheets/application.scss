@@ -13,6 +13,7 @@
 
 // Your CSS partials - pages
 @import "pages/index";
-@import "devise/registrations";
-@import "pages/vet_profile";
+@import "pages/availabilities";
 
+// Your CSS partials - devise
+@import "devise/registrations";

@@ -1,6 +1,6 @@
 class VetsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :ensure_vet!, only: [:index, :edit, :update]
+  before_action :authenticate_user!
+  # before_action :ensure_vet!, only: [:index, :edit, :update]
 
   def index
     if current_user.vet?
@@ -39,7 +39,7 @@ class VetsController < ApplicationController
     params.require(:user).permit(:email, :specialty, :clinic_name, :city, :phone)
   end
 
-  def ensure_vet!
-    redirect_to root_path, alert: "Access denied" unless current_user&.vet?
-  end
+  # def ensure_vet!
+  #   redirect_to root_path, alert: "Access denied" unless current_user.vet?
+  # end
 end

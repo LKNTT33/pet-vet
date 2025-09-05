@@ -2,9 +2,10 @@
 
 <% @vets.each do |vet| %>
   <p>
-    <%= link_to vet.email, vet_path(vet) %> |
+    Name : <%= vet.first_name %> <%= vet.last_name %> |
     Specialty: <%= vet.specialty %> |
     Clinic: <%= vet.clinic_name %> |
     City: <%= vet.city %>
   </p>
+  <%= link_to "Select this Vet",  vet_availabilities_path(vet) %>
 <% end %>
