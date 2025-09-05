@@ -68,3 +68,9 @@
   background: linear-gradient(#147EFF, #0F67DA);
   color: white;
 }
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}

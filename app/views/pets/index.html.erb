@@ -1,16 +1,19 @@
-<h1 class="text-center mb-4">My Pets</h1>
+<h1>My Pets</h1>
 
 <div class="container">
   <div class="text-center mb-4">
-    <%= link_to "Add a New Pet", new_pet_path, class: "btn btn-primary" %>
+    <%= link_to "Add a New Pet", new_pet_path, class: "btn btn-flat-main" %>
   </div>
 
   <% @pets.each do |pet| %>
     <div class="pet-card">
-      <p><strong>Name:</strong> <%= link_to pet.name, pet_path(pet) %></p>
+      <p><strong>Name:</strong> <%= pet.name %></p>
       <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
       <p><strong>Age:</strong> <%= pet.age %> years old</p>
-      <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete}, class: "btn btn-secondary" %>
+      <div class="button-group">
+      <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
+      <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete}, class: "btn btn-ghost-main" %>
+      </div>
     </div>
   <% end %>
 </div>
