@@ -1,7 +1,17 @@
-<h1>Manage my Appointments</h1>
+<h1>My Appointments</h1>
 
-<ul class="list-group">
-  <% @appointments.each do |appointment| %>
-    <li class="list-group-item"><%= appointment.status %></li>
-  <% end %>
-</ul>
+<% if @appointments.any? %>
+  <ul>
+    <% @appointments.each do |appointment| %>
+      <li>
+        <strong>Vet:</strong> <%= appointment.availability.user.first_name %> <%= appointment.availability.user.last_name %><br>
+        <strong>Pet:</strong> <%= appointment.pet.name %> (<%= appointment.pet.species %>)<br>
+        <strong>Date:</strong> <%= appointment.slot_start.strftime("%A, %d %B %Y") %><br>
+        <strong>Time:</strong> <%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %><br>
+        <strong>Status:</strong> <%= appointment.status %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You don’t have any appointments yet.</p>
+<% end %>

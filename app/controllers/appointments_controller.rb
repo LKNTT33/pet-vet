@@ -2,12 +2,12 @@ class AppointmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
   end
 
   def new
     @availability = Availability.find(params[:availability_id])
-    @vet = User.find(@availability.user_id)
+    @vet = @availability.user
     @pets = current_user.pets
     @appointment = Appointment.new(
       availability: @availability,
@@ -17,10 +17,17 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = current_user.pets.find(params[:pet_id]).appointments.build(appointment_params)
+    pet = current_user.pets.find(appointment_params[:pet_id])
+    @appointment = pet.appointments.build(appointment_params.merge(
+    availability_id: params[:availability_id]
+    ))
+
     if @appointment.save
-      redirect_to @appointment, notice: "Appointment booked successfully!"
+      redirect_to appointments_path, notice: "Appointment booked successfully!"
     else
+      @availability = Availability.find(params[:availability_id])
+      @vet = @availability.user
+      @pets = current_user.pets
       render :new, status: :unprocessable_entity
     end
   end
@@ -28,6 +35,6 @@ class AppointmentsController < ApplicationController
   private
 
   def appointment_params
-    params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :status)
+    params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :status, :pet_id)
   end
 end

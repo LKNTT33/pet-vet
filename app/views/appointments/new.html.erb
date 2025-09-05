@@ -9,9 +9,9 @@
   <%= f.hidden_field :slot_start %>
   <%= f.hidden_field :slot_end %>
 
-  <%= f.input :pet_id, collection: @pets, label: "Select your pet" %>
+  <%= f.input :pet_id, collection: @pets, label: "Select your pet", required: true %>
 
-  <%= link_to "Add a new pet", new_pet_path, class: "btn btn-secondary" %><br><br>
+  <%= link_to "Add a new pet", new_pet_path, class: "btn btn-ghost-main" %><br><br>
 
-  <%= f.button :submit, "Confirm Appointment", class: "btn btn-primary" %>
+  <%= f.button :submit, "Confirm Appointment", class: "btn btn-flat-second" %>
 <% end %>
