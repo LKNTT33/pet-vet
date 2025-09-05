@@ -135,21 +135,21 @@ vet2_tuesday = Availability.create!(
 )
 
 # Appointments inside slots (30 min slot examples)
-appt1 = Appointment.create!(
-  pet: pet1,
-  availability: vet1_monday,
-  slot_start: Time.zone.parse("2025-09-18 10:00"),
-  slot_end:   Time.zone.parse("2025-09-18 10:30"),
-  status: "pending"
-)
+#appt1 = Appointment.create!(
+  #pet: pet1,
+  #availability: vet1_monday,
+  #slot_start: Time.zone.parse("2025-09-18 10:00"),
+  #slot_end:   Time.zone.parse("2025-09-18 10:30"),
+  #status: "pending"
+#)
 
-appt2 = Appointment.create!(
-  pet: pet2,
-  availability: vet2_tuesday,
-  slot_start: Time.zone.parse("2025-09-13 11:30"),
-  slot_end:   Time.zone.parse("2025-09-13 12:00"),
-  status: "confirmed"
-)
+#appt2 = Appointment.create!(
+  #pet: pet2,
+  #availability: vet2_tuesday,
+  #slot_start: Time.zone.parse("2025-09-13 11:30"),
+  #slot_end:   Time.zone.parse("2025-09-13 12:00"),
+  #status: "confirmed"
+#)
 
 med1 = Medicine.create!(
   name: "Paracetamol",
