@@ -1,0 +1,28 @@
+.profile-section {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(54, 5, 104, 0.2);
+
+  h3 {
+    color: #360568;
+    margin-bottom: 1.5rem;
+  }
+
+  p, li {
+    color: #360568;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  .btn {
+    width: 200px;
+    text-align: center;
+  }
+}
