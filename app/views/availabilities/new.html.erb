@@ -1,9 +1,9 @@
 <h1>Manage my availabilities</h1>
 <p>Add your available working hours</p>
 
-<%= simple_form_for @availability do |f| %>
+<%= simple_form_for [@vet, @availability] do |f| %>
   <%= f.input :day_of_week,
-              collection: Date::DAYNAMES[1..6],
+              collection: Date::DAYNAMES[1..6], # excludes Sunday
               prompt: "Select a day" %>
 
   <%= f.input :start_time,
@@ -27,7 +27,9 @@
         <strong><%= availability.day_of_week %></strong>:
         <%= availability.start_time.strftime("%H:%M") %> -
         <%= availability.end_time.strftime("%H:%M") %>
-        <%= link_to "Delete", availability_path(availability), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+        <%= link_to "Delete",
+                    vet_availability_path(@vet, availability),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
       </li>
     <% end %>
   </ul>

@@ -22,12 +22,10 @@ Rails.application.routes.draw do
   resource :user, only: [:show, :edit, :update]
   # vets
   resources :vets, only: [:index, :show] do
-    resources :availabilities, only: [:index]
+    resources :availabilities, only: [:index, :new, :create, :destroy]
   end
   # Pets
   resources :pets, only: [:new, :create, :index, :show, :destroy]
   # Appointments
   resources :appointments, only: [:index, :new, :create, :show]
-  # Availabilities
-  resources :availabilities, only: [:new, :create, :destroy]
 end
