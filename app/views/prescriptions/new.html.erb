@@ -1,0 +1,38 @@
+<h1>New Prescription for <%= @pet.name %></h1>
+
+<%= form_with(model: [@pet, @appointment, @prescription], local: true) do |f| %>
+  <div>
+    <%= f.label :medicine_id, "Medicine" %>
+    <%= f.collection_select :medicine_id, @medicines, :id, :name, prompt: "Select a medicine", class: "form-select" %>
+  </div>
+
+  <div>
+    <%= f.label :dosage %>
+    <%= f.text_field :dosage %>
+  </div>
+
+  <div>
+    <%= f.label :special_instructions %>
+    <div class="datetime-select-group">
+    <%= f.text_area :special_instructions, rows: 5 %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :start_date %>
+    <div class="datetime-select-group">
+    <%= f.date_select :start_date %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :end_date %>
+    <div class="datetime-select-group">
+    <%= f.date_select :end_date %>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <%= f.submit "Create Prescription", class: "btn btn-flat-main" %>
+    </div>
+<% end %>

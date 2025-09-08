@@ -1,0 +1,12 @@
+<h1>Prescriptions for <%= @pet.name %></h1>
+
+<ul class="list-group">
+  <% @prescriptions.each do |prescription| %>
+    <li class="list-group-item">
+      <%= link_to prescription.medicine.name, pet_appointment_prescription_path(@pet, @appointment, prescription) %>
+      - <%= prescription.dosage %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "← Back to Appointment", pet_appointments_path(@pet, @appointment), class: "link-to-list btn-back" %>

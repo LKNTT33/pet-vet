@@ -48,3 +48,17 @@ textarea:focus {
   border-color: #360568;
   outline: none;
 }
+
+.datetime-select-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.datetime-select-group select {
+  flex: 0 0 30%;
+  min-width: 80px;
+  width: auto;
+  background-color: white;
+  text-align: center;
+}
