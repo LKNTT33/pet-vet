@@ -1,5 +1,6 @@
 class AvailabilitiesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
+  before_action :ensure_vet!, only: [:new, :create, :destroy]
   before_action :set_vet
 
   def index
@@ -39,5 +40,9 @@ class AvailabilitiesController < ApplicationController
  def set_vet
     @vet = User.find(params[:vet_id])
     redirect_to vets_path, alert: "This user is not a vet." unless @vet.vet?
+  end
+
+  def ensure_vet!
+    redirect_to root_path, alert: "Access denied" unless current_user&.vet?
   end
 end
