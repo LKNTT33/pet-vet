@@ -1,46 +1,51 @@
-<h2>Availabilities for <%= @vet.first_name %> <%= @vet.last_name %></h2>
+<h1 class="text-2xl font-bold mb-6">Vet Availabilities</h1>
 
+<!-- Date picker search form -->
 <%= form_with url: vet_availabilities_path(@vet), method: :get, local: true do %>
-  <%= select_tag :day_of_week,
-        options_for_select(@vet.availabilities.pluck(:day_of_week).uniq, params[:day_of_week]),
-        prompt: "Select a day" %>
-  <%= submit_tag "Filter", class: "btn btn-flat-main" %>
+  <div class="flex items-center gap-2 mb-6">
+    <%= date_field_tag :date, params[:date], class: "form-input" %>
+    <%= submit_tag "Search by day", class: "btn btn-primary" %>
+  </div>
 <% end %>
 
-<hr>
-
+<!-- Display available slots -->
 <% if @availabilities.any? %>
+  <h2 class="text-xl mb-4">
+    Available slots for <%= params[:date].present? ? Date.parse(params[:date]).strftime("%A, %d/%m/%Y") : "upcoming days" %>
+  </h2>
+
   <% @availabilities.each do |availability| %>
-    <h3>
-      <% if availability.date.present? %>
+    <div class="availability-day mb-6 p-4 border rounded shadow-sm">
+      <strong class="block mb-3 text-lg">
         <%= availability.date.strftime("%A, %d/%m/%Y") %>
-      <% else %>
-        <%= availability.day_of_week %>
-      <% end %>
-    </h3>
+      </strong>
 
-    <div class="slots-grid grid grid-cols-4 gap-2 mb-4">
-      <% start_time = availability.start_time %>
-      <% while start_time < availability.end_time %>
-        <% slot_end = start_time + 30.minutes %>
-        <% taken = availability.appointments.any? { |appt| appt.slot_start == start_time } %>
+      <ul class="grid grid-cols-4 gap-2">
+        <% availability.slots.each do |slot| %>
+          <% slot_id = "slot_#{availability.id}_#{slot[:start].to_i}" %>
+          <% taken = availability.appointments.any? { |appt| appt.slot_start == slot[:start] } %>
 
-        <% if taken %>
-          <span class="btn btn-disabled w-full text-center">
-            <%= start_time.strftime("%H:%M") %> - <%= slot_end.strftime("%H:%M") %>
-          </span>
-        <% else %>
-          <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
-                      new_appointment_path(availability_id: availability.id,
-                                           slot_start: start_time,
-                                           slot_end: slot_end),
-                      class: "btn btn-ghost-main w-full text-center" %>
+          <% if taken %>
+            <li id="<%= slot_id %>" class="btn btn-disabled text-center">
+              <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
+            </li>
+          <% else %>
+            <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
+                        appointments_path(appointment: {
+                          availability_id: availability.id,
+                          slot_start: slot[:start],
+                          slot_end: slot[:end]
+                        }),
+                        method: :post,
+                        data: { turbo_stream: true },
+                        id: slot_id,
+                        class: "btn btn-ghost-main w-full text-center" %>
+          <% end %>
         <% end %>
-
-        <% start_time = slot_end %>
-      <% end %>
+      </ul>
     </div>
   <% end %>
+
 <% else %>
-  <p>No availabilities found for this day.</p>
+  <p class="text-gray-500">No availabilities for this day.</p>
 <% end %>

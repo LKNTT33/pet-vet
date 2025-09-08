@@ -18,7 +18,14 @@ class PetsController < ApplicationController
 
   def index
     @pets = current_user.pets
+
+    # Capture selected slot info from query params
+    @availability_id = params[:availability_id]
+    @slot_start = params[:slot_start]
+    @slot_end = params[:slot_end]
   end
+
+
 
   def show
   end

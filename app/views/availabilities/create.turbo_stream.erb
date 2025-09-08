@@ -1,2 +1,7 @@
-<%= turbo_stream.prepend "availabilities_list", partial: "list_item", locals: { availability: @availability, vet: @vet } %>
-<%= turbo_stream.update "availability_form", partial: "form", locals: { vet: @vet, availability: Availability.new } %>
+<%= turbo_stream.append "availabilities_list" do %>
+  <%= render partial: "list_item", locals: { availability: @availability, vet: @vet } %>
+<% end %>
+
+<%= turbo_stream.replace "availability_form" do %>
+  <%= render "form", availability: @vet.availabilities.new, vet: @vet %>
+<% end %>

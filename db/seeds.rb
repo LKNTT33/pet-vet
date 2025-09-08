@@ -203,6 +203,19 @@ vet5_friday = Availability.create!(
   is_available: true
 )
 
+# --- Availabilities for each vet (next 14 days, 9am–5pm) ---
+[vet1, vet2, vet3, vet4, vet5].each do |vet|
+  (Date.today..Date.today + 14).each do |date|
+    Availability.create!(
+      user: vet,
+      start_time: Time.zone.parse("#{date} 09:00"),
+      end_time: Time.zone.parse("#{date} 17:00"),
+      is_available: true,
+      day_of_week: date.strftime("%A")
+    )
+  end
+end
+
 # Appointments inside slots (30 min slot examples)
 #appt1 = Appointment.create!(
   #pet: pet1,

@@ -1,5 +1,6 @@
 <li id="<%= dom_id(availability) %>" class="mb-4 p-2 border rounded">
-  <!-- Availability Header -->
+
+  <!-- Availability header -->
   <div class="availability-header flex justify-between items-center">
     <strong>
       <%= availability.date.present? ? availability.date.strftime("%A, %d/%m/%Y") : availability.day_of_week %>
@@ -12,10 +13,9 @@
             vet_availability_path(vet, availability),
             data: { turbo_confirm: "Are you sure?", turbo_method: :delete },
             class: "text-red-600 hover:text-red-800 ml-4" %>
-
   </div>
 
-  <!-- Slots Grid -->
+  <!-- Slots grid -->
   <div class="slots-grid mt-2 grid grid-cols-4 gap-2">
     <% availability.slots.each do |slot| %>
       <% taken = availability.appointments.any? { |appt| appt.slot_start == slot[:start] } %>
@@ -28,13 +28,11 @@
           </span>
         <% else %>
           <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
-                      appointments_path(appointment: {
+                      pets_path(
                         availability_id: availability.id,
                         slot_start: slot[:start],
                         slot_end: slot[:end]
-                      }),
-                      method: :post,
-                      data: { turbo_stream: true },
+                      ),
                       class: "btn btn-ghost-main w-full text-center" %>
         <% end %>
       </div>

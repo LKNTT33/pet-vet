@@ -11,8 +11,21 @@
       <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
       <p><strong>Age:</strong> <%= pet.age %> years old</p>
       <div class="button-group">
-      <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
-      <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete}, class: "btn btn-ghost-main" %>
+        <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
+
+        <% if @availability_id.present? && @slot_start.present? && @slot_end.present? %>
+          <%= link_to "Book This Pet",
+                      appointments_path(appointment: {
+                        availability_id: @availability_id,
+                        slot_start: @slot_start,
+                        slot_end: @slot_end,
+                        pet_id: pet.id
+                      }),
+                      method: :post,
+                      class: "btn btn-primary" %>
+        <% end %>
+
+        <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete }, class: "btn btn-ghost-main" %>
       </div>
     </div>
   <% end %>

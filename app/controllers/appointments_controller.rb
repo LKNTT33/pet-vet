@@ -23,20 +23,17 @@ class AppointmentsController < ApplicationController
 
 
   def create
-    @availability = Availability.find(params[:availability_id])
-    pet = current_user.pets.find(appointment_params[:pet_id])
-    @appointment = pet.appointments.build(
-      availability: @availability,
-      slot_start: appointment_params[:slot_start],
-      slot_end: appointment_params[:slot_end]
-    )
+    @appointment = current_user.appointments.new(appointment_params)
 
     if @appointment.save
-      redirect_to appointments_path, notice: "Appointment booked successfully!"
+      redirect_to pets_path, notice: "Appointment booked successfully!"
     else
-      @vet = @availability.user
-      @pets = current_user.pets
-      render :new, status: :unprocessable_entity
+      # In case of failure, redirect back to pet selection with alert
+      redirect_to pets_path(
+        availability_id: @appointment.availability_id,
+        slot_start: @appointment.slot_start,
+        slot_end: @appointment.slot_end
+      ), alert: "Could not book appointment."
     end
   end
 

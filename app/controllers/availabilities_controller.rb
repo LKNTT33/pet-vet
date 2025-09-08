@@ -1,44 +1,64 @@
 class AvailabilitiesController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
-  before_action :ensure_vet!, only: [:new, :create, :destroy]
+  before_action :authenticate_user!
   before_action :set_vet
   before_action :authorize_vet!, only: [:new, :create, :destroy]
 
-  # GET /vets/:vet_id/availabilities
   def index
-    @availabilities = sorted_availabilities
+    @availabilities = @vet.availabilities.order(:start_time)
 
-    # Filter by day_of_week if selected
-    if params[:day_of_week].present?
-      @availabilities = @availabilities.select do |a|
-        # Include if it matches day_of_week or the date's weekday
-        a.day_of_week == params[:day_of_week] ||
-          (a.date.present? && a.date.strftime("%A") == params[:day_of_week])
+    if params[:date].present?
+      begin
+        selected_date = Date.parse(params[:date])
+        @availabilities = @availabilities.where(date: selected_date)
+      rescue ArgumentError
+        flash.now[:alert] = "Invalid date"
+      end
+    end
+
+    respond_to do |format|
+      format.html # default HTML view
+      format.json do
+        # JSON for dynamic calendar
+        render json: @availabilities.map { |a|
+          a.slots.map do |slot|
+            {
+              start: slot[:start],
+              end: slot[:end],
+              available: !a.appointments.any? { |appt| appt.slot_start == slot[:start] }
+            }
+          end
+        }.flatten
       end
     end
   end
 
-  # GET /vets/:vet_id/availabilities/new
   def new
     @availability = @vet.availabilities.new
-    @availabilities = sorted_availabilities
+    @availabilities = @vet.availabilities.order(:start_time)
   end
 
-  # POST /vets/:vet_id/availabilities
   def create
-    @availability = @vet.availabilities.build(availability_params)
+    @availability = @vet.availabilities.new(availability_params)
+
+    # Parse date/time strings into proper types if needed
+    @availability.date = Date.parse(availability_params[:date]) if availability_params[:date].present?
+    @availability.start_time = Time.zone.parse(availability_params[:start_time]) if availability_params[:start_time].present?
+    @availability.end_time = Time.zone.parse(availability_params[:end_time]) if availability_params[:end_time].present?
 
     if @availability.save
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream # renders create.turbo_stream.erb
         format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability added!" }
       end
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("availability_form", partial: "form", locals: { availability: @availability }) }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
-  # DELETE /vets/:vet_id/availabilities/:id
+
   def destroy
     @availability = @vet.availabilities.find(params[:id])
     @availability.destroy
@@ -52,7 +72,7 @@ class AvailabilitiesController < ApplicationController
   private
 
   def availability_params
-    params.require(:availability).permit(:date, :day_of_week, :start_time, :end_time)
+    params.require(:availability).permit(:date, :start_time, :end_time, :is_available)
   end
 
   def set_vet
@@ -60,12 +80,7 @@ class AvailabilitiesController < ApplicationController
     redirect_to vets_path, alert: "This user is not a vet." unless @vet.vet?
   end
 
-  def sorted_availabilities
-    @vet.availabilities
-        .where.not(start_time: nil, end_time: nil)
-        .order(:date, :start_time)
-        
-  def ensure_vet!
-    redirect_to root_path, alert: "Access denied" unless current_user&.vet?
+  def authorize_vet!
+    redirect_to root_path, alert: "Not authorized" unless @vet == current_user
   end
 end
