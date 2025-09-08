@@ -1,0 +1,43 @@
+<li id="<%= dom_id(availability) %>" class="mb-4 p-2 border rounded">
+  <!-- Availability Header -->
+  <div class="availability-header flex justify-between items-center">
+    <strong>
+      <%= availability.date.present? ? availability.date.strftime("%A, %d/%m/%Y") : availability.day_of_week %>
+    </strong>
+    <span>
+      <%= availability.start_time&.strftime("%H:%M") || "?" %> -
+      <%= availability.end_time&.strftime("%H:%M") || "?" %>
+    </span>
+    <%= link_to "Delete",
+            vet_availability_path(vet, availability),
+            data: { turbo_confirm: "Are you sure?", turbo_method: :delete },
+            class: "text-red-600 hover:text-red-800 ml-4" %>
+
+  </div>
+
+  <!-- Slots Grid -->
+  <div class="slots-grid mt-2 grid grid-cols-4 gap-2">
+    <% availability.slots.each do |slot| %>
+      <% taken = availability.appointments.any? { |appt| appt.slot_start == slot[:start] } %>
+      <% slot_id = "slot_#{availability.id}_#{slot[:start].to_i}" %>
+
+      <div id="<%= slot_id %>">
+        <% if taken %>
+          <span class="btn btn-disabled w-full text-center">
+            <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
+          </span>
+        <% else %>
+          <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
+                      appointments_path(appointment: {
+                        availability_id: availability.id,
+                        slot_start: slot[:start],
+                        slot_end: slot[:end]
+                      }),
+                      method: :post,
+                      data: { turbo_stream: true },
+                      class: "btn btn-ghost-main w-full text-center" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</li>

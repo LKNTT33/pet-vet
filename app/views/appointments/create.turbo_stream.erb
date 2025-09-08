@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "slot_#{@appointment.availability.id}_#{@appointment.slot_start.to_i}" do %>
+  <span class="btn btn-disabled">
+    <%= @appointment.slot_start.strftime("%H:%M") %> -
+    <%= @appointment.slot_end.strftime("%H:%M") %>
+  </span>
+<% end %>

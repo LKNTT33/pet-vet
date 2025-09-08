@@ -11,17 +11,32 @@
 
 <% if @availabilities.any? %>
   <% @availabilities.each do |availability| %>
-    <h3><%= availability.day_of_week %></h3>
-    <div class="slots-grid">
+    <h3>
+      <% if availability.date.present? %>
+        <%= availability.date.strftime("%A, %d/%m/%Y") %>
+      <% else %>
+        <%= availability.day_of_week %>
+      <% end %>
+    </h3>
+
+    <div class="slots-grid grid grid-cols-4 gap-2 mb-4">
       <% start_time = availability.start_time %>
       <% while start_time < availability.end_time %>
         <% slot_end = start_time + 30.minutes %>
-        <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
+        <% taken = availability.appointments.any? { |appt| appt.slot_start == start_time } %>
+
+        <% if taken %>
+          <span class="btn btn-disabled w-full text-center">
+            <%= start_time.strftime("%H:%M") %> - <%= slot_end.strftime("%H:%M") %>
+          </span>
+        <% else %>
+          <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
                       new_appointment_path(availability_id: availability.id,
                                            slot_start: start_time,
                                            slot_end: slot_end),
-                      method: :get,
-                      class: "btn btn-ghost-main" %>
+                      class: "btn btn-ghost-main w-full text-center" %>
+        <% end %>
+
         <% start_time = slot_end %>
       <% end %>
     </div>

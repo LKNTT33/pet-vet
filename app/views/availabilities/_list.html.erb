@@ -1,0 +1,5 @@
+<ul id="availabilities_list">
+  <% @availabilities.each do |availability| %>
+    <%= render partial: "list_item", locals: { availability: availability } %>
+  <% end %>
+</ul>

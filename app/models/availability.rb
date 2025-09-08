@@ -15,7 +15,9 @@ class Availability < ApplicationRecord
   end
 
   def free_slots(duration = 30.minutes)
-    taken_slots = appointment.present? ? [[appointment.slot_start, appointment.slot_end]] : []
-    slots(duration).reject { |s| taken_slots.include?([s[:start], s[:end]]) }
+    taken_slots = appointments.map { |a| [a.start_time, a.end_time] }
+    slots(duration).reject do |s|
+      taken_slots.any? { |ts| ts[0] == s[:start] && ts[1] == s[:end] }
+    end
   end
 end

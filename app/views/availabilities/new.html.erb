@@ -1,45 +1,17 @@
 <h1>Manage My Availabilities</h1>
 <p>Add your available working hours</p>
 
-<%= simple_form_for @availability, url: vet_availabilities_path(@vet) do |f| %>
-  <%= f.input :day_of_week,
-              collection: %w[Monday Tuesday Wednesday Thursday Friday Saturday],
-              prompt: "Select a day" %>
-
-  <%= f.input :start_time,
-              as: :string,
-              label: "Start time",
-              input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
-
-  <%= f.input :end_time,
-              as: :string,
-              label: "End time",
-              input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
-
-  <%= f.submit "Save Availability", class: "btn btn-flat-main" %>
-<% end %>
+<%= render "form", availability: @availability, vet: @vet %>
 
 <hr>
 
 <h3>Your Availabilities</h3>
 
-<% if @availabilities.any? %>
+<turbo-frame id="availabilities_list">
   <ul>
-    <% @availabilities.each do |availability| %>
-      <% if availability.start_time.present? && availability.end_time.present? %>
-        <li>
-          <strong><%= availability.day_of_week %></strong>:
-          <%= availability.start_time.strftime("%H:%M") %> -
-          <%= availability.end_time.strftime("%H:%M") %>
-          <%= link_to "Delete",
-                      vet_availability_path(@vet, availability),
-                      method: :delete,
-                      data: { confirm: "Are you sure?" },
-                      class: "btn btn-danger btn-sm" %>
-        </li>
-      <% end %>
-    <% end %>
+    <%= render partial: "list_item",
+               collection: @availabilities,
+               as: :availability,
+               locals: { vet: @vet } %>
   </ul>
-<% else %>
-  <p>No availabilities yet</p>
-<% end %>
+</turbo-frame>
