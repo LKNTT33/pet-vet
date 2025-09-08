@@ -61,18 +61,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # Redirect after sign up
-  def after_sign_up_path_for(resource)
+   def after_sign_in_path_for(resource)
+    stored_location_for(resource) || default_after_sign_in_path(resource)
+  end
+
+  private
+
+  def default_after_sign_in_path(resource)
     if resource.vet?
-      vets_path   # send vets to the vet list
+      vet_profile_path
     else
-      user_path   # send pet owners to their profile
+      user_path
     end
   end
 
     # Same logic for account update
   def after_update_path_for(resource)
     if resource.vet?
-      vets_path
+      vet_profile_path
     else
       user_path
     end

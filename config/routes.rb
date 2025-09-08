@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   sessions: "users/sessions"
 }
 
-  root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -12,11 +11,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
+  root to: "pages#home"
 
-  get "vet/profile", to: "vets#profile", as: :vet_profile
-  # get "vet/appointments", to: "vets#appointments", as: :vet_appointments
-
-  # root "posts#index"
+  # Customs routes
+  get "/vet/profile", to: "vets#profile", as: :vet_profile
 
   # Profile (logged-in user)
   resource :user, only: [:show, :edit, :update]

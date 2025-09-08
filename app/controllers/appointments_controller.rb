@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_availability, only: [:new, :create]
+  before_action :ensure_user!
 
   def index
     # Show current user's appointments
@@ -54,5 +55,9 @@ class AppointmentsController < ApplicationController
 
   def appointment_params
     params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :status, :pet_id)
+  end
+
+  def ensure_user!
+    redirect_to root_path, alert: "You" if current_user.vet?
   end
 end

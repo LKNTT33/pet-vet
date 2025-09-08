@@ -1,5 +1,6 @@
 class AvailabilitiesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
+  before_action :ensure_vet!, only: [:new, :create, :destroy]
   before_action :set_vet
   before_action :authorize_vet!, only: [:new, :create, :destroy]
 
@@ -59,13 +60,12 @@ class AvailabilitiesController < ApplicationController
     redirect_to vets_path, alert: "This user is not a vet." unless @vet.vet?
   end
 
-  def authorize_vet!
-    redirect_to root_path, alert: "Not authorized" unless @vet == current_user
-  end
-
   def sorted_availabilities
     @vet.availabilities
         .where.not(start_time: nil, end_time: nil)
         .order(:date, :start_time)
+        
+  def ensure_vet!
+    redirect_to root_path, alert: "Access denied" unless current_user&.vet?
   end
 end

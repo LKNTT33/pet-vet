@@ -24,11 +24,17 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  
+
   # Redirect after login
   def after_sign_in_path_for(resource)
+    stored_location_for(resource) || default_after_sign_in_path(resource)
+  end
+
+  private
+
+  def default_after_sign_in_path(resource)
     if resource.vet?
-      vets_path
+      vet_profile_path
     else
       user_path
     end
