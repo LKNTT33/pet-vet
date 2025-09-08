@@ -3,7 +3,8 @@ class AppointmentsController < ApplicationController
   before_action :ensure_user!
 
   def index
-    @appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
+     @owner_appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
+     @vet_appointments = Appointment.includes(:pet, availability: :user).where(availabilities: { user_id: current_user.id }).joins(:availability)
   end
 
   def new
@@ -32,6 +33,8 @@ class AppointmentsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+
 
   def destroy
     @appointment = Appointment.find(params[:id])

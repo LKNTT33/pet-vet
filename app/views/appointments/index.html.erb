@@ -1,18 +1,46 @@
 <h1>My Appointments</h1>
 
-<% if @appointments.any? %>
-  <ul>
-    <% @appointments.each do |appointment| %>
-      <li>
-        <strong>Vet:</strong> <%= appointment.availability.user.first_name %> <%= appointment.availability.user.last_name %><br>
-        <strong>Pet:</strong> <%= appointment.pet.name %> (<%= appointment.pet.species %>)<br>
-        <strong>Date:</strong> <%= appointment.slot_start.strftime("%A, %d %B %Y") %><br>
-        <strong>Time:</strong> <%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %><br>
-        <strong>Status:</strong> <%= appointment.status %>
-        <%= link_to "Delete", appointment_path(appointment), data: { turbo_method: :delete}, class: "btn btn-ghost-main" %>
-      </li>
-    <% end %>
-  </ul>
+<!-- As Owner -->
+<h2>Appointments for My Pets</h2>
+<% if @owner_appointments.any? %>
+  <% @owner_appointments.each do |appointment| %>
+    <div class="pet-profile-card">
+      <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
+      <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
+      <p class="mb-1"><strong>Your pet</strong>:
+        <%= link_to appointment.pet.name, pet_path(appointment.pet_id), class: "main" %>
+      </p>
+      <p><strong>Your Vet</strong>:
+        <%= link_to "#{appointment.availability.user.first_name} #{appointment.availability.user.last_name}", vet_path(appointment.availability.user_id), class: "main" %>
+        , <%= appointment.availability.user.specialty %>
+        (<%= appointment.availability.user.city %>)
+      </p>
+      <div class="d-flex justify-content-between">
+        <%= link_to "Edit my Appointment", appointment_path(appointment), class: "btn btn-flat-main" %>
+        <%= link_to "Cancel my Appointment", appointment_path(appointment), data: { turbo_method: :delete }, class: "btn btn-ghost-main" %>
+      </div>
+    </div>
+  <% end %>
 <% else %>
-  <p>You don’t have any appointments yet.</p>
+  <p>You don’t have any appointments as an owner yet.</p>
+<% end %>
+
+<hr>
+
+<!-- As Vet -->
+<h2>Appointments with My Clients</h2>
+<% if @vet_appointments.any? %>
+  <% @vet_appointments.each do |appointment| %>
+    <div class="pet-profile-card">
+      <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
+      <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
+      <p><strong>Client’s Pet</strong>: <%= appointment.pet.name %> (<%= appointment.pet.species %>)</p>
+      <p><strong>Owner</strong>: <%= appointment.pet.user.first_name %> <%= appointment.pet.user.last_name %></p>
+      <div class="d-flex justify-content-between">
+        <%= link_to "Cancel Appointment", appointment_path(appointment), data: { turbo_method: :delete }, class: "btn btn-ghost-main" %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p>No appointments booked with you as a vet yet.</p>
 <% end %>
