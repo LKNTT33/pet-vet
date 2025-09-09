@@ -5,14 +5,19 @@
     <strong>
       <%= availability.date.present? ? availability.date.strftime("%A, %d/%m/%Y") : availability.day_of_week %>
     </strong>
+
     <span>
       <%= availability.start_time&.strftime("%H:%M") || "?" %> -
       <%= availability.end_time&.strftime("%H:%M") || "?" %>
     </span>
-    <%= link_to "Delete",
-            vet_availability_path(vet, availability),
-            data: { turbo_confirm: "Are you sure?", turbo_method: :delete },
-            class: "text-red-600 hover:text-red-800 ml-4" %>
+
+    <%# Only show Delete for vets %>
+    <% if current_user == vet %>
+      <%= link_to "Delete",
+              vet_availability_path(vet, availability),
+              data: { turbo_confirm: "Are you sure?", turbo_method: :delete },
+              class: "text-red-600 hover:text-red-800 ml-4" %>
+    <% end %>
   </div>
 
   <!-- Slots grid -->
@@ -23,12 +28,15 @@
 
       <div id="<%= slot_id %>">
         <% if taken %>
+          <!-- Disabled slot -->
           <span class="btn btn-disabled w-full text-center">
             <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
           </span>
         <% else %>
+          <!-- Available slot: link to appointment form -->
           <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
-                      pets_path(
+                      new_appointment_path(
+                        vet_id: vet.id,
                         availability_id: availability.id,
                         slot_start: slot[:start],
                         slot_end: slot[:end]

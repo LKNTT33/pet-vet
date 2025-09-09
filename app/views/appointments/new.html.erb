@@ -1,14 +1,19 @@
 <h2>Book an appointment with <%= @vet.first_name %> (<%= @vet.specialty %>)</h2>
 
 <p>
-  Slot: <%= @appointment.slot_start.strftime("%A %d %B, %H:%M") %>
-  - <%= @appointment.slot_end.strftime("%H:%M") %>
+  Slot:
+  <%= @appointment.slot_start.strftime("%A %d %B, %H:%M") %> -
+  <%= @appointment.slot_end.strftime("%H:%M") %>
 </p>
 
-<%= simple_form_for @appointment, url: appointments_path(availability_id: @availability.id) do |f| %>
+<%= simple_form_for @appointment, url: appointments_path do |f| %>
   <%= f.hidden_field :slot_start %>
   <%= f.hidden_field :slot_end %>
-  <%= f.hidden_field :availability_id, value: @availability.id %>
+
+  <%# Include availability_id only if present %>
+  <% if @availability.present? %>
+    <%= f.hidden_field :availability_id, value: @availability.id %>
+  <% end %>
 
   <%= f.input :pet_id, collection: @pets, label: "Select your pet", required: true %>
 
@@ -18,5 +23,5 @@
 <% end %>
 
 <%= link_to "Back to all slots",
-            vet_availabilities_path(@vet, day_of_week: @availability.day_of_week),
+            vet_availabilities_path(@vet, date: @appointment.slot_start.to_date),
             class: "btn btn-secondary mt-4" %>

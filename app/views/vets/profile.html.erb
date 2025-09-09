@@ -13,22 +13,6 @@
 
   <!-- Availabilities Box -->
   <div class="vet-availabilities card">
-    <h3>Availabilities</h3>
-    <% if @availabilities.any? %>
-      <ul>
-        <% @availabilities.each do |availability| %>
-          <li><%= availability.day_of_week %>:
-              <%= availability.start_time.strftime("%H:%M") %> -
-              <%= availability.end_time.strftime("%H:%M") %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>No availabilities set yet.</p>
-    <% end %>
-  </div>
-
-  <!-- Appointments Box -->
-  <div class="vet-availabilities card">
   <h3>Availabilities</h3>
   <% if @availabilities.any? %>
     <ul>
@@ -47,3 +31,8 @@
     <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-primary" %>
   </div>
 </div>
+  <!-- Appointments Box -->
+  <div class="vet-availabilities card">
+  <h3>Appointments</h3>
+
+  </div>

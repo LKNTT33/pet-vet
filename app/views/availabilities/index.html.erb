@@ -8,44 +8,38 @@
   </div>
 <% end %>
 
-<!-- Display available slots -->
-<% if @availabilities.any? %>
-  <h2 class="text-xl mb-4">
-    Available slots for <%= params[:date].present? ? Date.parse(params[:date]).strftime("%A, %d/%m/%Y") : "upcoming days" %>
-  </h2>
+<% if @vet.vet? %>
+  <% if @slots_for_day.present? %>
+    <h2 class="text-xl mb-4">
+      Available slots for <%= @selected_date.strftime("%A, %d/%m/%Y") %>
+    </h2>
 
-  <% @availabilities.each do |availability| %>
     <div class="availability-day mb-6 p-4 border rounded shadow-sm">
-      <strong class="block mb-3 text-lg">
-        <%= availability.date.strftime("%A, %d/%m/%Y") %>
-      </strong>
-
       <ul class="grid grid-cols-4 gap-2">
-        <% availability.slots.each do |slot| %>
-          <% slot_id = "slot_#{availability.id}_#{slot[:start].to_i}" %>
-          <% taken = availability.appointments.any? { |appt| appt.slot_start == slot[:start] } %>
+        <% @slots_for_day.each do |slot| %>
+          <% slot_id = "slot_#{slot[:start].to_i}" %>
 
-          <% if taken %>
+          <% if slot[:taken] %>
             <li id="<%= slot_id %>" class="btn btn-disabled text-center">
               <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
             </li>
           <% else %>
             <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
-                        appointments_path(appointment: {
-                          availability_id: availability.id,
+                        new_appointment_path(
+                          vet_id: @vet.id,
+                          availability_id: slot[:availability_id],
                           slot_start: slot[:start],
                           slot_end: slot[:end]
-                        }),
-                        method: :post,
-                        data: { turbo_stream: true },
+                        ),
                         id: slot_id,
                         class: "btn btn-ghost-main w-full text-center" %>
           <% end %>
         <% end %>
       </ul>
     </div>
+  <% else %>
+    <p class="text-gray-500">No availabilities for this day.</p>
   <% end %>
-
 <% else %>
-  <p class="text-gray-500">No availabilities for this day.</p>
+  <%= render "owner_index" %>
 <% end %>

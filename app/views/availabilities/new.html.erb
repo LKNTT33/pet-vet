@@ -1,17 +1,39 @@
 <h1>Manage My Availabilities</h1>
-<p>Add your available working hours</p>
+<p>Your weekly working hours (Mon–Fri)</p>
 
-<%= render "form", availability: @availability, vet: @vet %>
+<!-- Date picker to pick a week -->
+<%= form_with url: new_vet_availability_path(@vet), method: :get, local: true do %>
+  <div class="flex items-center gap-2 mb-6">
+    <%= date_field_tag :date, params[:date], class: "form-input" %>
+    <%= submit_tag "Show Week", class: "btn btn-primary" %>
+  </div>
+<% end %>
 
-<hr>
+<hr class="my-4">
 
 <h3>Your Availabilities</h3>
 
 <turbo-frame id="availabilities_list">
-  <ul>
-    <%= render partial: "list_item",
-               collection: @availabilities,
-               as: :availability,
-               locals: { vet: @vet } %>
-  </ul>
+  <% if @availabilities.present? %>
+    <ul class="space-y-2">
+      <% @availabilities.each do |availability| %>
+        <li class="p-3 border rounded flex justify-between items-center">
+          <span>
+            <strong>
+              <%= availability.date.present? ? availability.date.strftime("%A") : "No Date" %>
+            </strong>:
+            <%= availability.start_time&.strftime("%H:%M") || "?" %> -
+            <%= availability.end_time&.strftime("%H:%M") || "?" %>
+          </span>
+
+          <%= link_to "Delete",
+                      vet_availability_path(@vet, availability),
+                      data: { turbo_confirm: "Are you sure?", turbo_method: :delete },
+                      class: "text-red-600 hover:text-red-800 ml-4" %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500">No availabilities found.</p>
+  <% end %>
 </turbo-frame>
