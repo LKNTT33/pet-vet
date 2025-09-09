@@ -1,17 +1,20 @@
 class PrescriptionsController < ApplicationController
-  before_action :set_pet
-  before_action :set_appointment
+  #before_action :set_pet, except: :new
+  before_action :set_appointment, except: [:new, :show]
   #before_action :ensure_vet!, only: [:new, :create]
 
   def index
     @prescriptions = @appointment.prescriptions
+    @pet = @appointment.pet
   end
 
   def show
-    @prescription = @appointment.prescriptions.find(params[:id])
+    @prescription = Prescription.find(params[:id])
   end
 
   def new
+    @appointment = Appointment.find(params[:appointment_id])
+     @pet = @appointment.pet
     @prescription = Prescription.new
     @medicines = Medicine.all
   end
@@ -30,12 +33,12 @@ class PrescriptionsController < ApplicationController
 
   private
 
-  def set_pet
-    @pet = Pet.find(params[:pet_id])
-  end
+  #def set_pet
+    #@pet = Pet.find(params[:pet_id])
+  #end
 
   def set_appointment
-    @appointment = @pet.appointments.find(params[:appointment_id])
+    @appointment = Appointment.find(params[:appointment_id])
   end
 
   def prescription_params

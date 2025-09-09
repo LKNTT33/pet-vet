@@ -1,4 +1,4 @@
-<h1>Prescription for <%= @pet.name %></h1>
+<h1>Prescription for <%= @prescription.appointment.pet.name %></h1>
 
 <p><strong>Medicine:</strong> <%= @prescription.medicine.name %></p>
 <p><strong>Dosage:</strong> <%= @prescription.dosage %></p>
@@ -6,4 +6,4 @@
 <p><strong>Start Date:</strong> <%= @prescription.start_date.strftime("%d %B %Y") %></p>
 <p><strong>End Date:</strong> <%= @prescription.end_date.strftime("%d %B %Y") %></p>
 
-<%= link_to "← Back to Prescriptions", pet_appointment_prescriptions_path(@pet, @appointment), class: "link-to-list btn-back" %>
+<%= link_to "← Back to Prescriptions", appointment_prescriptions_path(@prescription.appointment), class: "link-to-list btn-back" %>

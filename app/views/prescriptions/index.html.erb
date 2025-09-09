@@ -3,10 +3,10 @@
 <ul class="list-group">
   <% @prescriptions.each do |prescription| %>
     <li class="list-group-item">
-      <%= link_to prescription.medicine.name, pet_appointment_prescription_path(@pet, @appointment, prescription) %>
+      <%= link_to prescription.medicine.name, prescription_path(prescription) %>
       - <%= prescription.dosage %>
     </li>
   <% end %>
 </ul>
 
-<%= link_to "← Back to Appointment", pet_appointments_path(@pet, @appointment), class: "link-to-list btn-back" %>
+<%= link_to "← Back to Appointment", appointment_path(@appointment), class: "link-to-list btn-back" %>
