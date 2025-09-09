@@ -223,15 +223,22 @@ appt2 = Appointment.create!(
 med1 = Medicine.create!(
   name: "Paracetamol",
   description: "Pain relief for dogs",
-  category: "pill",
+  category: "pills",
   instructions: "Give once a day after meals"
 )
 
 med2 = Medicine.create!(
   name: "Antibiotic",
   description: "General infection treatment",
-  category: "pill",
+  category: "pills",
   instructions: "Give twice a day, morning and night"
+)
+
+med3 = Medicine.create!(
+  name: "Vaccine1",
+  description: "helps in something",
+  category: "vaccine",
+  instructions: "everyday"
 )
 
 Prescription.create!(
