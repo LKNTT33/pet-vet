@@ -1,13 +1,21 @@
-<h2>Vets</h2>
+<h2 class="text-center text-2xl font-bold mb-6">Vets</h2>
 
-<% @vets.each do |vet| %>
-  <p>
-    Name : <%= vet.first_name %> <%= vet.last_name %> |
-    Specialty: <%= vet.specialty %> |
-    Clinic: <%= vet.clinic_name %> |
-    City: <%= vet.city %>
-  </p>
-   <%= link_to "Select this Vet",
-              vet_availabilities_path(vet, pet_id: params[:pet_id]),
-              class: "btn btn-flat-second" %>
-<% end %>
+<div class="flex flex-wrap justify-center gap-6">
+  <% @vets.each do |vet| %>
+    <div class="pet-card text-center">
+      <h3 class="text-xl font-bold mb-3"><%= vet.first_name %> <%= vet.last_name %></h3>
+
+      <p><strong>Email:</strong> <%= vet.email %></p>
+      <p><strong>Specialty:</strong> <%= vet.specialty %></p>
+      <p><strong>Clinic:</strong> <%= vet.clinic_name %></p>
+      <p><strong>City:</strong> <%= vet.city %></p>
+      <p><strong>Phone:</strong> <%= vet.phone %></p>
+
+      <div class="mt-4">
+        <%= link_to "Select this Vet",
+                    vet_availabilities_path(vet, pet_id: params[:pet_id]),
+                    class: "btn btn-flat-second" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -82,19 +82,19 @@ class AvailabilitiesController < ApplicationController
   def new
     @availability = @vet.availabilities.new
 
-    # Pick a date to determine the week (default today)
-    selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
+    # Pick a date (default today)
+    @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
 
     # Monday–Friday of the selected week
-    week_start = selected_date.beginning_of_week(:monday)
+    week_start = @selected_date.beginning_of_week(:monday)
     week_end   = week_start + 4.days
 
-    # Load availabilities for that week (ensure date is present)
+    # Load availabilities for that week
     @availabilities = @vet.availabilities
                           .where(date: week_start..week_end)
                           .order(:date, :start_time)
 
-    # Fallback: show all availabilities if none in week
+    # Fallback: show all availabilities if none found
     if @availabilities.empty?
       @availabilities = @vet.availabilities.order(:date, :start_time)
     end

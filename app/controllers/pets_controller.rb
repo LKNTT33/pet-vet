@@ -26,7 +26,6 @@ class PetsController < ApplicationController
   def index
     @pets = current_user.pets
 
-    # Capture selected slot info from query params
     @availability_id = params[:availability_id]
     @slot_start = params[:slot_start]
     @slot_end = params[:slot_end]
@@ -43,9 +42,15 @@ class PetsController < ApplicationController
 
   def update
     if @pet.update(pet_params)
-      redirect_to @pet, notice: "Pet profile updated successfully."
+      respond_to do |format|
+        format.html { redirect_to @pet, notice: "Pet profile updated successfully." }
+        format.turbo_stream
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("pet_form", partial: "pets/form", locals: { pet: @pet }) }
+      end
     end
   end
 

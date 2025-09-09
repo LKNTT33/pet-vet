@@ -11,25 +11,32 @@
 
 <hr class="my-4">
 
-<h3>Your Availabilities</h3>
+<% if @selected_date.present? && @selected_date.on_weekday? %>
+  <h3>Your Availabilities</h3>
 
-<turbo-frame id="availabilities_list">
-  <ul class="space-y-2">
-    <% %w[Monday Tuesday Wednesday Thursday Friday].each do |day| %>
-      <% availability = @availabilities.find { |a| a.start_time&.strftime("%A") == day } %>
-      <li class="p-3 border rounded flex justify-between items-center">
-        <span>
-          <strong><%= day %></strong>:
-          <%= availability&.start_time&.strftime("%H:%M") || "09:00" %> -
-          <%= availability&.end_time&.strftime("%H:%M") || "17:00" %>
-        </span>
+  <turbo-frame id="availabilities_list">
+    <ul class="space-y-2">
+      <% %w[Monday Tuesday Wednesday Thursday Friday].each do |day| %>
+        <% availability = @availabilities.find { |a| a.start_time&.strftime("%A") == day } %>
+        <li id="<%= dom_id(availability) if availability %>" class="p-3 border rounded flex justify-between items-center">
+          <span>
+            <strong><%= day %></strong>:
+            <%= availability&.start_time&.strftime("%H:%M") || "09:00" %> -
+            <%= availability&.end_time&.strftime("%H:%M") || "17:00" %>
+          </span>
 
-        <%= link_to "Delete",
-                    availability ? vet_availability_path(@vet, availability) : vet_availabilities_path(@vet),
-                    method: availability ? :delete : :post,
-                    data: { turbo_confirm: "Are you sure?" },
-                    class: "text-red-600 hover:text-red-800 ml-4" %>
-      </li>
-    <% end %>
-  </ul>
-</turbo-frame>
+          <% if availability %>
+            <%= link_to "Delete",
+                        vet_availability_path(@vet, availability),
+                        method: :delete,
+                        data: { turbo_confirm: "Are you sure?" },
+                        class: "text-red-600 hover:text-red-800 ml-4" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </turbo-frame>
+
+<% else %>
+  <p class="text-gray-500 italic">No availabilities on weekends.</p>
+<% end %>
