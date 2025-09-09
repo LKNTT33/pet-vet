@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'prescriptions/new'
+  get 'prescriptions/create'
   devise_for :users, controllers: {
   registrations: "users/registrations",
   sessions: "users/sessions"
@@ -26,4 +28,10 @@ Rails.application.routes.draw do
   resources :pets, only: [:new, :create, :index, :show, :edit, :update, :destroy]
   # Appointments
   resources :appointments, only: [:index, :new, :create, :show, :destroy]
+  # Prescriptions
+  resources :appointments do
+      resources :prescriptions, only: [:new, :create, :index]
+    end
+
+  resources :prescriptions, only: [:show]
 end
