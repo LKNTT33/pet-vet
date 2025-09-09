@@ -27,9 +27,7 @@ Rails.application.routes.draw do
   # Pets
   resources :pets, only: [:new, :create, :index, :show, :edit, :update, :destroy]
   # Appointments
-  resources :appointments, only: [:index, :new, :create, :show, :destroy]
-  # Prescriptions
-  resources :appointments do
+  resources :appointments, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       resources :prescriptions, only: [:new, :create, :index]
     end
 

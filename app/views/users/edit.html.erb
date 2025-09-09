@@ -7,11 +7,11 @@
 
   <!-- Centered button -->
   <div class="d-flex justify-content-center mt-3">
-    <%= f.button :submit, "Save Changes", class: "btn btn-success" %>
+    <%= f.button :submit, "Save Changes", class:"btn btn-flat-main" %>
   </div>
 <% end %>
 
 <!-- Centered back link -->
 <div class="d-flex justify-content-center mt-2">
-  <%= link_to "Back to Profile", user_path(@user), class: "btn btn-secondary" %>
+  <%= link_to "← Back to Profile", user_path(@user), class: "link-to-list btn-back" %>
 </div>

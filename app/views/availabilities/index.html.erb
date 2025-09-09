@@ -36,12 +36,40 @@
           <% end %>
         <% end %>
       </ul>
+
+LAURIES PART
+
+
+
+
+<% if @availabilities.any? %>
+  <% @availabilities.each do |availability| %>
+    <h3><%= availability.day_of_week %></h3>
+    <div class="slots-grid">
+      <% start_time = availability.start_time %>
+      <% while start_time < availability.end_time %>
+        <% slot_end = start_time + 30.minutes %>
+        <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
+                    new_appointment_path(
+                      availability_id: availability.id,
+                      slot_start: start_time,
+                      slot_end: slot_end,
+                      pet_id: params[:pet_id]
+                    ),
+                    method: :get,
+                    class: "btn btn-ghost-main" %>
+        <% start_time = slot_end %>
+      <% end %>
     </div>
   <% else %>
     <p class="text-gray-500">No availabilities for this day.</p>
   <% end %>
 
 <% else %>
+
+
+
+
   <!-- Keep existing owner availability logic -->
   <%= render "owner_index" %>
 <% end %>
