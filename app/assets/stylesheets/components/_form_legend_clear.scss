@@ -31,6 +31,7 @@ form label {
 input[type="text"],
 input[type="date"],
 select,
+.form-select, //in new prescription page
 textarea {
   width: 100%;
   padding: 10px 14px;
@@ -47,4 +48,18 @@ select:focus,
 textarea:focus {
   border-color: #360568;
   outline: none;
+}
+
+.datetime-select-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.datetime-select-group select {
+  flex: 0 0 30%;
+  min-width: 80px;
+  width: auto;
+  background-color: white;
+  text-align: center;
 }
