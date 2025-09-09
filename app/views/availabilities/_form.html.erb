@@ -1,0 +1,25 @@
+<%= simple_form_for @availability, url: vet_availabilities_path(@vet), html: { data: { turbo: true }, id: "availability_form" } do |f| %>
+
+  <%= f.input :date,
+            as: :string,
+            label: "Select a Date",
+            input_html: { data: { controller: "flatpickr", flatpickr_mode: "date" } } %>
+
+  <%= f.input :start_time,
+              as: :string,
+              label: "Start Time (default 09:00)",
+              input_html: {
+                value: (@availability.start_time&.strftime("%H:%M") || "09:00"),
+                data: { controller: "flatpickr", flatpickr_mode: "time" }
+              } %>
+
+  <%= f.input :end_time,
+              as: :string,
+              label: "End Time (default 17:00)",
+              input_html: {
+                value: (@availability.end_time&.strftime("%H:%M") || "17:00"),
+                data: { controller: "flatpickr", flatpickr_mode: "time" }
+              } %>
+
+  <%= f.submit "Save Availability", class: "btn btn-flat-main" %>
+<% end %>

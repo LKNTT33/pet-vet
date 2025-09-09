@@ -203,22 +203,35 @@ vet5_friday = Availability.create!(
   is_available: true
 )
 
-# Appointments inside slots (30 min slot examples)
-appt1 = Appointment.create!(
-  pet: pet1,
-  availability: vet1_monday,
-  slot_start: Time.zone.parse("2025-09-18 10:00"),
-  slot_end:   Time.zone.parse("2025-09-18 10:30"),
-  status: "pending"
-)
+# --- Availabilities for each vet (next 14 days, 9am–5pm) ---
+[vet1, vet2, vet3, vet4, vet5].each do |vet|
+  (Date.today..Date.today + 14).each do |date|
+    Availability.create!(
+      user: vet,
+      start_time: Time.zone.parse("#{date} 09:00"),
+      end_time: Time.zone.parse("#{date} 17:00"),
+      is_available: true,
+      day_of_week: date.strftime("%A")
+    )
+  end
+end
 
-appt2 = Appointment.create!(
-  pet: pet2,
-  availability: vet2_tuesday,
-  slot_start: Time.zone.parse("2025-09-13 11:30"),
-  slot_end:   Time.zone.parse("2025-09-13 12:00"),
-  status: "confirmed"
-)
+# Appointments inside slots (30 min slot examples)
+#appt1 = Appointment.create!(
+  #pet: pet1,
+  #availability: vet1_monday,
+  #slot_start: Time.zone.parse("2025-09-18 10:00"),
+  #slot_end:   Time.zone.parse("2025-09-18 10:30"),
+  #status: "pending"
+#)
+
+#appt2 = Appointment.create!(
+  #pet: pet2,
+  #availability: vet2_tuesday,
+  #slot_start: Time.zone.parse("2025-09-13 11:30"),
+  #slot_end:   Time.zone.parse("2025-09-13 12:00"),
+  #status: "confirmed"
+#)
 
 med1 = Medicine.create!(
   name: "Paracetamol",

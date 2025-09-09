@@ -10,6 +10,7 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  # GET /appointments/new
   def new
     @availability = Availability.find(params[:availability_id])
     @vet = @availability.user
@@ -22,23 +23,17 @@ class AppointmentsController < ApplicationController
     )
   end
 
+  # POST /appointments
   def create
-    pet = current_user.pets.find(appointment_params[:pet_id])
-    @appointment = pet.appointments.build(appointment_params.merge(
-    availability_id: params[:availability_id]
-    ))
+    @appointment = current_user.appointments.new(appointment_params)
 
     if @appointment.save
       redirect_to appointments_path, notice: "Appointment booked successfully!"
     else
-      @availability = Availability.find(params[:availability_id])
-      @vet = @availability.user
-      @pets = current_user.pets
+      flash.now[:alert] = "Could not book appointment."
       render :new, status: :unprocessable_entity
     end
   end
-
-
 
   def destroy
     @appointment = Appointment.find(params[:id])
@@ -48,8 +43,11 @@ class AppointmentsController < ApplicationController
 
   private
 
-  def appointment_params
-    params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :status, :pet_id)
+  def set_vet
+    @vet = User.find(params[:vet_id]) if params[:vet_id].present?
   end
 
+  def appointment_params
+    params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :pet_id)
+  end
 end
