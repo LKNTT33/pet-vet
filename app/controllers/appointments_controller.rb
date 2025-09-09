@@ -1,9 +1,13 @@
 class AppointmentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_user!
 
   def index
-    @appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
+    if current_user.owner?
+      @owner_appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
+    end
+    if current_user.vet?
+     @vet_appointments = Appointment.includes(:pet, availability: :user).where(availabilities: { user_id: current_user.id }).joins(:availability)
+    end
   end
 
   def new
@@ -13,7 +17,8 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(
       availability: @availability,
       slot_start: params[:slot_start],
-      slot_end: params[:slot_end]
+      slot_end: params[:slot_end],
+      pet_id: params[:pet_id]
     )
   end
 
@@ -33,10 +38,12 @@ class AppointmentsController < ApplicationController
     end
   end
 
+
+
   def destroy
     @appointment = Appointment.find(params[:id])
     @appointment.destroy
-    redirect_to appointments_path, status: :see_other
+    redirect_to appointments_path, status: :see_other, notice: "Appointment cancelled successfully."
   end
 
   private
@@ -45,7 +52,4 @@ class AppointmentsController < ApplicationController
     params.require(:appointment).permit(:availability_id, :slot_start, :slot_end, :status, :pet_id)
   end
 
-  def ensure_user!
-    redirect_to root_path, alert: "You" if current_user.vet?
-  end
 end

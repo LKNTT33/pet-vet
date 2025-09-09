@@ -6,11 +6,18 @@ class PetsController < ApplicationController
   end
 
   def create
-    @pet = Pet.new(pet_params)
-    @pet.user = current_user
-
+    @pet = current_user.pets.build(pet_params)
     if @pet.save
-      redirect_to @pet
+      if params[:availability_id].present? && params[:slot_start].present? && params[:slot_end].present?
+        redirect_to pet_path(
+          @pet,
+          availability_id: params[:availability_id],
+          slot_start: params[:slot_start],
+          slot_end: params[:slot_end]
+        ), notice: "Pet created successfully!"
+      else
+        redirect_to pet_path(@pet), notice: "Pet created successfully!"
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -22,6 +29,7 @@ class PetsController < ApplicationController
 
   def show
   end
+
 
   def edit
   end

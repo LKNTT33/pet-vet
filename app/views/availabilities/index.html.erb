@@ -17,11 +17,14 @@
       <% while start_time < availability.end_time %>
         <% slot_end = start_time + 30.minutes %>
         <%= link_to "#{start_time.strftime('%H:%M')} - #{slot_end.strftime('%H:%M')}",
-                      new_appointment_path(availability_id: availability.id,
-                                           slot_start: start_time,
-                                           slot_end: slot_end),
-                      method: :get,
-                      class: "btn btn-ghost-main" %>
+                    new_appointment_path(
+                      availability_id: availability.id,
+                      slot_start: start_time,
+                      slot_end: slot_end,
+                      pet_id: params[:pet_id]
+                    ),
+                    method: :get,
+                    class: "btn btn-ghost-main" %>
         <% start_time = slot_end %>
       <% end %>
     </div>

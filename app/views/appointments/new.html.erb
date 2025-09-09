@@ -11,7 +11,11 @@
 
   <%= f.input :pet_id, collection: @pets, label: "Select your pet", required: true %>
 
-  <%= link_to "Add a new pet", new_pet_path, class: "btn btn-ghost-main" %><br><br>
-
+  <%= link_to "Add a new pet",
+            new_pet_path(availability_id: @availability.id,
+                         slot_start: @appointment.slot_start,
+                         slot_end: @appointment.slot_end),
+            class: "btn btn-ghost-main" %>
+  <br><br>
   <%= f.button :submit, "Confirm Appointment", class: "btn btn-flat-second" %>
 <% end %>

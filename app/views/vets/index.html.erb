@@ -7,5 +7,7 @@
     Clinic: <%= vet.clinic_name %> |
     City: <%= vet.city %>
   </p>
-  <%= link_to "Select this Vet",  vet_availabilities_path(vet), class: "btn btn-flat-second" %>
+   <%= link_to "Select this Vet",
+              vet_availabilities_path(vet, pet_id: params[:pet_id]),
+              class: "btn btn-flat-second" %>
 <% end %>

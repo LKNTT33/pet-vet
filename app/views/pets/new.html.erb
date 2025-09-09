@@ -21,6 +21,10 @@
     <%= form.date_field :birthdate %>
   </div>
 
+  <%= hidden_field_tag :availability_id, params[:availability_id] %>
+  <%= hidden_field_tag :slot_start, params[:slot_start] %>
+  <%= hidden_field_tag :slot_end, params[:slot_end] %>
+
   <div class="text-center">
   <%= form.submit "Create Pet", class: "btn btn-flat-main" %>
   </div>

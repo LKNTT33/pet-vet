@@ -6,6 +6,7 @@
       <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
         <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
         <%= f.input :city, label: "City", input_html: { name: "city", placeholder: "e.g. Paris" } %>
+        <%= hidden_field_tag :pet_id, params[:pet_id] if params[:pet_id].present? %>
         <%= f.button :submit, "Find Vets", class: "btn btn-flat-main" %>
       <% end %>
     </div>

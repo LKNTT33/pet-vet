@@ -18,7 +18,21 @@
   </p>
 
   <div class="button-group">
-    <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-flat-main" %>
+    <% if params[:availability_id].present? %>
+      <%= link_to "Select this pet",
+                  new_appointment_path(
+                    availability_id: params[:availability_id],
+                    slot_start: params[:slot_start],
+                    slot_end: params[:slot_end],
+                    pet_id: @pet.id
+                  ),
+                  class: "btn btn-flat-main" %>
+    <% else %>
+      <%= link_to "Book an appointment",
+                  root_path(pet_id: @pet.id),
+                  class: "btn btn-flat-main" %>
+    <% end %>
+    <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-ghost-main" %>
   </div>
 </div>
 <div class="link-to-list-container">
