@@ -17,7 +17,7 @@
     <div class="availability-day mb-6 p-4 border rounded shadow-sm">
       <ul class="grid grid-cols-4 gap-2">
         <% @slots_for_day.each do |slot| %>
-          <% slot_id = "slot_#{slot[:start].to_i}" %>
+          <% slot_id = "slot_#{slot[:date]}_#{slot[:start].to_i}" %>
 
           <% if slot[:taken] %>
             <li id="<%= slot_id %>" class="btn btn-disabled text-center">
@@ -40,6 +40,8 @@
   <% else %>
     <p class="text-gray-500">No availabilities for this day.</p>
   <% end %>
+
 <% else %>
+  <!-- Keep existing owner availability logic -->
   <%= render "owner_index" %>
 <% end %>
