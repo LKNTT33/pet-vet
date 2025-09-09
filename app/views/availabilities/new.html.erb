@@ -1,35 +1,23 @@
-<h1>Manage My Availabilities</h1>
+<h1>Manage my availabilities</h1>
 <p>Your weekly working hours (Mon–Fri)</p>
 
-<!-- Date picker to pick a week -->
-<%= form_with url: new_vet_availability_path(@vet), method: :get, local: true do %>
-  <div class="flex items-center gap-2 mb-6">
-    <%= date_field_tag :date, params[:date], class: "form-input" %>
-    <%= submit_tag "Show Week", class: "btn btn-primary" %>
-  </div>
+<%= turbo_frame_tag "availability_form" do %>
+  <%= simple_form_for [@vet, @availability], url: vet_availabilities_path(@vet) do |f| %>
+    <%= f.input :day_of_week, collection: Date::DAYNAMES[1..5], prompt: "Select day (Mon–Fri)" %>
+
+    <%= f.input :start_time, as: :string,
+                label: "Start time (HH:MM)",
+                input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
+
+    <%= f.input :end_time, as: :string,
+                label: "End time (HH:MM)",
+                input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
+
+    <%= f.submit "Save availability", class: "btn btn-flat-main" %>
+  <% end %>
 <% end %>
 
-<hr class="my-4">
-
-<h3>Your Availabilities</h3>
-
+<h3>Your availabilities</h3>
 <turbo-frame id="availabilities_list">
-  <ul class="space-y-2">
-    <% %w[Monday Tuesday Wednesday Thursday Friday].each do |day| %>
-      <% availability = @availabilities.find { |a| a.start_time&.strftime("%A") == day } %>
-      <li class="p-3 border rounded flex justify-between items-center">
-        <span>
-          <strong><%= day %></strong>:
-          <%= availability&.start_time&.strftime("%H:%M") || "09:00" %> -
-          <%= availability&.end_time&.strftime("%H:%M") || "17:00" %>
-        </span>
-
-        <%= link_to "Delete",
-                    availability ? vet_availability_path(@vet, availability) : vet_availabilities_path(@vet),
-                    method: availability ? :delete : :post,
-                    data: { turbo_confirm: "Are you sure?" },
-                    class: "text-red-600 hover:text-red-800 ml-4" %>
-      </li>
-    <% end %>
-  </ul>
+  <%= render "availabilities/list", availabilities: @availabilities, vet: @vet %>
 </turbo-frame>

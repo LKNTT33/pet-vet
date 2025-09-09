@@ -1,5 +1,15 @@
-<ul id="availabilities_list">
-  <% @availabilities.each do |availability| %>
-    <%= render partial: "list_item", locals: { availability: availability } %>
+<ul class="space-y-2">
+  <% availabilities.each do |availability| %>
+    <li class="p-3 border rounded flex justify-between items-center">
+      <span>
+        <strong><%= availability.day_of_week %></strong>:
+        <%= availability.start_time.strftime("%H:%M") %> -
+        <%= availability.end_time.strftime("%H:%M") %>
+      </span>
+      <%= link_to "Delete",
+                  vet_availability_path(vet, availability),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                  class: "text-red-600 hover:text-red-800 ml-4" %>
+    </li>
   <% end %>
 </ul>

@@ -10,28 +10,34 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  # GET /appointments/new
   def new
-    @availability = Availability.find(params[:availability_id])
-    @vet = @availability.user
-    @pets = current_user.pets
     @appointment = Appointment.new(
-      availability: @availability,
+      availability_id: params[:availability_id],
       slot_start: params[:slot_start],
       slot_end: params[:slot_end],
       pet_id: params[:pet_id]
     )
+
+    @vet = Availability.find(params[:availability_id]).user if params[:availability_id].present?
+    @availability = Availability.find(params[:availability_id]) if params[:availability_id].present?
+    @pet = current_user.pets.find_by(id: params[:pet_id]) if params[:pet_id].present?
+    @pets = current_user.pets
   end
 
-  # POST /appointments
   def create
-    @appointment = current_user.appointments.new(appointment_params)
-
+    pet = current_user.pets.find(appointment_params[:pet_id])
+    # @appointment = pet.appointments.build(appointment_params.merge(
+    #   availability_id: params[:availability_id]
+    #   ))
+    @appointment = Appointment.new(appointment_params)
+    # @appointment.user = current_user
+      # @appointment = current_user.appointments.new(appointment_params)
     if @appointment.save
       redirect_to appointments_path, notice: "Appointment booked successfully!"
     else
       flash.now[:alert] = "Could not book appointment."
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity,
+      locals: {vet: @appointment.availability.vet, availability: @appointment.availability}
     end
   end
 
