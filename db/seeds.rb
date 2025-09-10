@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # db/seeds.rb
-# 1. Clean the database :lata_de_lixo:
+# 1. Clean the database
 puts "Cleaning database..."
 Appointment.destroy_all
 Availability.destroy_all
@@ -40,7 +40,7 @@ vet2 = User.create!(
   role: :vet,
   phone: "961111222",
   address: "Rua Nova, 10",
-  specialty: "Dermatology",
+  specialty: "Generalist",
   city: "Bordeaux",
   clinic_name: "Pet SkinCare Clinic"
 )
@@ -53,7 +53,7 @@ vet3 = User.create!(
   role: :vet,
   phone: "962222333",
   address: "Avenida Central, 45",
-  specialty: "Cardiology",
+  specialty: "Ophthalmology",
   city: "Lisbon",
   clinic_name: "HeartVet Clinic"
 )
@@ -66,7 +66,7 @@ vet4 = User.create!(
   role: :vet,
   phone: "963333444",
   address: "Rua das Flores, 23",
-  specialty: "Toxicology",
+  specialty: "Generalist",
   city: "Bordeaux",
   clinic_name: "Vet Clinic"
 )
@@ -117,122 +117,49 @@ pet2 = Pet.create!(
   user: owner1
 )
 
-# Availabilities
-# Availabilities for vet1 (João)
-vet1_monday = Availability.create!(
-  user: vet1,
-  day_of_week: "Monday",
-  start_time: Time.zone.parse("2025-09-15 09:00"),
-  end_time: Time.zone.parse("2025-09-15 12:00"),
-  is_available: true
-)
-
-vet1_wednesday = Availability.create!(
-  user: vet1,
-  day_of_week: "Wednesday",
-  start_time: Time.zone.parse("2025-09-17 14:00"),
-  end_time: Time.zone.parse("2025-09-17 18:00"),
-  is_available: true
-)
-
-# Availabilities for vet2 (Maria)
-vet2_tuesday = Availability.create!(
-  user: vet2,
-  day_of_week: "Tuesday",
-  start_time: Time.zone.parse("2025-09-16 10:00"),
-  end_time: Time.zone.parse("2025-09-16 15:00"),
-  is_available: true
-)
-
-vet2_friday = Availability.create!(
-  user: vet2,
-  day_of_week: "Friday",
-  start_time: Time.zone.parse("2025-09-19 09:00"),
-  end_time: Time.zone.parse("2025-09-19 13:00"),
-  is_available: true
-)
-
-# Availabilities for vet3 (Pedro)
-vet3_monday = Availability.create!(
-  user: vet3,
-  day_of_week: "Monday",
-  start_time: Time.zone.parse("2025-09-15 13:00"),
-  end_time: Time.zone.parse("2025-09-15 17:00"),
-  is_available: true
-)
-
-vet3_thursday = Availability.create!(
-  user: vet3,
-  day_of_week: "Thursday",
-  start_time: Time.zone.parse("2025-09-18 10:00"),
-  end_time: Time.zone.parse("2025-09-18 14:00"),
-  is_available: true
-)
-
-# Availabilities for vet4 (Ana)
-vet4_wednesday = Availability.create!(
-  user: vet4,
-  day_of_week: "Wednesday",
-  start_time: Time.zone.parse("2025-09-17 09:00"),
-  end_time: Time.zone.parse("2025-09-17 12:00"),
-  is_available: true
-)
-
-vet4_thursday = Availability.create!(
-  user: vet4,
-  day_of_week: "Thursday",
-  start_time: Time.zone.parse("2025-09-18 15:00"),
-  end_time: Time.zone.parse("2025-09-18 19:00"),
-  is_available: true
-)
-
-# Availabilities for vet5 (Carlos)
-vet5_tuesday = Availability.create!(
-  user: vet5,
-  day_of_week: "Tuesday",
-  start_time: Time.zone.parse("2025-09-16 09:00"),
-  end_time: Time.zone.parse("2025-09-16 12:00"),
-  is_available: true
-)
-
-vet5_friday = Availability.create!(
-  user: vet5,
-  day_of_week: "Friday",
-  start_time: Time.zone.parse("2025-09-19 14:00"),
-  end_time: Time.zone.parse("2025-09-19 18:00"),
-  is_available: true
-)
-
-# --- Availabilities for each vet (next 14 days, 9am–5pm) ---
+# Availabilities for each vets (Mon–Fri, 9am–5pm)
 [vet1, vet2, vet3, vet4, vet5].each do |vet|
-  (Date.today..Date.today + 14).each do |date|
+  %w[Monday Tuesday Wednesday Thursday Friday].each do |day|
     Availability.create!(
       user: vet,
-      start_time: Time.zone.parse("#{date} 09:00"),
-      end_time: Time.zone.parse("#{date} 17:00"),
-      is_available: true,
-      day_of_week: date.strftime("%A")
+      day_of_week: day,
+      start_time: Time.zone.parse("09:00"),
+      end_time: Time.zone.parse("17:00"),
+      is_available: true
     )
   end
 end
 
-# Appointments inside slots (30 min slot examples)
+# Pick a couple of availabilities for each vet
+vet1_monday = Availability.find_by(user: vet1, day_of_week: "Monday")
+vet2_tuesday = Availability.find_by(user: vet2, day_of_week: "Tuesday")
+vet3_wednesday = Availability.find_by(user: vet3, day_of_week: "Wednesday")
+
 appt1 = Appointment.create!(
   pet: pet1,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("2025-09-18 10:00"),
-  slot_end:   Time.zone.parse("2025-09-18 10:30"),
-  status: "pending"
+  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 10:00"), # 3 days from today
+  slot_end:   Time.zone.parse("#{(Date.today + 3).to_s} 10:30"),
+  status: "confirmed"
 )
 
 appt2 = Appointment.create!(
   pet: pet2,
   availability: vet2_tuesday,
-  slot_start: Time.zone.parse("2025-09-13 11:30"),
-  slot_end:   Time.zone.parse("2025-09-13 12:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 11:30"), # 5 days from today
+  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 12:00"),
   status: "confirmed"
 )
 
+appt3 = Appointment.create!(
+  pet: pet1,
+  availability: vet3_wednesday,
+  slot_start: Time.zone.parse("#{(Date.today + 7).to_s} 15:00"), # 1 week from today
+  slot_end:   Time.zone.parse("#{(Date.today + 7).to_s} 15:30"),
+  status: "confirmed"
+)
+
+# Medicines
 med1 = Medicine.create!(
   name: "Paracetamol",
   description: "Pain relief for dogs",

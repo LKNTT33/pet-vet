@@ -12,6 +12,7 @@ class AvailabilitiesController < ApplicationController
     @slots_for_day = []
 
     @vet.availabilities.where(day_of_week: weekday_name).each do |availability|
+      # Align availability to the selected_date
       start_dt = availability.start_time.change(year: @selected_date.year,
                                                 month: @selected_date.month,
                                                 day: @selected_date.day)
@@ -19,9 +20,14 @@ class AvailabilitiesController < ApplicationController
                                               month: @selected_date.month,
                                               day: @selected_date.day)
 
-      slot_start = start_dt
-      while slot_start < end_dt
-        slot_end = slot_start + 30.minutes
+      # Use slots method from model
+      availability.slots.each do |slot|
+        slot_start = slot[:start].change(year: @selected_date.year,
+                                         month: @selected_date.month,
+                                         day: @selected_date.day)
+        slot_end   = slot[:end].change(year: @selected_date.year,
+                                       month: @selected_date.month,
+                                       day: @selected_date.day)
 
         taken = Appointment.exists?(availability_id: availability.id,
                                     slot_start: slot_start)
@@ -32,48 +38,32 @@ class AvailabilitiesController < ApplicationController
           end: slot_end,
           taken: taken
         }
-
-        slot_start = slot_end
       end
     end
 
     respond_to do |format|
       format.html
       format.turbo_stream do
-        render turbo_stream.replace("slots", partial: "availabilities/slots",
-               locals: { slots_for_day: @slots_for_day,
-                         selected_date: @selected_date,
-                         pet_id: @pet_id,
-                         vet: @vet }
+        render turbo_stream.replace(
+          "slots",
+          partial: "availabilities/slots",
+          locals: { slots_for_day: @slots_for_day,
+                    selected_date: @selected_date,
+                    pet_id: @pet_id,
+                    vet: @vet }
         )
       end
-      # format.turbo_stream do
-      #   render partial: "availabilities/slots",
-      #          locals: { slots_for_day: @slots_for_day,
-      #                    selected_date: @selected_date,
-      #                    pet_id: @pet_id,
-      #                    vet: @vet }
-      # end
-      # format.json do
-      #   render json: @slots_for_day.map { |s|
-      #     {
-      #       start: s[:start],
-      #       end: s[:end],
-      #       available: !s[:taken],
-      #       availability_id: s[:availability_id]
-      #     }
-      #   }
-      # end
     end
   end
 
   def new
     @availability = @vet.availabilities.new
-    @availabilities = @vet.availabilities.order(:day_of_week, :start_time)
+    @availabilities = @vet.availabilities.ordered_by_weekday
     @preview_week_date = parse_date(params[:date]) || Date.today
   end
 
   def create
+    # Ensure only one availability per weekday per vet
     if availability_params[:day_of_week].present?
       @vet.availabilities.where(day_of_week: availability_params[:day_of_week]).destroy_all
     end
@@ -81,41 +71,20 @@ class AvailabilitiesController < ApplicationController
     @availability = @vet.availabilities.build(availability_params)
 
     if @availability.save
-      @availabilities = @vet.availabilities.order(Arel.sql(
-        "CASE day_of_week
-          WHEN 'Monday' THEN 1
-          WHEN 'Tuesday' THEN 2
-          WHEN 'Wednesday' THEN 3
-          WHEN 'Thursday' THEN 4
-          WHEN 'Friday' THEN 5
-          WHEN 'Saturday' THEN 6
-          WHEN 'Sunday' THEN 7
-        END"
-      ))
+      @availabilities = @vet.availabilities.ordered_by_weekday
 
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "availabilities_list",
-            partial: "availabilities/list",
-            locals: { availabilities: @availabilities, vet: @vet }
-          )
-        end
-        format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability created successfully!" }
-      end
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(
+          "availabilities_list",
+          partial: "availabilities/list",
+          locals: { availabilities: @availabilities, vet: @vet }
+        )
+      }
+      format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability created successfully!" }
+    end
     else
-      @availabilities = @vet.availabilities.order(Arel.sql(
-        "CASE day_of_week
-          WHEN 'Monday' THEN 1
-          WHEN 'Tuesday' THEN 2
-          WHEN 'Wednesday' THEN 3
-          WHEN 'Thursday' THEN 4
-          WHEN 'Friday' THEN 5
-          WHEN 'Saturday' THEN 6
-          WHEN 'Sunday' THEN 7
-        END"
-      ))
-
+      @availabilities = @vet.availabilities.ordered_by_weekday
       render :new, status: :unprocessable_entity
     end
   end
