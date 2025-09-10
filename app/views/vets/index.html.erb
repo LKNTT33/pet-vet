@@ -2,16 +2,26 @@
 
 <div class="flex flex-wrap justify-center gap-6">
   <% @vets.each do |vet| %>
-    <div class="pet-card text-center">
-      <h3 class="text-xl font-bold mb-3"><%= vet.first_name %> <%= vet.last_name %></h3>
+    <div class="pet-card w-full sm:w-80 md:w-96 p-4 text-purple-900">
+      <div class="flex flex-col md:flex-row gap-4">
 
-      <p><strong>Email:</strong> <%= vet.email %></p>
-      <p><strong>Specialty:</strong> <%= vet.specialty %></p>
-      <p><strong>Clinic:</strong> <%= vet.clinic_name %></p>
-      <p><strong>City:</strong> <%= vet.city %></p>
-      <p><strong>Phone:</strong> <%= vet.phone %></p>
+        <div class="right-column flex items-center md:w-1/2 gap-3">
+          <%= image_tag "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_vet_bjoh8c.png",
+                        alt: "#{vet.first_name} #{vet.last_name}",
+                        class: "avatar" %>
 
-      <div class="mt-4">
+          <div class="vet-info flex flex-col">
+            <h3 class="font-bold text-lg mb-1">
+              <%= link_to "#{vet.first_name} #{vet.last_name}",
+                          vet_path(vet),
+                          class: "text-purple-900 no-underline hover:no-underline hover:text-purple-900" %>
+            </h3>
+            <p class="text-sm text-gray-700"><strong>🧑‍⚕️</strong> <%= vet.specialty %></p> <p><strong>🏥</strong> <%= vet.clinic_name %></p> <p><strong>🌎</strong> <%= vet.city %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 text-center">
         <%= link_to "Select this Vet",
                     vet_availabilities_path(vet, pet_id: params[:pet_id]),
                     class: "btn btn-flat-second" %>
