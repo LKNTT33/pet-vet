@@ -2,6 +2,21 @@ class Availability < ApplicationRecord
   belongs_to :user
   has_many :appointments, dependent: :destroy
 
+  # Scope to order weekdays Monday → Sunday
+  scope :ordered_by_weekday, -> {
+    order(Arel.sql("
+      CASE day_of_week
+        WHEN 'Monday' THEN 1
+        WHEN 'Tuesday' THEN 2
+        WHEN 'Wednesday' THEN 3
+        WHEN 'Thursday' THEN 4
+        WHEN 'Friday' THEN 5
+        WHEN 'Saturday' THEN 6
+        WHEN 'Sunday' THEN 7
+      END
+    "))
+  }
+
   def slots(duration = 30.minutes)
     slots = []
     time = start_time
@@ -15,7 +30,7 @@ class Availability < ApplicationRecord
   end
 
   def free_slots(duration = 30.minutes)
-    taken_slots = appointments.map { |a| [a.start_time, a.end_time] }
+    taken_slots = appointments.map { |a| [a.slot_start, a.slot_end] } # careful: use slot_start / slot_end
     slots(duration).reject do |s|
       taken_slots.any? { |ts| ts[0] == s[:start] && ts[1] == s[:end] }
     end
