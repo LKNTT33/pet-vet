@@ -1,19 +1,37 @@
 <h1>Edit Pet Profile</h1>
 
-<%= simple_form_for(@pet) do |f| %>
+<%= simple_form_for(@pet, html: { id: "edit_pet_form" }, data: { turbo: true }) do |f| %>
   <div class="form-inputs">
     <%= f.input :name, required: true %>
-    <%= f.input :species, collection: ["Dog", "Cat", "Other"], prompt: "Select species" %>
-    <% if @pet.species == "Other" %>
+
+    <%= f.input :species, collection: ["Dog", "Cat", "Bird", "Fish", "Other"], prompt: "Select species" %>
+
+    <div id="other_species_field">
       <%= f.input :other_species, label: "Specify Species" %>
-    <% end %>
+    </div>
+
     <%= f.input :age %>
     <%= f.input :birthdate, as: :date %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Update Pet" %>
+    <%= f.button :submit, "Update Pet", class: "btn btn-flat-second" %>
   </div>
 <% end %>
 
-<%= link_to "Back to Pet Profile", pet_path(@pet) %>
+<%= link_to "Back to Pet Profile", pet_path(@pet), class: "btn btn-ghost-main mt-4" %>
+
+<script>
+  document.addEventListener("turbo:load", () => {
+    const speciesSelect = document.querySelector("select[name='pet[species]']");
+    const otherField = document.getElementById("other_species_field");
+
+    if (speciesSelect && otherField) {
+      otherField.style.display = speciesSelect.value === "Other" ? "" : "none";
+
+      speciesSelect.addEventListener("change", () => {
+        otherField.style.display = speciesSelect.value === "Other" ? "" : "none";
+      });
+    }
+  });
+</script>

@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "pet_form" do %>
+  <div id="pet_form">
+    <p><strong>Name:</strong> <%= @pet.name %></p>
+    <p><strong>Species:</strong> <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %></p>
+    <p><strong>Age:</strong> <%= @pet.age %> years old</p>
+    <%= link_to "Edit", edit_pet_path(@pet), class: "btn btn-ghost-main" %>
+  </div>
+<% end %>
