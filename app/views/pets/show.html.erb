@@ -2,6 +2,14 @@
 
 
 <div class="pet-profile-card">
+  <!-- Foto do Pet -->
+  <div class="pet-photo text-center mb-3">
+    <% if @pet.photo.attached? %>
+      <%= image_tag @pet.photo, class: "rounded-circle", size: "150x150", alt: "#{@pet.name}'s photo" %>
+    <% else %>
+      <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
+    <% end %>
+
   <p>
     <strong class="pet-info">Name:</strong>
     <%= @pet.name %>

@@ -1,15 +1,35 @@
 .pet-card {
-  max-width: 500px;
+  display: flex;
+  align-items: center;
+  max-width: 700px;
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f6fc;
   border-radius: 13px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 2px solid #5B2A86;
 }
 
-.pet-card p {
+.pet-card-info {
   margin: 10px 0;
-  font-size: 16px;
+  font-size: 18px;
   color: #360568;
+}
+
+.pet-card-info p strong {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.pet-photo {
+  flex-shrink: 0;
+  margin-right: 50px;
+  margin-left: 30px;
+}
+
+.pet-card-buttons {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
 }

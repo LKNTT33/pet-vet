@@ -7,26 +7,41 @@
 
   <% @pets.each do |pet| %>
     <div class="pet-card">
-      <p><strong>Name:</strong> <%= pet.name %></p>
-      <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
-      <p><strong>Age:</strong> <%= pet.age %> years old</p>
-      <div class="button-group">
-        <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
 
-        <% if @availability_id.present? && @slot_start.present? && @slot_end.present? %>
-          <%= link_to "Book This Pet",
-                      appointments_path(appointment: {
-                        availability_id: @availability_id,
-                        slot_start: @slot_start,
-                        slot_end: @slot_end,
-                        pet_id: pet.id
-                      }),
-                      method: :post,
-                      class: "btn btn-primary" %>
+      <!-- Foto do Pet -->
+      <div class="pet-photo">
+        <% if pet.photo.attached? %>
+          <%= image_tag pet.photo, class: "rounded-circle", size: "150x150", alt: "#{pet.name}'s photo" %>
+        <% else %>
+          <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
         <% end %>
-
-        <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete }, class: "btn btn-ghost-main" %>
       </div>
+
+      <!-- Informações do Pet -->
+      <div class="pet-card-info">
+        <p><strong>Name:</strong> <%= pet.name %></p>
+        <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
+        <p><strong>Age:</strong> <%= pet.age %> years old</p>
+
+        <div class="pet-card-buttons">
+          <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
+
+          <% if @availability_id.present? && @slot_start.present? && @slot_end.present? %>
+            <%= link_to "Book This Pet",
+                        appointments_path(appointment: {
+                          availability_id: @availability_id,
+                          slot_start: @slot_start,
+                          slot_end: @slot_end,
+                          pet_id: pet.id
+                        }),
+                        method: :post,
+                        class: "btn btn-primary" %>
+          <% end %>
+
+          <%= link_to "Delete", pet_path(pet), data: { turbo_method: :delete }, class: "btn btn-ghost-main" %>
+        </div>
+      </div>
+
     </div>
   <% end %>
 </div>
