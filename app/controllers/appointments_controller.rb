@@ -3,10 +3,17 @@ class AppointmentsController < ApplicationController
 
   def index
     if current_user.owner?
-      @owner_appointments = Appointment.includes(:availability, :pet).where(pets: { user_id: current_user.id })
+      @owner_appointments = Appointment
+        .includes(:availability, :pet)
+        .where(pets: { user_id: current_user.id })
+        .order(:slot_start)
     end
     if current_user.vet?
-     @vet_appointments = Appointment.includes(:pet, availability: :user).where(availabilities: { user_id: current_user.id }).joins(:availability)
+     @vet_appointments = Appointment
+      .includes(:pet, availability: :user)
+      .where(availabilities: { user_id: current_user.id })
+      .joins(:availability)
+      .order(:slot_start)
     end
   end
 
