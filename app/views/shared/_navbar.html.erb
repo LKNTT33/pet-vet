@@ -14,10 +14,17 @@
           <li class="nav-item">
             <%= link_to "Search for a vet", "/", class: "btn btn-flat-main" %>
           </li>
+
+          <%# Dropdown with avatar %>
           <li class="nav-item dropdown">
+            <% avatar_url = current_user.vet? ?
+                 "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_vet_bjoh8c.png" :
+                 "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_owner_l8hccf.png" %>
+
             <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= image_tag "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_owner_l8hccf.png", class: "avatar", alt: "dropdown menu" %>
+              <%= image_tag avatar_url, class: "avatar", alt: "dropdown menu" %>
             </a>
+
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <% if current_user.vet? %>
                 <%= link_to "My Profile", vet_profile_path, class: "dropdown-item" %>
