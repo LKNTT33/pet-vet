@@ -1,10 +1,9 @@
 class AvailabilitiesController < ApplicationController
-  before_action :set_vet                 # nested routes: /vets/:vet_id/availabilities
+  before_action :set_vet
   before_action :authenticate_user!, except: [:index]
   before_action :ensure_vet!, only: [:new, :create, :destroy]
   before_action :authorize_vet!, only: [:new, :create, :destroy]
 
-  # GET /vets/:vet_id/availabilities
   def index
     @selected_date = parse_date(params[:date]) || Date.today
     @pet_id = params[:pet_id]
@@ -68,14 +67,12 @@ class AvailabilitiesController < ApplicationController
     end
   end
 
-  # GET /vets/:vet_id/availabilities/new
   def new
     @availability = @vet.availabilities.new
     @availabilities = @vet.availabilities.order(:day_of_week, :start_time)
     @preview_week_date = parse_date(params[:date]) || Date.today
   end
 
-  # POST /vets/:vet_id/availabilities
   def create
     if availability_params[:day_of_week].present?
       @vet.availabilities.where(day_of_week: availability_params[:day_of_week]).destroy_all
@@ -123,7 +120,6 @@ class AvailabilitiesController < ApplicationController
     end
   end
 
-  # DELETE /vets/:vet_id/availabilities/:id
   def destroy
     @availability = @vet.availabilities.find(params[:id])
     @availability.destroy

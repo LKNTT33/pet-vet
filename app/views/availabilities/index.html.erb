@@ -1,6 +1,5 @@
 <h1 class="text-2xl font-bold mb-6">Vet Availabilities for <%= @vet.first_name %></h1>
 <div class="mb-4">
-  <!-- Date picker form: submits inside the turbo frame so only slots update -->
   <%= form_with url: vet_availabilities_path(@vet),
                 method: :get,
                 data: { turbo_frame: "slots" },
@@ -11,12 +10,11 @@
   <% end %>
 </div>
 
-<%# <%= turbo_frame_tag "slots" do %>
-  <div id="slots">
+<div id="slots">
   <%= render partial: "availabilities/slots",
              locals: { slots_for_day: @slots_for_day, selected_date: @selected_date, pet_id: params[:pet_id], vet: @vet } %>
-  </div>
-<%# <% end %>
+</div>
+
 
 <script>
   // auto-submit the date form and preserve pet_id in URL (submit triggers turbo frame update)

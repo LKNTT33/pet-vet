@@ -36,6 +36,7 @@
         <p><strong>Client’s Pet</strong>: <%= appointment.pet.name %> (<%= appointment.pet.species %>)</p>
         <p><strong>Owner</strong>: <%= appointment.pet.user.first_name %> <%= appointment.pet.user.last_name %></p>
         <div class="d-flex justify-content-between">
+          <%= link_to "Add a prescription", new_appointment_prescription_path(appointment), class: "btn btn-flat-main" %>
           <%= link_to "Cancel Appointment", appointment_path(appointment),
                       data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this appointment?" }, class: "btn btn-ghost-main" %>
         </div>
