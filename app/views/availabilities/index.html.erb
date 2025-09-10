@@ -1,46 +1,29 @@
-<h1 class="text-2xl font-bold mb-6">Vet Availabilities</h1>
-<!-- Date picker -->
-<div class="mb-6">
-  <%= form_with url: vet_availabilities_path(@vet), method: :get, data: { turbo_frame: "slots" } do |f| %>
-    <%= f.date_field :date, value: params[:date] || Date.today, class: "form-input", id: "availability_date_picker" %>
-    <%= f.hidden_field :pet_id, value: params[:pet_id] %>
+<h1 class="text-2xl font-bold mb-6">Vet Availabilities for <%= @vet.first_name %></h1>
+<div class="mb-4">
+  <%= form_with url: vet_availabilities_path(@vet),
+                method: :get,
+                data: { turbo_frame: "slots" },
+                local: true do |f| %>
+    <%= f.label :date, "Select a date", class: "sr-only" %>
+    <%= f.date_field :date, value: @selected_date, id: "availability_date_picker", class: "form-input" %>
+    <%= hidden_field_tag :pet_id, params[:pet_id] if params[:pet_id].present? %>
   <% end %>
 </div>
-<!-- Turbo Frame for slots -->
-<%= turbo_frame_tag "slots" do %>
-  <% if @slots_for_day.present? %>
-    <h2 class="text-xl mb-4">
-      Available slots for <%= @selected_date.strftime("%A, %d/%m/%Y") %>
-    </h2>
-    <div class="availability-day mb-6 p-4 border rounded shadow-sm">
-      <ul class="grid grid-cols-4 gap-2">
-        <% @slots_for_day.each do |slot| %>
-          <% slot_id = "slot_#{slot[:date]}_#{slot[:start].to_i}" %>
-          <% if slot[:taken] %>
-            <li id="<%= slot_id %>" class="btn btn-disabled text-center">
-              <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
-            </li>
-          <% else %>
-            <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
-                        new_appointment_path(
-                          availability_id: slot[:availability_id],
-                          slot_start: slot[:start],
-                          slot_end: slot[:end],
-                          pet_id: params[:pet_id]
-                        ),
-                        id: slot_id,
-                        class: "btn btn-ghost-main w-full text-center" %>
-          <% end %>
-        <% end %>
-      </ul>
-    </div>
-  <% else %>
-    <p class="text-gray-500">No available slots for this day.</p>
-  <% end %>
-<% end %>
+
+<div id="slots">
+  <%= render partial: "availabilities/slots",
+             locals: { slots_for_day: @slots_for_day, selected_date: @selected_date, pet_id: params[:pet_id], vet: @vet } %>
+</div>
+
+
 <script>
-  // Auto-submit date form when a date is selected
-  document.getElementById("availability_date_picker").addEventListener("change", function() {
-    this.form.requestSubmit();
-  });
+  // auto-submit the date form and preserve pet_id in URL (submit triggers turbo frame update)
+  document.addEventListener("turbo:load", function() {
+    const datePicker = document.getElementById("availability_date_picker")
+    if (!datePicker) return
+    datePicker.addEventListener("change", function() {
+      // submit the form (Turbo will update the "slots" frame)
+      this.form.requestSubmit()
+    })
+  })
 </script>

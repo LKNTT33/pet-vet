@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'prescriptions/new'
-  get 'prescriptions/create'
   devise_for :users, controllers: {
   registrations: "users/registrations",
   sessions: "users/sessions"

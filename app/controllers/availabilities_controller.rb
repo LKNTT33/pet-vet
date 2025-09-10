@@ -1,131 +1,130 @@
 class AvailabilitiesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_vet
+  before_action :authenticate_user!, except: [:index]
+  before_action :ensure_vet!, only: [:new, :create, :destroy]
   before_action :authorize_vet!, only: [:new, :create, :destroy]
 
   def index
-    if @vet.vet?
-      selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
+    @selected_date = parse_date(params[:date]) || Date.today
+    @pet_id = params[:pet_id]
 
-      if selected_date.on_weekday?
-        day_start = Time.zone.parse("#{selected_date} 09:00")
-        day_end   = Time.zone.parse("#{selected_date} 17:00")
+    weekday_name = @selected_date.strftime("%A")
+    @slots_for_day = []
 
-        slots = []
-        slot_start = day_start
+    @vet.availabilities.where(day_of_week: weekday_name).each do |availability|
+      start_dt = availability.start_time.change(year: @selected_date.year,
+                                                month: @selected_date.month,
+                                                day: @selected_date.day)
+      end_dt   = availability.end_time.change(year: @selected_date.year,
+                                              month: @selected_date.month,
+                                              day: @selected_date.day)
 
-        while slot_start < day_end
-          slot_end = slot_start + 30.minutes
+      slot_start = start_dt
+      while slot_start < end_dt
+        slot_end = slot_start + 30.minutes
 
-          taken = Appointment.exists?(
-            slot_start: slot_start,
-            slot_end: slot_end,
-            availability_id: @vet.availabilities.ids
-          )
+        taken = Appointment.exists?(availability_id: availability.id,
+                                    slot_start: slot_start)
 
-          slots << {
-            date: selected_date,
-            start: slot_start,
-            end: slot_end,
-            taken: taken,
-            availability_id: @vet.availabilities.find { |a| a.start_time <= slot_start && a.end_time >= slot_end }&.id
-          }
+        @slots_for_day << {
+          availability_id: availability.id,
+          start: slot_start,
+          end: slot_end,
+          taken: taken
+        }
 
-          slot_start = slot_end
-        end
-
-        @slots_for_day = slots
-        @selected_date = selected_date
-      else
-        @slots_for_day = []
-        flash.now[:alert] = "No slots on weekends."
-      end
-    else
-      @availabilities = @vet.availabilities.order(:start_time)
-      if params[:date].present?
-        begin
-          selected_date = Date.parse(params[:date])
-          @availabilities = @availabilities.where(date: selected_date)
-        rescue ArgumentError
-          flash.now[:alert] = "Invalid date"
-        end
+        slot_start = slot_end
       end
     end
 
     respond_to do |format|
       format.html
-      format.json do
-        if @vet.vet?
-          render json: @slots_for_day.map { |slot|
-            {
-              start: slot[:start],
-              end: slot[:end],
-              available: !slot[:taken]
-            }
-          }
-        else
-          render json: @availabilities.map { |a|
-            a.slots.map do |slot|
-              {
-                start: slot[:start],
-                end: slot[:end],
-                available: !a.appointments.any? { |appt| appt.slot_start == slot[:start] },
-                availability_id: a.id
-              }
-            end
-          }.flatten
-        end
+      format.turbo_stream do
+        render turbo_stream.replace("slots", partial: "availabilities/slots",
+               locals: { slots_for_day: @slots_for_day,
+                         selected_date: @selected_date,
+                         pet_id: @pet_id,
+                         vet: @vet }
+        )
       end
+      # format.turbo_stream do
+      #   render partial: "availabilities/slots",
+      #          locals: { slots_for_day: @slots_for_day,
+      #                    selected_date: @selected_date,
+      #                    pet_id: @pet_id,
+      #                    vet: @vet }
+      # end
+      # format.json do
+      #   render json: @slots_for_day.map { |s|
+      #     {
+      #       start: s[:start],
+      #       end: s[:end],
+      #       available: !s[:taken],
+      #       availability_id: s[:availability_id]
+      #     }
+      #   }
+      # end
     end
   end
 
   def new
     @availability = @vet.availabilities.new
-
-    # Pick a date to determine the week (default today)
-    selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
-
-    # Monday–Friday of the selected week
-    week_start = selected_date.beginning_of_week(:monday)
-    week_end   = week_start + 4.days
-
-    # Load availabilities for that week (ensure date is present)
-    @availabilities = @vet.availabilities
-                          .where(date: week_start..week_end)
-                          .order(:date, :start_time)
-
-    # Fallback: show all availabilities if none in week
-    if @availabilities.empty?
-      @availabilities = @vet.availabilities.order(:date, :start_time)
-    end
+    @availabilities = @vet.availabilities.order(:day_of_week, :start_time)
+    @preview_week_date = parse_date(params[:date]) || Date.today
   end
 
   def create
-    @availability = @vet.availabilities.new(availability_params)
+    if availability_params[:day_of_week].present?
+      @vet.availabilities.where(day_of_week: availability_params[:day_of_week]).destroy_all
+    end
 
-    @availability.date = Date.parse(availability_params[:date]) if availability_params[:date].present?
-    @availability.start_time = Time.zone.parse(availability_params[:start_time]) if availability_params[:start_time].present?
-    @availability.end_time = Time.zone.parse(availability_params[:end_time]) if availability_params[:end_time].present?
+    @availability = @vet.availabilities.build(availability_params)
 
     if @availability.save
+      @availabilities = @vet.availabilities.order(Arel.sql(
+        "CASE day_of_week
+          WHEN 'Monday' THEN 1
+          WHEN 'Tuesday' THEN 2
+          WHEN 'Wednesday' THEN 3
+          WHEN 'Thursday' THEN 4
+          WHEN 'Friday' THEN 5
+          WHEN 'Saturday' THEN 6
+          WHEN 'Sunday' THEN 7
+        END"
+      ))
+
       respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability added!" }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "availabilities_list",
+            partial: "availabilities/list",
+            locals: { availabilities: @availabilities, vet: @vet }
+          )
+        end
+        format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability created successfully!" }
       end
     else
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("availability_form", partial: "form", locals: { availability: @availability }) }
-        format.html { render :new, status: :unprocessable_entity }
-      end
+      @availabilities = @vet.availabilities.order(Arel.sql(
+        "CASE day_of_week
+          WHEN 'Monday' THEN 1
+          WHEN 'Tuesday' THEN 2
+          WHEN 'Wednesday' THEN 3
+          WHEN 'Thursday' THEN 4
+          WHEN 'Friday' THEN 5
+          WHEN 'Saturday' THEN 6
+          WHEN 'Sunday' THEN 7
+        END"
+      ))
+
+      render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     @availability = @vet.availabilities.find(params[:id])
     @availability.destroy
-
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(dom_id(@availability)) }
       format.html { redirect_to new_vet_availability_path(@vet), notice: "Availability deleted." }
     end
   end
@@ -133,15 +132,28 @@ class AvailabilitiesController < ApplicationController
   private
 
   def availability_params
-    params.require(:availability).permit(:date, :start_time, :end_time, :is_available)
+    params.require(:availability).permit(:day_of_week, :start_time, :end_time, :is_available)
   end
 
   def set_vet
     @vet = User.find(params[:vet_id])
-    redirect_to vets_path, alert: "This user is not a vet." unless @vet.vet? || @vet.owner?
+    redirect_to vets_path, alert: "This user is not a vet." unless @vet&.vet?
+  end
+
+  def ensure_vet!
+    redirect_to new_user_session_path, alert: "Please log in as a vet." unless current_user&.vet?
   end
 
   def authorize_vet!
-    redirect_to root_path, alert: "Not authorized" unless @vet == current_user
+    redirect_to root_path, alert: "Not authorized" unless current_user == @vet
+  end
+
+  def parse_date(date_str)
+    return nil if date_str.blank?
+    Date.parse(date_str) rescue nil
+  end
+
+  def dom_id(record)
+    "#{record.class.name.underscore}_#{record.id}"
   end
 end
