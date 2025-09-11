@@ -1,33 +1,48 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://res.cloudinary.com/dvanqdtdy/image/upload/v1756473922/jamie-street-JtP_Dqtz6D8-unsplash_z2gg4d.jpg);">
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url(https://res.cloudinary.com/dvanqdtdy/image/upload/v1757582054/PETVET_banner_v2_gdtc0s.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;">
   <div class="container">
-    <h1 class="mt-0">Pet Vet'</h1>
-    <h3 class="text-center">Your easiest & fastest way to book your vet’ appointment!</h3>
-    <div id="search-form" class="">
-      <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
-        <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
-        <%= f.input :city, label: "City", input_html: { name: "city", placeholder: "e.g. Paris" } %>
-        <%= hidden_field_tag :pet_id, params[:pet_id] if params[:pet_id].present? %>
-        <%= f.button :submit, "Find Vets", class: "btn btn-flat-main" %>
-      <% end %>
+    <div class="row justify-content-center pb-3">
+      <img src="https://res.cloudinary.com/dvanqdtdy/image/upload/v1757580849/PETVET_logo_kick3u.png" alt="Pet Vet Logo" class="logo-banner">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+          <h1 class="text-center home">Your easiest & fastest way to book your vet’ appointment!</h1>
+        </div>
+      </div>
+      <div id="search-form" class="">
+        <%= simple_form_for :search, url: vets_path, method: :get do |f| %>
+         <h2 class="mb-3 mt-1 text-lg font-semibold home">Search for a Vet</h3>
+          <%= f.input :specialty, label: "Specialty", input_html: { name: "specialty", placeholder: "e.g. dentist" } %>
+          <%= f.input :city, label: "City", input_html: { name: "city", placeholder: "e.g. Paris" } %>
+          <%= hidden_field_tag :pet_id, params[:pet_id] if params[:pet_id].present? %>
+          <%= f.button :submit, "Find Vets", class: "btn btn-flat-main" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
 
 
 <div class="container">
-  <div class="row">
-     <div class="intro col-12 col-lg-6 py-5 px-4">
-      <img src="" alt="">
+  <div class="row align-items-center my-3">
+    <div class="col-12 col-lg-6 py-4 px-4 order-2 order-lg-1">
+      <h2 class="h2-header">Are you a Vet?</h2>
+      <p class="">Be visible on Pet Vet'!</p>
+      <p>
+        <strong>Make your appointment easy with our appointment app.</strong>
+        Just create your vet page and share your schedule to let your patient book their appointments.
+      </p>
+      <div>
+        <%= link_to "Log in", new_user_session_path, class: "btn btn-flat-second me-2" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-ghost-main" %>
       </div>
     </div>
-    <div class="intro col-12 col-lg-6 py-5 px-4">
-      <h2>Are you a Vet?</h2>
-      <p class="h2-header">Be visible on Pet Vet'!</p>
-      <p>Make your appointment easy with our appointment app. Just create your vet page and share your schedule to let your patient book their appointments. </p>
-     <div class="">
-      <%= link_to "Log in", new_user_session_path, class: "btn btn-flat-second" %>
-      <%= link_to "Sign up", new_user_registration_path, class: "btn btn-ghost-main" %>
-      </div>
+    <div class="col-12 col-lg-6 py-5 px-4 order-1 order-lg-2 text-center">
+      <img src="https://res.cloudinary.com/dvanqdtdy/image/upload/v1757585118/werzk-luuuuuuu-tDlo2ZPlQlU-unsplash_qvp3xi.jpg"
+           alt="Vet user"
+           class="img-fluid rounded shadow-sm half-photo">
     </div>
+
   </div>
 </div>
