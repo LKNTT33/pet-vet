@@ -448,8 +448,79 @@ med3 = Medicine.create!(
   name: "Vaccine1",
   description: "helps in something",
   category: "vaccine",
-  instructions: "everyday"
+  instructions: "Everyday"
 )
+
+med4 = Medicine.create!(
+  name: "Ibuprofen",
+  description: "Anti-inflammatory and pain relief for dogs and cats",
+  category: "pills",
+  instructions: "Give once every 12 hours with food"
+)
+
+med5 = Medicine.create!(
+  name: "Amoxicillin",
+  description: "Antibiotic for bacterial infections",
+  category: "pills",
+  instructions: "Give twice a day for 7 days"
+)
+
+med6 = Medicine.create!(
+  name: "Prednisone",
+  description: "Steroid to reduce inflammation and allergic reactions",
+  category: "pills",
+  instructions: "Give once daily in the morning"
+)
+
+med7 = Medicine.create!(
+  name: "Metronidazole",
+  description: "Treats gastrointestinal infections in pets",
+  category: "pills",
+  instructions: "Give twice daily with meals"
+)
+
+med8 = Medicine.create!(
+  name: "Furosemide",
+  description: "Diuretic for pets with heart or kidney conditions",
+  category: "pills",
+  instructions: "Give once daily with water access"
+)
+
+med9 = Medicine.create!(
+  name: "Rabies Vaccine",
+  description: "Prevents rabies infection in pets",
+  category: "vaccine",
+  instructions: "Administer subcutaneously once a year"
+)
+
+med10 = Medicine.create!(
+  name: "Distemper Vaccine",
+  description: "Protects dogs against distemper virus",
+  category: "vaccine",
+  instructions: "Administer subcutaneously, booster after 3 weeks"
+)
+
+med11 = Medicine.create!(
+  name: "Parvovirus Vaccine",
+  description: "Prevents canine parvovirus infection",
+  category: "vaccine",
+  instructions: "Give initial dose, then booster at 12 weeks"
+)
+
+med12 = Medicine.create!(
+  name: "Feline Leukemia Vaccine",
+  description: "Protects cats from feline leukemia virus",
+  category: "vaccine",
+  instructions: "Inject subcutaneously, repeat yearly"
+)
+
+med13 = Medicine.create!(
+  name: "Kennel Cough Vaccine",
+  description: "Prevents Bordetella (kennel cough) in dogs",
+  category: "vaccine",
+  instructions: "Administer intranasally once yearly"
+)
+
 
 Prescription.create!(
   medicine: med1,
