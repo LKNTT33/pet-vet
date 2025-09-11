@@ -1,31 +1,46 @@
-<h2>Book an appointment with <%= @vet.first_name %> (<%= @vet.specialty %>)</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-11 col-md-6 mt-2">
+      <h2>Book an appointment</h2>
+        <div class="main-card p-4">
+          <h3 class="text-center">With <%= @vet.first_name %> <%= @vet.last_name %> (<%= @vet.specialty %>)</h3>
+            <p class="text-center">
+              Appointment date:
+              <strong>
+              <%= @appointment.slot_start.strftime("%A %d %B, %H:%M") %> -
+              <%= @appointment.slot_end.strftime("%H:%M") %>
+              </strong>
+            </p>
+            <div class="my-2">
+              <%= simple_form_for @appointment, url: appointments_path, html: { class: "form-main-card" } do |f| %>
+                <%= f.hidden_field :slot_start %>
+                <%= f.hidden_field :slot_end %>
 
-<p>
-  Slot:
-  <%= @appointment.slot_start.strftime("%A %d %B, %H:%M") %> -
-  <%= @appointment.slot_end.strftime("%H:%M") %>
-</p>
+                <%# Include availability_id only if present %>
+                <% if @availability.present? %>
+                  <%= f.hidden_field :availability_id, value: @availability.id %>
+                <% end %>
 
-<%= simple_form_for @appointment, url: appointments_path do |f| %>
-  <%= f.hidden_field :slot_start %>
-  <%= f.hidden_field :slot_end %>
+                <%= f.input :pet_id, collection: @pets, label: "Select your pet", required: true %>
+                <div class="text-end mb-3">
+                  <%= link_to "Add a new pet",
+                            new_pet_path(availability_id: @availability.id,
+                                        slot_start: @appointment.slot_start,
+                                        slot_end: @appointment.slot_end),
+                            class: "btn btn-ghost-main" %>
+                </div>
+                <div class="text-center mt-4 mb-2">
+                <%= f.button :submit, "Confirm Appointment", class: "btn btn-flat-second" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="text-center mt-4 mb-2">
+            <%= link_to "Back to all slots",
+                        vet_availabilities_path(@vet, date: @appointment.slot_start.to_date),
+                        class: "btn btn-ghost-main mt-4" %>
+          </div>
 
-  <%# Include availability_id only if present %>
-  <% if @availability.present? %>
-    <%= f.hidden_field :availability_id, value: @availability.id %>
-  <% end %>
-
-  <%= f.input :pet_id, collection: @pets, label: "Select your pet", required: true %>
-
-  <%= link_to "Add a new pet",
-            new_pet_path(availability_id: @availability.id,
-                         slot_start: @appointment.slot_start,
-                         slot_end: @appointment.slot_end),
-            class: "btn btn-ghost-main" %>
-  <br><br>
-  <%= f.button :submit, "Confirm Appointment", class: "btn btn-flat-second" %>
-<% end %>
-
-<%= link_to "Back to all slots",
-            vet_availabilities_path(@vet, date: @appointment.slot_start.to_date),
-            class: "btn btn-secondary mt-4" %>
+    </div>
+  </div>
+</div>
