@@ -1,10 +1,9 @@
 <h2>Sign up</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { turbo: true } }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <!-- Role selector as horizontal radio buttons -->
     <div class="role-radio-group">
       <%= f.input :role,
                   collection: User.roles.keys.map { |r| [r.titleize, r] },
@@ -13,20 +12,20 @@
                   label: "Account Type" %>
     </div>
 
-    <!-- Basic fields -->
     <%= f.input :first_name, required: true, autofocus: true %>
     <%= f.input :last_name, required: true %>
     <%= f.input :email, required: true %>
     <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
     <%= f.input :password_confirmation, required: true %>
 
-    <!-- Vet-specific fields (hidden by default) -->
-    <div id="vet_fields" style="display: none;">
-      <%= f.input :specialty %>
-      <%= f.input :clinic_name %>
-      <%= f.input :city %>
-      <%= f.input :phone %>
-    </div>
+    <turbo-frame id="vet_fields_frame">
+      <div id="vet_fields" style="display: none;">
+        <%= f.input :specialty %>
+        <%= f.input :clinic_name %>
+        <%= f.input :city %>
+        <%= f.input :phone %>
+      </div>
+    </turbo-frame>
   </div>
 
   <div class="form-actions">
@@ -36,9 +35,8 @@
 
 <%= render "devise/shared/links" %>
 
-<!-- JavaScript to toggle vet fields dynamically -->
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("turbo:load", function() {
     const roleRadios = document.querySelectorAll('.role-radio-group input[type="radio"]');
     const vetFields = document.getElementById("vet_fields");
 
@@ -51,10 +49,8 @@
       }
     }
 
-    // Run once on page load
     toggleVetFields();
 
-    // Add change event listener to all radio buttons
     roleRadios.forEach(radio => {
       radio.addEventListener("change", toggleVetFields);
     });

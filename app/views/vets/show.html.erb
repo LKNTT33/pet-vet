@@ -2,10 +2,59 @@
   <div class="pet-card text-center">
     <h1 class="text-2xl font-bold mb-4"><%= @vet.first_name %> <%= @vet.last_name %></h1>
 
-    <p><strong>Email:</strong> <%= @vet.email %></p>
-    <p><strong>Specialty:</strong> <%= @vet.specialty %></p>
-    <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
-    <p><strong>City:</strong> <%= @vet.city %></p>
-    <p><strong>Phone:</strong> <%= @vet.phone %></p>
+    <p><strong>🧑‍⚕️</strong> <%= @vet.specialty %></p>
+    <p><strong>🏥</strong> <%= @vet.clinic_name %></p>
+    <p><strong>🌎</strong> <%= @vet.city %></p>
+    <p><strong>📍</strong> <%= @vet.address %></p>
+    <p><strong>☎️</strong> <%= @vet.phone %></p>
+    <p><strong>📧</strong> <%= @vet.email %></p>
+
+    <div id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
+
+    <div class="mt-4">
+      <%= link_to "See Availabilities",
+                  vet_availabilities_path(@vet, pet_id: params[:pet_id]),
+                  class: "btn btn-flat-second" %>
+    </div>
   </div>
 </div>
+
+<div class="text-center mt-6">
+  <%= link_to "← Back to Vets List", vets_path, class: "btn btn-ghost-main" %>
+</div>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+
+<script>
+  document.addEventListener("turbo:load", () => {
+    if (!document.getElementById("map")) return;
+
+    mapboxgl.accessToken = "<%= ENV['MAPBOX_API_KEY'] %>";
+
+    const map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [0, 0],
+      zoom: 12
+    });
+
+    const address = "<%= j @vet.address + ', ' + @vet.city %>";
+
+    if (address.trim() !== ",") {
+      fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.features.length > 0) {
+            const [lng, lat] = data.features[0].center;
+            map.setCenter([lng, lat]);
+
+            new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+          } else {
+            console.warn("Address not found on Mapbox");
+          }
+        })
+        .catch(err => console.error("Mapbox geocoding error:", err));
+    }
+  });
+</script>
