@@ -17,25 +17,6 @@
           {prompt: "Select a medicine"}, {class: "form-select",data: { prescription_form_target: "medicineFields"}}%>
   </div>
 
-  <div data-prescription-form-target="pillsFields" style="display:none">
-    <div>
-      <%= f.label :category, "Category" %>
-      <%= f.select :category,
-          options_for_select([["Pills", "pills"], ["Vaccine", "vaccine"]]),
-          { prompt: "Select type" },
-          class: "form-select",
-          data: { action: "change->prescription-form#toggleFields", prescription_form_target: "prescriptionTypeSelect" } %>
-    </div>
-
-    <!-- Common medicine field -->
-    <div id="medicine_field">
-      <%= f.label :medicine_id, "Medicine" %>
-      <%= f.collection_select :medicine_id, @medicines, :id, :name,
-            { prompt: "Select a medicine" },
-            { class: "form-select", data: { prescription_form_target: "medicineFields" } } %>
-    </div>
-
-    <!-- Pills-specific fields -->
     <div data-prescription-form-target="pillsFields" style="display:none">
       <div>
         <%= f.label :dosage %>
@@ -62,7 +43,6 @@
       </div>
     </div>
 
-    <!-- Vaccine-specific fields -->
     <div data-prescription-form-target="vaccineFields" style="display:none">
       <div>
         <%= f.label :date_of_administration %>
@@ -71,17 +51,14 @@
         </div>
       </div>
 
-<<<<<<< HEAD
       <div>
         <%= f.label :immunization_coverage %>
         <%= f.text_field :immunization_coverage %>
       </div>
     </div>
 
-    <!-- Submit button -->
     <div class="text-center">
       <%= f.submit "Create Prescription", class: "btn btn-flat-main" %>
-=======
   <div data-prescription-form-target="vaccineFields" style="display:none">
     <div>
       <%= f.label :date_of_administration %>
@@ -96,7 +73,6 @@
       options_for_select([["1 year", 1], ["2 years", 2], ["3 years", 3]]),
       { prompt: "Select duration" },
       {class: "form-select"} %>
->>>>>>> master
     </div>
 
   <% end %>
