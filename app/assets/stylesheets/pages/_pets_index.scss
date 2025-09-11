@@ -15,19 +15,28 @@
   color: #360568;
 }
 
-.pet-card-info p strong {
+.pet-card-info strong {
   font-size: 20px;
   font-weight: bold;
 }
 
+.pet-card-info p {
+  margin: 3px 0;
+}
+
+.pet-card-info h2 {
+  margin-bottom: 35px;
+}
+
 .pet-photo {
-  flex-shrink: 0;
+  border-radius: 50%;
   margin-right: 50px;
   margin-left: 30px;
+  object-fit: cover;
 }
 
 .pet-card-buttons {
-  margin-top: 16px;
+  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

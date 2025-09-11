@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_10_095703) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_10_204022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,17 +96,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_10_095703) do
     t.bigint "appointment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date_of_administration"
+    t.integer "immunization_coverage"
     t.index ["appointment_id"], name: "index_prescriptions_on_appointment_id"
     t.index ["medicine_id"], name: "index_prescriptions_on_medicine_id"
-  end
-
-  create_table "solid_cable_messages", force: :cascade do |t|
-    t.text "channel"
-    t.text "payload"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
-    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
   create_table "users", force: :cascade do |t|

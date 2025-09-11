@@ -9,22 +9,22 @@
     <div class="pet-card">
 
       <!-- Foto do Pet -->
-      <div class="pet-photo">
+      <div>
         <% if pet.photo.attached? %>
-          <%= image_tag pet.photo, class: "rounded-circle", size: "150x150", alt: "#{pet.name}'s photo" %>
+          <%= image_tag pet.photo, class: "pet-photo", size: "150x150", alt: "#{pet.name}'s photo" %>
         <% else %>
-          <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
+          <%= image_tag "paw.png", class: "pet-photo", size: "150x150", alt: "Default pet image" %>
         <% end %>
       </div>
 
       <!-- Informações do Pet -->
       <div class="pet-card-info">
-        <p><strong>Name:</strong> <%= pet.name %></p>
+        <h2><%= pet.name %></h2>
         <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
         <p><strong>Age:</strong> <%= pet.age %> years old</p>
 
         <div class="pet-card-buttons">
-          <%= link_to "See", pet_path(pet), class: "btn btn-flat-second" %>
+          <%= link_to "See Profile", pet_path(pet), class: "btn btn-flat-second" %>
 
           <% if @availability_id.present? && @slot_start.present? && @slot_end.present? %>
             <%= link_to "Book This Pet",
