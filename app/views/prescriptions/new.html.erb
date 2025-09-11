@@ -1,66 +1,72 @@
-<h1>New Prescription for <%= @pet.name %></h1>
+<div class="prescription-new-page">
+  <h1>New Prescription for <%= @pet.name %></h1>
 
-<%= form_with(model: [@appointment, @prescription], local: true, data: {controller: "prescription-form", prescription_form_medicine_value: "#{@medicines.to_json(only: [:id, :name, :category ])}"}) do |f| %>
+  <%= form_with(model: [@appointment, @prescription], local: true, data: { controller: "prescription-form", prescription_form_medicine_value: "#{@medicines.to_json(only: [:id, :name, :category ])}" }) do |f| %>
 
-  <!-- Escolher tipo de prescrição -->
-  <div>
-    <%= f.label :category, "Category" %>
-    <%= f.select :category,
-        options_for_select([["Pills", "pills"], ["Vaccine", "vaccine"]]),
-        { prompt: "Select type" },
-         class: "form-select" ,data: { action: "change->prescription-form#toggleFields", prescription_form_target: "prescriptionTypeSelect" }%>
-  </div>
-
-  <!-- Campo comum para ambos -->
-  <div id="medicine_field">
-    <%= f.label :medicine_id, "Medicine" %>
-    <%= f.collection_select :medicine_id, @medicines, :id, :name,
-          {prompt: "Select a medicine"}, {class: "form-select",data: { prescription_form_target: "medicineFields"}}%>
-  </div>
-
-  <!-- Campos para PILLS -->
-  <div data-prescription-form-target="pillsFields" style="display:none">
+    <!-- Choose prescription category -->
     <div>
-      <%= f.label :dosage %>
-      <%= f.text_field :dosage %>
+      <%= f.label :category, "Category" %>
+      <%= f.select :category,
+          options_for_select([["Pills", "pills"], ["Vaccine", "vaccine"]]),
+          { prompt: "Select type" },
+          class: "form-select",
+          data: { action: "change->prescription-form#toggleFields", prescription_form_target: "prescriptionTypeSelect" } %>
     </div>
 
-    <div>
-      <%= f.label :special_instructions %>
-      <%= f.text_area :special_instructions, rows: 5 %>
+    <!-- Common medicine field -->
+    <div id="medicine_field">
+      <%= f.label :medicine_id, "Medicine" %>
+      <%= f.collection_select :medicine_id, @medicines, :id, :name,
+            { prompt: "Select a medicine" },
+            { class: "form-select", data: { prescription_form_target: "medicineFields" } } %>
     </div>
 
-    <div>
-      <%= f.label :start_date %>
-      <div class="datetime-select-group">
-        <%= f.date_select :start_date %>
+    <!-- Pills-specific fields -->
+    <div data-prescription-form-target="pillsFields" style="display:none">
+      <div>
+        <%= f.label :dosage %>
+        <%= f.text_field :dosage %>
+      </div>
+
+      <div>
+        <%= f.label :special_instructions %>
+        <%= f.text_area :special_instructions, rows: 5 %>
+      </div>
+
+      <div>
+        <%= f.label :start_date %>
+        <div class="datetime-select-group">
+          <%= f.date_select :start_date %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :end_date %>
+        <div class="datetime-select-group">
+          <%= f.date_select :end_date %>
+        </div>
       </div>
     </div>
 
-    <div>
-      <%= f.label :end_date %>
-      <div class="datetime-select-group">
-        <%= f.date_select :end_date %>
+    <!-- Vaccine-specific fields -->
+    <div data-prescription-form-target="vaccineFields" style="display:none">
+      <div>
+        <%= f.label :date_of_administration %>
+        <div class="datetime-select-group">
+          <%= f.date_select :date_of_administration %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :immunization_coverage %>
+        <%= f.text_field :immunization_coverage %>
       </div>
     </div>
-  </div>
 
-  <!-- Campos para VACCINE -->
-  <div data-prescription-form-target="vaccineFields" style="display:none">
-    <div>
-      <%= f.label :date_of_administration %>
-      <div class="datetime-select-group">
-        <%= f.date_select :date_of_administration %>
-      </div>
+    <!-- Submit button -->
+    <div class="text-center">
+      <%= f.submit "Create Prescription", class: "btn btn-flat-main" %>
     </div>
 
-    <div>
-      <%= f.label :immunization_coverage %>
-      <%= f.text_field :immunization_coverage %>
-    </div>
-  </div>
-
-  <div class="text-center">
-    <%= f.submit "Create Prescription", class: "btn btn-flat-main" %>
-  </div>
-<% end %>
+  <% end %>
+</div>

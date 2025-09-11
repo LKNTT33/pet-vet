@@ -1,6 +1,5 @@
 <h1>Pet Profile</h1>
 
-
 <div class="pet-profile-card">
   <p>
     <strong class="pet-info">Name:</strong>
@@ -32,9 +31,13 @@
                   root_path(pet_id: @pet.id),
                   class: "btn btn-flat-main" %>
     <% end %>
-    <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-ghost-main" %>
+
+    <%= link_to edit_pet_path(@pet), class: "btn btn-ghost-main" do %>
+      <i class="fa-solid fa-pen"></i>
+    <% end %>
   </div>
 </div>
+
 <div class="link-to-list-container">
   <%= link_to "← Back to Pet List", pets_path, class: "link-to-list btn-back" %>
 </div>

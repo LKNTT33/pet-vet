@@ -6,10 +6,12 @@
         <%= availability.start_time.strftime("%H:%M") %> -
         <%= availability.end_time.strftime("%H:%M") %>
       </span>
-      <%= link_to "Delete",
-                  vet_availability_path(vet, availability),
+
+      <%= link_to vet_availability_path(vet, availability),
                   data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                  class: "main" %>
+                  class: "p-2 hover:bg-red-100 rounded" do %>
+        <i class="fa fa-trash text-red-600"></i>
+      <% end %>
     </li>
   <% end %>
 </ul>
