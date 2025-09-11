@@ -280,152 +280,152 @@ appt3 = Appointment.create!(
 Appointment.create!(
   pet: pet3,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 09:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 10:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 09:30"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 10:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 10:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 11:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 10:30"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 11:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 11:00"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 11:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 11:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 11:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 11:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 12:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 11:30"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 12:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 11:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 12:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 12:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 12:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 14:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 15:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 14:30"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 15:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 15:00"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 15:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 15:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 15:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_monday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 16:30"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 17:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 16:30"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 17:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet3,
   availability: vet1_tuesday,
-  slot_start: Time.zone.parse("#{(Date.today + 3).to_s} 11:00"),
-  slot_end: Time.zone.parse("#{(Date.today + 3).to_s} 11:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 11:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 11:30"),
   status: "pending"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet1_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 14:00"),
-  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 14:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 14:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 5).to_s} 14:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet4,
   availability: vet1_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 4).to_s} 15:00"),
-  slot_end: Time.zone.parse("#{(Date.today + 4).to_s} 15:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 15:00"),
+  slot_end: Time.zone.parse("#{(Date.today + 5).to_s} 15:30"),
   status: "pending"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 13:00"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 13:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 13:00"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 13:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 13:30"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 14:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 13:30"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 14:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 10:30"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 11:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 10:30"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 11:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 11:00"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 11:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 11:00"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 11:30"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 11:30"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 12:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 11:30"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 12:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 14:30"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 15:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 14:30"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 15:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 15:30"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 16:00"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 15:30"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 16:00"),
   status: "confirmed"
 )
 
 Appointment.create!(
   pet: pet5,
   availability: vet2_wednesday,
-  slot_start: Time.zone.parse("#{(Date.today + 5).to_s} 16:00"),
-  slot_end:   Time.zone.parse("#{(Date.today + 5).to_s} 16:30"),
+  slot_start: Time.zone.parse("#{(Date.today + 6).to_s} 16:00"),
+  slot_end:   Time.zone.parse("#{(Date.today + 6).to_s} 16:30"),
   status: "confirmed"
 )
 
