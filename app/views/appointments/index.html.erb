@@ -1,5 +1,4 @@
 <h1>My Appointments</h1>
-
 <% if current_user.owner? %>
   <% if @owner_appointments.present? %>
     <% @owner_appointments.each do |appointment| %>
