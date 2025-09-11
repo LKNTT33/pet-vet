@@ -1,6 +1,5 @@
 <div class="vet-profile-container">
 
-  <!-- Vet Info Box -->
   <div class="vet-info card">
     <h2>My Vet Profile</h2>
     <p><strong>Email:</strong> <%= @vet.email %></p>
@@ -8,31 +7,35 @@
     <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
     <p><strong>City:</strong> <%= @vet.city %></p>
     <p><strong>Phone:</strong> <%= @vet.phone %></p>
-    <%= link_to "Edit Profile", edit_vet_path(@vet), class: "btn btn-primary" %>
+    <%= link_to edit_vet_path(@vet), class: "btn btn-primary" do %>
+  <i class="fa-solid fa-pen"></i>
+<% end %>
+
   </div>
 
-  <!-- Availabilities Box -->
   <div class="vet-availabilities card">
-  <h3>Availabilities</h3>
-  <% if @availabilities.any? %>
-    <ul>
-      <% @availabilities.each do |availability| %>
-        <li><%= availability.day_of_week %>:
-            <%= availability.start_time.strftime("%H:%M") %> -
-            <%= availability.end_time.strftime("%H:%M") %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No availabilities set yet.</p>
-  <% end %>
+    <h3>Availabilities</h3>
+    <% if @availabilities.any? %>
+      <ul>
+        <% @availabilities.each do |availability| %>
+          <li><%= availability.day_of_week %>:
+              <%= availability.start_time.strftime("%H:%M") %> -
+              <%= availability.end_time.strftime("%H:%M") %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No availabilities set yet.</p>
+    <% end %>
 
-  <!-- Button to Manage/Add Availabilities -->
-  <div style="text-align: center; margin-top: 1rem;">
-    <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-primary" %>
+    <div style="text-align: center; margin-top: 1rem;">
+      <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <div class="vet-appointments card">
+    <h3>Appointments</h3>
+    <div style="text-align: center; margin-top: 1rem;">
+      <%= link_to "My Appointments", appointments_path, class: "btn btn-primary" %>
+    </div>
   </div>
 </div>
-  <!-- Appointments Box -->
-  <div class="vet-availabilities card">
-  <h3>Appointments</h3>
-
-  </div>
