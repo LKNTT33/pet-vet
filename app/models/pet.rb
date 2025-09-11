@@ -1,6 +1,7 @@
 class Pet < ApplicationRecord
   belongs_to :user
   has_many :appointments, dependent: :destroy
+  has_one_attached :photo
 
   def age
     return nil unless birthdate

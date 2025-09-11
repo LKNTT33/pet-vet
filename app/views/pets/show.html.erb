@@ -1,7 +1,15 @@
 <h1>Pet Profile</h1>
 
 <div class="pet-profile-card">
-  <p>
+  <!-- Foto do Pet -->
+  <div class="pet-photo text-center mb-3">
+    <% if @pet.photo.attached? %>
+      <%= image_tag @pet.photo, class: "rounded-circle", size: "150x150", alt: "#{@pet.name}'s photo" %>
+    <% else %>
+      <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
+    <% end %>
+<div class="pet-info-block">
+  <p class="mt-4">
     <strong class="pet-info">Name:</strong>
     <%= @pet.name %>
   </p>
@@ -15,8 +23,13 @@
     <strong class="pet-info">Age:</strong>
     <%= @pet.age %> years old
   </p>
+</div>
 
-  <div class="button-group">
+  <div class="pet-action-buttons">
+    <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-ghost-main" %>
+    <%= link_to "See Prescriptions",
+              appointment_prescriptions_path(@pet.appointments.last),
+              class: "btn btn-ghost-main" %>
     <% if params[:availability_id].present? %>
       <%= link_to "Select this pet",
                   new_appointment_path(
