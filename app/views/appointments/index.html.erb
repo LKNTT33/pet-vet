@@ -1,48 +1,51 @@
-<h1>My Appointments</h1>
+<div class="appointments-page">
 
-<% if current_user.owner? %>
-  <% if @owner_appointments.present? %>
-    <% @owner_appointments.each do |appointment| %>
-      <div class="pet-profile-card">
-        <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
-        <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
-        <p><strong>Your pet</strong>:
-          <%= link_to appointment.pet.name, pet_path(appointment.pet_id), class: "main" %>
-        </p>
-        <p><strong>Your Vet</strong>:
-          <%= link_to "#{appointment.availability.user.first_name} #{appointment.availability.user.last_name}",
-                      vet_path(appointment.availability.user_id), class: "main" %>
-          , <%= appointment.availability.user.specialty %>
-          (<%= appointment.availability.user.city %>)
-        </p>
-        <div class="d-flex justify-content-between">
-          <%= link_to "Edit my Appointment", edit_appointment_path(appointment), class: "btn btn-flat-main" %>
-          <%= link_to "Cancel my Appointment", appointment_path(appointment),
-                      data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this appointment?" }, class: "btn btn-ghost-main" %>
-        </div>
-      </div>
-    <% end %>
-  <% else %>
-    <p>You don’t have any appointments as an owner yet.</p>
-  <% end %>
-<% end %>
+  <% if current_user.owner? %>
+    <div class="owner-appointments bg-owner">
+      <h1>My Appointments</h1>
 
-<% if current_user.vet? %>
-  <% if @vet_appointments.present? %>
-    <% @vet_appointments.each do |appointment| %>
-      <div class="pet-profile-card">
-        <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
-        <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
-        <p><strong>Client’s Pet</strong>: <%= appointment.pet.name %> (<%= appointment.pet.species %>)</p>
-        <p><strong>Owner</strong>: <%= appointment.pet.user.first_name %> <%= appointment.pet.user.last_name %></p>
-        <div class="d-flex justify-content-between">
-          <%= link_to "Add a prescription", new_appointment_prescription_path(appointment), class: "btn btn-flat-main" %>
-          <%= link_to "Cancel Appointment", appointment_path(appointment),
-                      data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this appointment?" }, class: "btn btn-ghost-main" %>
-        </div>
-      </div>
-    <% end %>
-  <% else %>
-    <p>No appointments booked with you as a vet yet.</p>
+      <% if @owner_appointments.present? %>
+        <% @owner_appointments.each do |appointment| %>
+          <div class="pet-profile-card">
+            <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
+            <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
+            <p><strong>Your pet</strong>: <%= link_to appointment.pet.name, pet_path(appointment.pet_id), class: "main" %></p>
+            <p><strong>Your Vet</strong>: <%= link_to "#{appointment.availability.user.first_name} #{appointment.availability.user.last_name}", vet_path(appointment.availability.user_id), class: "main" %>, <%= appointment.availability.user.specialty %> (<%= appointment.availability.user.city %>)</p>
+            <div class="d-flex justify-content-between">
+              <%= link_to "Edit my Appointment", edit_appointment_path(appointment), class: "btn btn-flat-main" %>
+              <%= link_to "Cancel my Appointment", appointment_path(appointment),
+                          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this appointment?" }, class: "btn btn-ghost-main" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>You don’t have any appointments as an owner yet.</p>
+      <% end %>
+    </div>
   <% end %>
-<% end %>
+
+  <% if current_user.vet? %>
+    <div class="vet-appointments bg-vet">
+      <h1>My Appointments</h1>
+
+      <% if @vet_appointments.present? %>
+        <% @vet_appointments.each do |appointment| %>
+          <div class="pet-profile-card">
+            <h3><%= appointment.slot_start.strftime("%A, %d %B %Y") %></h3>
+            <p><%= appointment.slot_start.strftime("%H:%M") %> - <%= appointment.slot_end.strftime("%H:%M") %></p>
+            <p><strong>Client’s Pet</strong>: <%= appointment.pet.name %> (<%= appointment.pet.species %>)</p>
+            <p><strong>Owner</strong>: <%= appointment.pet.user.first_name %> <%= appointment.pet.user.last_name %></p>
+            <div class="d-flex justify-content-between">
+              <%= link_to "Add a prescription", new_appointment_prescription_path(appointment), class: "btn btn-flat-main" %>
+              <%= link_to "Cancel Appointment", appointment_path(appointment),
+                          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to cancel this appointment?" }, class: "btn btn-ghost-main" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>No appointments booked with you as a vet yet.</p>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
