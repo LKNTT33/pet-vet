@@ -2,7 +2,6 @@
 
 <%= form_with(model: [@appointment, @prescription], local: true, data: {controller: "prescription-form", prescription_form_medicine_value: "#{@medicines.to_json(only: [:id, :name, :category ])}"}) do |f| %>
 
-  <!-- Escolher tipo de prescrição -->
   <div>
     <%= f.label :category, "Category" %>
     <%= f.select :category,
@@ -11,14 +10,12 @@
          class: "form-select" ,data: { action: "change->prescription-form#toggleFields", prescription_form_target: "prescriptionTypeSelect" }%>
   </div>
 
-  <!-- Campo comum para ambos -->
   <div id="medicine_field">
     <%= f.label :medicine_id, "Medicine" %>
     <%= f.collection_select :medicine_id, @medicines, :id, :name,
           {prompt: "Select a medicine"}, {class: "form-select",data: { prescription_form_target: "medicineFields"}}%>
   </div>
 
-  <!-- Campos para PILLS -->
   <div data-prescription-form-target="pillsFields" style="display:none">
     <div>
       <%= f.label :dosage %>
@@ -45,7 +42,6 @@
     </div>
   </div>
 
-  <!-- Campos para VACCINE -->
   <div data-prescription-form-target="vaccineFields" style="display:none">
     <div>
       <%= f.label :date_of_administration %>

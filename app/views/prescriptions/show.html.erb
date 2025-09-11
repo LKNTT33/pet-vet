@@ -3,28 +3,14 @@
 <p><strong>Medicine:</strong> <%= @prescription.medicine.name %></p>
 
 <% if @prescription.medicine.category == "pills" %>
-  <p><strong>Dosage:</strong> <%= @prescription.dosage.presence || "N/A" %></p>
-  <p><strong>Instructions:</strong> <%= @prescription.special_instructions.presence || "None" %></p>
-
-  <% if @prescription.start_date.present? %>
-    <p><strong>Start Date:</strong> <%= @prescription.start_date.strftime("%d %B %Y") %></p>
-  <% end %>
-
-  <% if @prescription.end_date.present? %>
-    <p><strong>End Date:</strong> <%= @prescription.end_date.strftime("%d %B %Y") %></p>
-  <% end %>
+  <p><strong>Dosage:</strong> <%= @prescription.dosage %></p>
+  <p><strong>Instructions:</strong> <%= @prescription.special_instructions %></p>
+  <p><strong>Start Date:</strong> <%= @prescription.start_date.strftime("%d %B %Y") %></p>
+  <p><strong>End Date:</strong> <%= @prescription.end_date.strftime("%d %B %Y") %></p>
 
 <% elsif @prescription.medicine.category == "vaccine" %>
-
-  <% if @prescription.date_of_administration.present? %>
-    <p><strong>Date of Administration:</strong> <%= @prescription.date_of_administration.strftime("%d %B %Y") %></p>
-  <% end %>
-
-  <p>
-    <strong>Immunization Coverage:</strong>
-   <%= @prescription.immunization_coverage %>
-    year<%= "s" if @prescription.immunization_coverage.to_i > 1 %>
-  </p>
+  <p><strong>Date of Administration:</strong> <%= @prescription.date_of_administration %></p>
+  <p><strong>Immunization Coverage:</strong> <%= pluralize(@prescription.immunization_coverage, "year") %></p>
 <% end %>
 
 <%= link_to "← Back to Prescriptions", appointment_prescriptions_path(@prescription.appointment), class: "link-to-list btn-back" %>
