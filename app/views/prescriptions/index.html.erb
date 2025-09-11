@@ -1,12 +1,30 @@
 <h1>Prescriptions for <%= @pet.name %></h1>
 
-<ul class="list-group">
+<div class="prescriptions-container">
   <% @prescriptions.each do |prescription| %>
-    <li class="list-group-item">
-      <%= link_to prescription.medicine.name, prescription_path(prescription) %>
-      - <%= prescription.dosage %>
-    </li>
-  <% end %>
-</ul>
+    <div class="prescription-card">
+      <div class="prescription-info">
+        <h3 class="mb-5 text-center"><%= prescription.medicine.name %></h3>
 
-<%= link_to "← Back to Appointment", appointment_path(@appointment), class: "link-to-list btn-back" %>
+        <% if prescription.medicine.category == "pills" %>
+          <p><strong>Dosage:</strong> <%= prescription.dosage %></p>
+          <p><strong>Instructions:</strong> <%= prescription.special_instructions %></p>
+          <p><strong>Start Date:</strong> <%= prescription.start_date.strftime("%d %B %Y") %></p>
+          <p><strong>End Date:</strong> <%= prescription.end_date.strftime("%d %B %Y") %></p>
+
+        <% elsif prescription.medicine.category == "vaccine" %>
+          <p><strong>Date of Administration:</strong> <%= prescription.date_of_administration %></p>
+          <p><strong>Immunization Coverage:</strong> <%= pluralize(prescription.immunization_coverage, "year") %></p>
+        <% end %>
+      </div>
+
+      <div class="prescription-buttons">
+
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-3 text-center">
+  <%= link_to "← Back to Pet", pets_path(@pet), class: "link-to-list btn-back" %>
+</div>
