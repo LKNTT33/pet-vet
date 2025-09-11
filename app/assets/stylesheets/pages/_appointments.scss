@@ -1,6 +1,6 @@
 .appointments-page {
   .owner-appointments {
-    background-color: #ece5f2; 
+    background-color: #ece5f2;
     padding: 2rem;
     min-height: 100vh;
 
@@ -35,4 +35,20 @@
   .btn {
     margin-top: 0.5rem;
   }
+}
+
+.bg-owner {
+  background-color: #f2f7fc; 
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.bg-vet {
+  background-color: #bededd;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.appointments-page .pet-profile-card {
+  margin-bottom: 1.5rem;
 }

@@ -2,11 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-11 col-md-6 mt-2">
       <h1>My availabilities</h1>
-      <h3>Your weekly working hours (Mon–Fri)</h3>
-
-        <div class="availability-form-wrapper">
+        <div class="">
           <%= turbo_frame_tag "availability_form" do %>
             <%= simple_form_for [@vet, @availability], url: vet_availabilities_path(@vet) do |f| %>
+             <h3 class="text-center mb-0">Define your working hours</h3>
+             <p class="mb-4 text-center">(Mon–Fri)</p>
               <%= f.input :day_of_week, collection: Date::DAYNAMES[1..5], prompt: "Select day (Mon–Fri)" %>
 
               <%= f.input :start_time, as: :string,
@@ -17,7 +17,9 @@
                           label: "End time (HH:MM)",
                           input_html: { data: { controller: "flatpickr", flatpickr_mode: "time" } } %>
 
-              <%= f.submit "Save availability", class: "btn btn-flat-main" %>
+              <div class="text-center mt-3">
+                <%= f.submit "Save availability", class: "btn btn-flat-second" %>
+              </div>
             <% end %>
           <% end %>
         </div>
@@ -30,9 +32,9 @@
         </div>
 
         <div class="d-flex justify-content-center mt-3">
-          <%= link_to "← Back to Profile", vet_profile_path, class: "btn btn-flat-main" %>
+          <%= link_to "← Back to Profile", vet_profile_path, class: "btn btn-ghost-main" %>
         </div>
       </div>
     </div>
   </div>
-</div>>
+</div>

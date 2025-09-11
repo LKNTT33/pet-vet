@@ -29,7 +29,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(91, 42, 134, 0.2);
   width: 100%;
-  max-width: 600px;
+  // max-width: 600px;
 }
 
 .availability-list-wrapper h3 {
@@ -48,4 +48,8 @@
   border: none;
   padding: 0.25rem 0;
   line-height: 1.5;
+}
+
+.trash-bin {
+  color: #eb2676;
 }
