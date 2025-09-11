@@ -1,15 +1,24 @@
-.pet-card {
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #f9f6fc;
-    border-radius: 13px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.vet-card {
+  max-width: 600px;
+  min-width: 280px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f6fc;
+  border-radius: 13px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffffff;
 
   p {
     margin: 10px 0;
     font-size: 16px;
     color: #360568;
   }
+}
+
+.vet-card p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #360568;
 }
 
 .pet-card .avatar {

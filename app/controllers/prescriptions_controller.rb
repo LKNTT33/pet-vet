@@ -23,7 +23,7 @@ class PrescriptionsController < ApplicationController
     @prescription = @appointment.prescriptions.build(prescription_params)
 
     if @prescription.save
-      redirect_to pet_appointment_prescription_path(@pet, @appointment, @prescription),
+      redirect_to appointment_prescriptions_path(@appointment, @prescription),
                   notice: "Prescription created successfully!"
     else
       @medicines = Medicine.all
@@ -47,7 +47,9 @@ class PrescriptionsController < ApplicationController
       :dosage,
       :special_instructions,
       :start_date,
-      :end_date
+      :end_date,
+      :date_of_administration,
+      :immunization_coverage
     )
   end
 end
