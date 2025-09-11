@@ -6,11 +6,41 @@
   background-color: #f9f6fc;
   border-radius: 13px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 2px solid #5B2A86;
+  border: 2px solid #ffffff;
+
+  p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #360568;
+  }
 }
 
 .vet-card p {
   margin: 10px 0;
   font-size: 16px;
   color: #360568;
+}
+
+.pet-card .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.pet-card .right-column {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pet-card .vet-info h3 {
+  margin: 0;
+}
+
+.pet-card .vet-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #4a4a4a;
 }
