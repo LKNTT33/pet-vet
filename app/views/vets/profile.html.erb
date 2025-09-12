@@ -3,7 +3,14 @@
     <div class="col-11 col-md-6 mt-2">
         <h1>My Profile</h1>
         <div class="main-card-vet">
-          <h2><%= @vet.first_name %><%= @vet.last_name %></h2>
+              <div class="vet-photo">
+      <% if @vet.photo.attached? %>
+        <%= image_tag @vet.photo.variant(resize_to_fill: [100, 100]), class: "rounded-circle profile-photo" %>
+      <% else %>
+        <%= image_tag "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_vet_bjoh8c.png", class: "rounded-circle profile-photo" %>
+      <% end %>
+    </div>
+          <h2><%= @vet.first_name %> <%= @vet.last_name %></h2>
           <p><strong>Email:</strong> <%= @vet.email %></p>
           <p><strong>Specialty:</strong> <%= @vet.specialty %></p>
           <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>

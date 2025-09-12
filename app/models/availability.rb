@@ -1,6 +1,6 @@
 class Availability < ApplicationRecord
   belongs_to :user
-  has_many :appointments, dependent: :destroy
+  has_many :appointments
   validates :day_of_week, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
