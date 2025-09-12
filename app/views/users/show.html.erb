@@ -1,45 +1,51 @@
-<div class="container-user-profile">
-  <h2 class="text-center">My Profile</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-11 col-md-6 mt-2">
+       <h1>My Profile</h1>
+      <div class="profile-section">
+        <h2 class="text-center my-2"> <%= @user.first_name %>  <%= @user.last_name %></h2>
+        <p class="text-center"><strong>📧</strong> <%= @user.email %></p>
 
-  <div class="profile-section text-center">
-    <h3><strong>👤</strong> <strong><%= @user.first_name %> <%= @user.last_name %></strong></h3>
-    <p>Contact:</p>
-    <p><strong>📧</strong> <%= @user.email %></p>
+        <div class="d-flex justify-content-center mt-3">
+          <%= link_to edit_user_path(@vet), class: "btn btn-ghost-main" do %>
+        <i class="fa-solid fa-pen"></i>
+      <% end %>
 
-    <div class="d-flex justify-content-center mt-5">
-      <%= link_to edit_user_path(@vet), class: "btn btn-ghost-main" do %>
-    <i class="fa-solid fa-pen"></i>
-    <% end %>
+        </div>
+      </div>
 
+      <div class="profile-section">
+       <h2 class="text-center mt-0 mb-3"> My Pets 🐾</h2>
+        <% if @pets.any? %>
+           <% @pets.each do |pet| %>
+               <p class="text-center mb-0"><strong><%= link_to "#{pet.name}", pet_path(pet), class: "main" %></strong> (<%= pet.species %>)</p>
+            <% end %>
+            <div class="d-flex justify-content-center mt-3">
+            <%= link_to "See my Pets", pets_path, class: "btn btn-flat-main" %>
+            </div>
+        <% else %>
+          <p class="text-center">No pets yet.</p>
+        <% end %>
+      </div>
+
+      <div class="profile-section">
+        <h2 class="text-center mt-0 mb-3">My Appointments</h2>
+        <% if @appointments.any? %>
+          <ul class="list-unstyled text-center">
+            <% @appointments.each do |appt| %>
+              <li>
+                  <p class="mb-0"><strong><%= appt.slot_start.strftime("%A, %d %B %Y") %></strong> (<%= appt.slot_start.strftime("%H:%M") %> - <%= appt.slot_end.strftime("%H:%M") %>)</p>
+                  <p class="mb-2"><%= appt.pet.name %> with Vet <%= appt.availability.user.first_name %> <%= appt.availability.user.last_name %></p>
+              </li>
+            <% end %>
+          </ul>
+          <div class="d-flex justify-content-center mt-3">
+            <%= link_to "See my Appointments", appointments_path, class: "btn btn-flat-main" %>
+            </div>
+        <% else %>
+          <p class="text-center">No appointments yet.</p>
+        <% end %>
+      </div>
     </div>
-  </div>
-
-  <div class="profile-section">
-    <h3 class="text-center">My Pets 🐾</h3>
-    <% if @pets.any? %>
-      <ul class="list-unstyled text-center">
-        <% @pets.each do |pet| %>
-          <li><%= pet.name %> - <%= pet.species %> (Age: <%= pet.age %>)</li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-center">No pets yet.</p>
-    <% end %>
-  </div>
-
-  <div class="profile-section">
-    <h3 class="text-center">My Appointments</h3>
-    <% if @appointments.any? %>
-      <ul class="list-unstyled text-center">
-        <% @appointments.each do |appt| %>
-          <li>
-            <%= appt.availability.start_time.strftime("%d/%m/%Y %H:%M") %> –
-            <%= appt.pet.name %> with Vet <strong><%= appt.availability.user.first_name %> <%= appt.availability.user.last_name %></strong>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-center">No appointments yet.</p>
-    <% end %>
   </div>
 </div>

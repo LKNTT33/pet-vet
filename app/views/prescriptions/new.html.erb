@@ -71,17 +71,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div>
-        <%= f.label :immunization_coverage %>
-        <%= f.text_field :immunization_coverage %>
-      </div>
-    </div>
-
-    <!-- Submit button -->
-    <div class="text-center">
-      <%= f.submit "Create Prescription", class: "btn btn-flat-main" %>
-=======
   <div data-prescription-form-target="vaccineFields" style="display:none">
     <div>
       <%= f.label :date_of_administration %>
@@ -96,7 +85,6 @@
       options_for_select([["1 year", 1], ["2 years", 2], ["3 years", 3]]),
       { prompt: "Select duration" },
       {class: "form-select"} %>
->>>>>>> master
     </div>
 
   <% end %>

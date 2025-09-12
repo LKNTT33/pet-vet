@@ -1,11 +1,8 @@
 .vet-profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 2rem;
   background-color: #bededd;
-  min-height: 100vh;
+  min-height: 100vh; /* occupe toute la hauteur de l’écran */
+  width: 100%;       /* occupe toute la largeur */
+  padding: 2rem;
 }
 
 .card {
@@ -14,7 +11,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(91, 42, 134, 0.3);
   width: 100%;
-  max-width: 800px;
+  // max-width: 800px;
   text-align: center;
 }
 
