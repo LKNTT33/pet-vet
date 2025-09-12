@@ -52,8 +52,11 @@
       </div>
 
       <div>
-        <%= f.label :immunization_coverage %>
-        <%= f.text_field :immunization_coverage %>
+      <%= f.label :immunization_coverage, "Immunization Coverage (years)" %>
+      <%= f.select :immunization_coverage,
+      options_for_select([["1 year", 1], ["2 years", 2], ["3 years", 3]]),
+      { prompt: "Select duration" },
+      {class: "form-select"} %>
       </div>
     </div>
 
@@ -65,14 +68,6 @@
       <div class="datetime-select-group">
         <%= f.date_select :date_of_administration %>
       </div>
-    </div>
-
-    <div>
-      <%= f.label :immunization_coverage, "Immunization Coverage (years)" %>
-      <%= f.select :immunization_coverage,
-      options_for_select([["1 year", 1], ["2 years", 2], ["3 years", 3]]),
-      { prompt: "Select duration" },
-      {class: "form-select"} %>
     </div>
 
   <% end %>
