@@ -6,9 +6,9 @@
 <div class="pet-profile-card">
   <div class="pet-photo-wrapper text-center mb-2">
   <% if @pet.photo.attached? %>
-    <%= image_tag @pet.photo, class: "rounded-circle", size: "150x150", alt: "#{@pet.name}'s photo" %>
+    <%= image_tag @pet.photo, class: "rounded-circle object-fit-cover", size: "150x150", alt: "#{@pet.name}'s photo" %>
   <% else %>
-    <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
+    <%= image_tag "paw.png", class: "rounded-circle object-fit-cover", size: "150x150", alt: "Default pet image" %>
   <% end %>
 
   <div class="text-center mt-2">
