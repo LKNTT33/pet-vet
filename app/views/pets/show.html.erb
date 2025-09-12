@@ -3,60 +3,56 @@
     <div class="col-11 col-md-6 mt-2">
       <h1>Pet Profile</h1>
 
-      <div class="pet-profile-card">
-        <!-- Foto do Pet -->
-        <div class="pet-photo text-center mb-3">
-          <% if @pet.photo.attached? %>
-            <%= image_tag @pet.photo, class: "rounded-circle", size: "150x150", alt: "#{@pet.name}'s photo" %>
-          <% else %>
-            <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
-          <% end %>
-      <div class="pet-info-block">
-        <p class="mt-4">
-          <strong class="pet-info">Name:</strong>
-          <%= @pet.name %>
-        </p>
+<div class="pet-profile-card">
+  <div class="pet-photo-wrapper text-center mb-2">
+  <% if @pet.photo.attached? %>
+    <%= image_tag @pet.photo, class: "rounded-circle", size: "150x150", alt: "#{@pet.name}'s photo" %>
+  <% else %>
+    <%= image_tag "paw.png", class: "rounded-circle", size: "150x150", alt: "Default pet image" %>
+  <% end %>
 
-        <p>
-          <strong class="pet-info">Species:</strong>
-          <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %>
-        </p>
+  <div class="text-center mt-2">
+  <%= link_to edit_pet_path(@pet), class: "btn btn-ghost-main icon-only-btn" do %>
+    <i class="fa-solid fa-pen"></i>
+  <% end %>
+</div>
+</div>
 
-        <p>
-          <strong class="pet-info">Age:</strong>
-          <%= @pet.age %> years old
-        </p>
-      </div>
+  <div class="pet-info-block">
+    <p class="mt-4">
+      <strong class="pet-info">Name:</strong>
+      <%= @pet.name %>
+    </p>
 
-        <div class="pet-action-buttons">
-          <%= link_to "Edit Pet Profile", edit_pet_path(@pet), class: "btn btn-ghost-main" %>
-          <%= link_to "See Prescriptions",
-                    appointment_prescriptions_path(@pet.appointments.last),
-                    class: "btn btn-ghost-main" %>
-          <% if params[:availability_id].present? %>
-            <%= link_to "Select this pet",
-                        new_appointment_path(
-                          availability_id: params[:availability_id],
-                          slot_start: params[:slot_start],
-                          slot_end: params[:slot_end],
-                          pet_id: @pet.id
-                        ),
-                        class: "btn btn-flat-main" %>
-          <% else %>
-            <%= link_to "Book an appointment",
-                        root_path(pet_id: @pet.id),
-                        class: "btn btn-flat-main" %>
-          <% end %>
+    <p>
+      <strong class="pet-info">Species:</strong>
+      <%= @pet.species == "Other" ? @pet.other_species.presence : @pet.species %>
+    </p>
 
-          <%= link_to edit_pet_path(@pet), class: "btn btn-ghost-main" do %>
-            <i class="fa-solid fa-pen"></i>
-          <% end %>
-        </div>
-      </div>
+    <p>
+      <strong class="pet-info">Age:</strong>
+      <%= @pet.age %> years old
+    </p>
+  </div>
 
-      <div class="link-to-list-container">
-        <%= link_to "← Back to Pet List", pets_path, class: "link-to-list btn-back" %>
-      </div>
-    </div>
+  <div class="pet-action-buttons">
+    <% if params[:availability_id].present? %>
+      <%= link_to "Select this pet",
+                  new_appointment_path(
+                    availability_id: params[:availability_id],
+                    slot_start: params[:slot_start],
+                    slot_end: params[:slot_end],
+                    pet_id: @pet.id
+                  ),
+                  class: "btn btn-flat-main full-width-button" %>
+    <% else %>
+      <%= link_to "Book an appointment",
+                  root_path(pet_id: @pet.id),
+                  class: "btn btn-flat-main full-width-button" %>
+    <% end %>
+
+     <% if (last_appt = @pet.appointments.order(created_at: :desc).first) %>
+      <%= link_to "See Prescriptions", [last_appt, :prescriptions], class: "btn btn-ghost-main" %>
+    <% end %>
   </div>
 </div>
