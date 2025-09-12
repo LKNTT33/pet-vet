@@ -444,13 +444,6 @@ med2 = Medicine.create!(
   instructions: "Give twice a day, morning and night"
 )
 
-med3 = Medicine.create!(
-  name: "Vaccine1",
-  description: "helps in something",
-  category: "vaccine",
-  instructions: "Everyday"
-)
-
 med4 = Medicine.create!(
   name: "Ibuprofen",
   description: "Anti-inflammatory and pain relief for dogs and cats",
