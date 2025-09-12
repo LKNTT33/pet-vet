@@ -1,10 +1,33 @@
-.pet-card {
-  max-width: 500px;
+.main-card {
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f6fc;
   border-radius: 13px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.main-card-vet {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f0f9f9;
+  border-radius: 13px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Avatar */
+.avatar-card {
+  max-width: 80px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive text alignment */
+@media (max-width: 767px) {
+  .main-card {
+    text-align: center;
+  }
 }
 
 .pet-card p {
