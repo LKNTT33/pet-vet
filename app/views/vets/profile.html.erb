@@ -1,5 +1,19 @@
 <div class="vet-profile-container">
+  <div class="row justify-content-center">
+    <div class="col-11 col-md-6 mt-2">
+        <h1>My Profile</h1>
+        <div class="main-card-vet">
+          <h2><%= @vet.first_name %><%= @vet.last_name %></h2>
+          <p><strong>Email:</strong> <%= @vet.email %></p>
+          <p><strong>Specialty:</strong> <%= @vet.specialty %></p>
+          <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
+          <p><strong>City:</strong> <%= @vet.city %></p>
+          <p><strong>Phone:</strong> <%= @vet.phone %></p>
+          <%= link_to edit_vet_path(@vet), class: "btn btn-ghost-main" do %>
+        <i class="fa-solid fa-pen"></i>
+      <% end %>
 
+<<<<<<< HEAD
   <div class="vet-info card">
     <h2>My Vet Profile</h2>
 
@@ -36,16 +50,33 @@
     <% else %>
       <p>No availabilities set yet.</p>
     <% end %>
+=======
+        </div>
 
-    <div style="text-align: center; margin-top: 1rem;">
-      <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-primary" %>
-    </div>
-  </div>
+        <div class="main-card-vet">
+          <h3>Availabilities</h3>
+          <% if @availabilities.any? %>
+              <% @availabilities.ordered_by_weekday.each do |availability| %>
+                <p class="mb-0"><%= availability.day_of_week %>:
+                    <%= availability.start_time.strftime("%H:%M") %> -
+                    <%= availability.end_time.strftime("%H:%M") %></p>
+              <% end %>
+          <% else %>
+            <p>No availabilities set yet.</p>
+          <% end %>
 
-  <div class="vet-appointments card">
-    <h3>Appointments</h3>
-    <div style="text-align: center; margin-top: 1rem;">
-      <%= link_to "My Appointments", appointments_path, class: "btn btn-primary" %>
+          <div style="text-align: center; margin-top: 1rem;">
+            <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-flat-second" %>
+          </div>
+        </div>
+>>>>>>> master
+
+        <div class="main-card-vet">
+          <h3>Appointments</h3>
+          <div style="text-align: center; margin-top: 1rem;">
+            <%= link_to "My Appointments", appointments_path, class: "btn btn-flat-second" %>
+          </div>
+        </div>
     </div>
   </div>
 </div>
