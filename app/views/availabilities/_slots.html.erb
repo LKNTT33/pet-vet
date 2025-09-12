@@ -1,24 +1,28 @@
-<% if slots_for_day.present? %>
-  <h2 class="text-xl mb-4">Available slots for <%= selected_date.strftime("%A, %d %B %Y") %></h2>
 
-  <div class="grid grid-cols-4 gap-2">
+<% if slots_for_day.present? %>
+  <h3 class="text-xl text-center mb-0">Available slots for</h3>
+  <h2 class="mt-1"><%= selected_date.strftime("%A, %d %B %Y") %></h2>
+
+  <div class="row justify-content-center g-3">
     <% slots_for_day.each do |slot| %>
       <% id = "slot_#{slot[:availability_id]}_#{slot[:start].to_i}" %>
-      <% if slot[:taken] %>
-        <div id="<%= id %>" class="btn btn-disabled text-center">
-          <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
-        </div>
-      <% else %>
-        <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
-                    new_appointment_path(
-                      availability_id: slot[:availability_id],
-                      slot_start: slot[:start],
-                      slot_end: slot[:end],
-                      pet_id: pet_id
-                    ),
-                    id: id,
-                    class: "btn btn-ghost-main w-full text-center" %>
-      <% end %>
+      <div class="col-6 col-md-3">
+        <% if slot[:taken] %>
+          <div id="<%= id %>" class="btn btn-disabled w-100 text-center">
+            <%= slot[:start].strftime("%H:%M") %> - <%= slot[:end].strftime("%H:%M") %>
+          </div>
+        <% else %>
+          <%= link_to "#{slot[:start].strftime("%H:%M")} - #{slot[:end].strftime("%H:%M")}",
+                      new_appointment_path(
+                        availability_id: slot[:availability_id],
+                        slot_start: slot[:start],
+                        slot_end: slot[:end],
+                        pet_id: pet_id
+                      ),
+                      id: id,
+                      class: "btn btn-ghost-main w-100 text-center" %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% else %>

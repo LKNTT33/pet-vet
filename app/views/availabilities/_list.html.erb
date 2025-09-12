@@ -1,6 +1,6 @@
 <ul class="space-y-2">
   <% availabilities.each do |availability| %>
-    <li class="p-3 border rounded flex justify-between items-center">
+    <li class="text-center space-y-2">
       <span>
         <strong><%= availability.day_of_week %></strong>:
         <%= availability.start_time.strftime("%H:%M") %> -
@@ -10,7 +10,7 @@
       <%= link_to vet_availability_path(vet, availability),
                   data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                   class: "p-2 hover:bg-red-100 rounded" do %>
-        <i class="fa fa-trash text-red-600"></i>
+        <i class="fa fa-trash text-red-600 trash-bin"></i>
       <% end %>
     </li>
   <% end %>

@@ -1,27 +1,33 @@
 <div class="flex items-center justify-center min-h-screen">
-  <div class="vet-card text-center">
-    <h1 class="text-2xl font-bold mb-4"><%= @vet.first_name %> <%= @vet.last_name %></h1>
+  <div class="row justify-content-center">
+    <div class="main-card col-11 col-md-5 text-align-center">
 
-    <p><strong>🧑‍⚕️</strong> <%= @vet.specialty %></p>
-    <p><strong>🏥</strong> <%= @vet.clinic_name %></p>
-    <p><strong>🌎</strong> <%= @vet.city %></p>
-    <p><strong>📍</strong> <%= @vet.address %></p>
-    <p><strong>☎️</strong> <%= @vet.phone %></p>
-    <p><strong>📧</strong> <%= @vet.email %></p>
+      <h1 class="text-2xl font-bold mb-0"><%= @vet.first_name %> <%= @vet.last_name %></h1>
+      <h3 class="text-center mb-5"><%= @vet.specialty %></h3>
+      <p class="mt-1 mb-0"><strong>Adress</strong></p>
+      <p class="mb-0"><strong>🏥</strong> <%= @vet.clinic_name %></p>
+      <p class="mb-0"><strong>🌎</strong> <%= @vet.city %></p>
+      <p class="mb-4"><strong>📍</strong> <%= @vet.address %></p>
+      <p class="mt-1 mb-0"><strong>Contact details</strong></p>
+      <p class="mb-0"><strong>☎️</strong> <%= @vet.phone %></p>
+      <p class=""><strong>📧</strong> <%= @vet.email %></p>
 
-    <div id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
+      <div id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
 
-    <div class="mt-4">
-      <%= link_to "See Availabilities",
-                  vet_availabilities_path(@vet, pet_id: params[:pet_id]),
-                  class: "btn btn-flat-second" %>
-    </div>
+      <div class="mt-4 d-flex justify-content-center">
+        <%= link_to "See Availabilities",
+                    vet_availabilities_path(@vet, pet_id: params[:pet_id]),
+                    class: "btn btn-flat-second" %>
+      </div>
   </div>
 </div>
 
 <div class="text-center mt-6">
   <%= link_to "← Back to Vets List", vets_path, class: "btn btn-ghost-main" %>
 </div>
+
+</div>
+    </div>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
