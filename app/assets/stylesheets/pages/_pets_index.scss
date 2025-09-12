@@ -1,12 +1,14 @@
 .pet-card {
-  display: flex;
-  align-items: center;
   // max-width: 700px;
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f6fc;
   border-radius: 13px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .pet-card-info {

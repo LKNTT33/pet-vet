@@ -23,8 +23,8 @@
             <!-- Informações do Pet -->
             <div class="pet-card-info">
               <h2><%= pet.name %></h2>
-              <p><strong>Species:</strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
-              <p><strong>Age:</strong> <%= pet.age %> years old</p>
+              <p><strong>Species: </strong> <%= pet.species == "Other" ? pet.other_species.presence : pet.species %></p>
+              <p><strong>Age: </strong> <%= pet.age %> years old</p>
 
               <div class="pet-card-buttons">
                 <%= link_to "See Profile", pet_path(pet), class: "btn btn-flat-second" %>
