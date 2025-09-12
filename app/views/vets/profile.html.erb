@@ -13,6 +13,44 @@
         <i class="fa-solid fa-pen"></i>
       <% end %>
 
+<<<<<<< HEAD
+  <div class="vet-info card">
+    <h2>My Vet Profile</h2>
+
+    <div class="vet-photo">
+      <% if @vet.photo.attached? %>
+        <%= image_tag @vet.photo.variant(resize_to_fill: [150, 150]), class: "rounded-circle profile-photo" %>
+      <% else %>
+        <%= image_tag "https://res.cloudinary.com/dvanqdtdy/image/upload/v1757511855/PETVET_avatar_vet_bjoh8c.png", class: "rounded-circle profile-photo" %>
+      <% end %>
+    </div>
+
+    <p><strong>Email:</strong> <%= @vet.email %></p>
+    <p><strong>Specialty:</strong> <%= @vet.specialty %></p>
+    <p><strong>Clinic:</strong> <%= @vet.clinic_name %></p>
+    <p><strong>City:</strong> <%= @vet.city %></p>
+    <p><strong>Phone:</strong> <%= @vet.phone %></p>
+
+    <%= link_to edit_vet_path(@vet), class: "btn btn-primary" do %>
+      <i class="fa-solid fa-pen"></i>
+    <% end %>
+  </div>
+
+
+  <div class="vet-availabilities card">
+    <h3>Availabilities</h3>
+    <% if @availabilities.any? %>
+      <ul>
+        <% @availabilities.each do |availability| %>
+          <li><%= availability.day_of_week %>:
+              <%= availability.start_time.strftime("%H:%M") %> -
+              <%= availability.end_time.strftime("%H:%M") %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No availabilities set yet.</p>
+    <% end %>
+=======
         </div>
 
         <div class="main-card-vet">
@@ -31,6 +69,7 @@
             <%= link_to "Manage Availabilities", new_vet_availability_path(@vet), class: "btn btn-flat-second" %>
           </div>
         </div>
+>>>>>>> master
 
         <div class="main-card-vet">
           <h3>Appointments</h3>
