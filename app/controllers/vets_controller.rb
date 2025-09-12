@@ -35,7 +35,7 @@ class VetsController < ApplicationController
   private
 
   def vet_params
-    params.require(:user).permit(:email, :specialty, :clinic_name, :city, :phone)
+    params.require(:user).permit(:email, :specialty, :clinic_name, :city, :phone, :photo)
   end
 
   def ensure_vet!

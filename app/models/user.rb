@@ -20,5 +20,6 @@ class User < ApplicationRecord
   has_many :availabilities, dependent: :destroy
   has_many :appointments, through: :availabilities, as: :vet_appointments
   has_many :appointments, through: :pets, as: :owner_appointments
-  
+  has_one_attached :photo
+
 end
